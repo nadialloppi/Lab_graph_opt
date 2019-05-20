@@ -1,0 +1,88 @@
+
+model parameterDefinition.mod;
+data demand.dat;
+data topology.dat;
+
+option solver cplex;
+
+problem Original: x, l, capacity, maxArcs, flowBalance, varConsistency;
+
+problem Heuristics: u, Cost, flowBalance_SP, maxArcs_SP;
+
+solve Original;
+
+display l;
+
+param LB default max{k in K} d[k];
+display LB;
+
+param UB1 default 0;
+param UB2 default 0;
+param OPT default 0; 
+
+let OPT:= l;
+# ------------------------------------------------------------------------------
+
+printf "-------------------------------Greedy 1------------------------------\n";
+
+for {k in K} {
+	let k_bar := k;
+	
+	for {(i, j) in A}
+		let c[i, j] := 1;	
+	solve Heuristics;
+
+}
+
+let lambda := max {(i, j) in A} sum{k in K} u[i, j, k] * d[k];
+
+let UB1:= lambda;
+
+printf "Upperbound, shortest path:\n";
+display UB1; 
+
+printf "-------------------------------Greedy 2------------------------------\n";
+
+set K_assigned within K default {};
+param d_max default 0;
+param cap_res{A} default 0;
+
+# for {(i, j) in A} let c[i, j] := 0;	
+let d_max := max{k in K} d[k];
+let lambda := d_max;
+
+repeat {
+	let d_max := max{k in {K diff K_assigned}} d[k];
+
+	for {k in {K diff K_assigned}} {
+		if (d[k] = d_max) then {
+			let k_bar := k;
+			let K_assigned := K_assigned union {k_bar};
+			
+			
+			for {(i, j) in A}{
+				let cap_res[i, j] := lambda - sum{kk in K_assigned} u[i, j, kk]*d[kk];
+				let c[i, j] := if (cap_res[i,j] >= d[k_bar]) then 0
+									else d[k_bar]-cap_res[i, j];
+			}
+			solve Heuristics;
+			let lambda := max {(i, j) in A} sum{kk in K_assigned} u[i, j, kk] * d[kk]; # assumo sia tutto interp (dk)
+	}}
+} until sum{kk in {K diff K_assigned}} (1) = 0;
+
+
+let UB2:= lambda;
+
+printf "Upperbound, second greedy:\n";
+display UB2; 
+
+printf"********************** TO SUM UP **********************\n";
+display LB, OPT, UB1, UB2;
+
+
+
+
+
+
+
+
