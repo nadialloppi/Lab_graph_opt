@@ -3,13 +3,24 @@ model parameterDefinition.mod;
 data demand.dat;
 data topology.dat;
 
+param Toriginal;
+param TGreedy1;
+param TGreedy2;
+param TLRelax;
+
 option solver cplex;
 
 problem Original: x, l, capacity, maxArcs, flowBalance, varConsistency;
 
+problem Heuristics1: u, Cost, flowBalance_SP;
 problem Heuristics: u, Cost, flowBalance_SP, maxArcs_SP;
 
+problem LagrRelaxation: x, Obj_LR, flowBalance, varConsistency;
+
+
+printf "-------------------------------Original ------------------------------\n";
 solve Original;
+let Toriginal := _ampl_user_time;
 
 display l;
 
@@ -19,6 +30,8 @@ display LB;
 param UB1 default 0;
 param UB2 default 0;
 param OPT default 0; 
+
+
 
 let OPT:= l;
 # ------------------------------------------------------------------------------
@@ -30,11 +43,13 @@ for {k in K} {
 	
 	for {(i, j) in A}
 		let c[i, j] := 1;	
-	solve Heuristics;
+	solve Heuristics1;
 
 }
 
 let lambda := max {(i, j) in A} sum{k in K} u[i, j, k] * d[k];
+
+let TGreedy1 := _ampl_user_time;
 
 let UB1:= lambda;
 
@@ -57,7 +72,6 @@ repeat {
 	for {k in {K diff K_assigned}} {
 		if (d[k] = d_max) then {
 			let k_bar := k;
-			let K_assigned := K_assigned union {k_bar};
 			
 			
 			for {(i, j) in A}{
@@ -65,21 +79,74 @@ repeat {
 				let c[i, j] := if (cap_res[i,j] >= d[k_bar]) then 0
 									else d[k_bar]-cap_res[i, j];
 			}
+			let K_assigned := K_assigned union {k_bar};
 			solve Heuristics;
 			let lambda := max {(i, j) in A} sum{kk in K_assigned} u[i, j, kk] * d[kk]; # assumo sia tutto interp (dk)
 	}}
 } until sum{kk in {K diff K_assigned}} (1) = 0;
 
+let TGreedy2 := _ampl_user_time;
 
 let UB2:= lambda;
 
 printf "Upperbound, second greedy:\n";
 display UB2; 
 
+
+printf "-------------------------------Lagrangian Relaxation------------------------------\n";
+
+param LB_LR default 0;
+
+param UB_LR;
+
+param norma default 1;
+
+let step := 1;
+
+for {iter in 1..10} 
+{
+  
+  # Solve the Lagrangian Relaxation
+  solve LagrRelaxation;
+  
+  # Check for feasibility: 
+  # update UB_LR if feasible
+  param temp default 0;
+  for {k in K} {
+  	if (sum {(i, j) in A} x[i, j, k] > h) then {
+  		let temp:=1;
+  		break;
+  }}
+  if (temp=0) then let UB_LR:= Obj_LR;
+
+  # Update step size
+  let step:= 0.995*step;
+ 
+  # Update LB_LR 
+  let LB_LR := Obj_LR;
+
+  # Update norma
+  let norma:= ( sum{k in K} (sum {(i, j) in A} x[i, j, k] - h)^2) ^ (1/2);
+	
+	  
+  # Update multipliers
+  
+  # Memorize old values
+  for {k in K}
+  	let mu_old[k] := mu[k];
+
+  # Calculate new values
+  for {k in K}
+  	let mu[k]:= max{0, mu_old[k] + step*(sum {(i, j) in A} x[i, j, k] - h)/norm};
+  	
+         
+}
+let TLRelax := _ampl_user_time;
+display LB_LR;
+
 printf"********************** TO SUM UP **********************\n";
-display LB, OPT, UB1, UB2;
-
-
+display LB, OPT, UB1, UB2, LB_LR;
+display Toriginal, TGreedy1, TGreedy2, TLRelax;
 
 
 

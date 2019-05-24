@@ -56,7 +56,18 @@ s.t. flowBalance_SP { i in N}:
 s.t. maxArcs_SP:
 	sum {(i, j) in A} u[i, j, k_bar] <= h;																
 
+# Relaxation ##--------------------------------------------------
 
+param mu{K} default 0;
+param mu_old{K} default 1;
+
+param step default 1; # step size
+
+minimize Obj_LR:
+	l - sum {k in K} (mu[k]*(h-sum{(i, j) in A} x[i, j, k]));
+	
+
+ 
 
 
 
