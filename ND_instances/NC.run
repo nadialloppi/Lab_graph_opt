@@ -3,10 +3,14 @@ model parameterDefinition.mod;
 data demand.dat;
 data topology.dat;
 
-param Toriginal;
-param TGreedy1;
-param TGreedy2;
-param TLRelax;
+param Tic_original;
+param Toc_original;
+param Tic_Greedy1;
+param Toc_Greedy1;
+param Tic_Greedy2;
+param Toc_Greedy2;
+param Tic_LRelax;
+param Toc_LRelax;
 
 option solver cplex;
 
@@ -19,8 +23,13 @@ problem LagrRelaxation: x, Obj_LR, flowBalance, varConsistency;
 
 
 printf "-------------------------------Original ------------------------------\n";
+
+
+let Tic_original := _ampl_elapsed_time;
+
 solve Original;
-let Toriginal := _ampl_user_time;
+
+let Toc_original := _ampl_elapsed_time;
 
 display l;
 
@@ -38,6 +47,8 @@ let OPT:= l;
 
 printf "-------------------------------Greedy 1------------------------------\n";
 
+let Tic_Greedy1 := _ampl_elapsed_time;
+
 for {k in K} {
 	let k_bar := k;
 	
@@ -49,7 +60,8 @@ for {k in K} {
 
 let lambda := max {(i, j) in A} sum{k in K} u[i, j, k] * d[k];
 
-let TGreedy1 := _ampl_user_time;
+
+let Toc_Greedy1 := _ampl_elapsed_time;
 
 let UB1:= lambda;
 
@@ -61,6 +73,8 @@ printf "-------------------------------Greedy 2------------------------------\n"
 set K_assigned within K default {};
 param d_max default 0;
 param cap_res{A} default 0;
+
+let Tic_Greedy2 := _ampl_elapsed_time;
 
 # for {(i, j) in A} let c[i, j] := 0;	
 let d_max := max{k in K} d[k];
@@ -85,7 +99,7 @@ repeat {
 	}}
 } until sum{kk in {K diff K_assigned}} (1) = 0;
 
-let TGreedy2 := _ampl_user_time;
+let Toc_Greedy2 := _ampl_elapsed_time;
 
 let UB2:= lambda;
 
@@ -101,17 +115,20 @@ param UB_LR;
 
 param norma default 1;
 
+param temp default 0;
+
 let step := 1;
 
-for {iter in 1..10} 
-{
+let Tic_LRelax := _ampl_elapsed_time;
+
+for {iter in 1..10} {
   
   # Solve the Lagrangian Relaxation
   solve LagrRelaxation;
   
   # Check for feasibility: 
   # update UB_LR if feasible
-  param temp default 0;
+  let temp:= 0;
   for {k in K} {
   	if (sum {(i, j) in A} x[i, j, k] > h) then {
   		let temp:=1;
@@ -137,16 +154,16 @@ for {iter in 1..10}
 
   # Calculate new values
   for {k in K}
-  	let mu[k]:= max{0, mu_old[k] + step*(sum {(i, j) in A} x[i, j, k] - h)/norm};
+  	let mu[k]:= max(0, mu_old[k] + step*(sum {(i, j) in A} x[i, j, k] - h)/norma);
   	
-         
 }
-let TLRelax := _ampl_user_time;
+let Toc_LRelax := _ampl_elapsed_time;
+
 display LB_LR;
 
 printf"********************** TO SUM UP **********************\n";
 display LB, OPT, UB1, UB2, LB_LR;
-display Toriginal, TGreedy1, TGreedy2, TLRelax;
+display (Toc_original - Tic_original), (Toc_Greedy1-Tic_Greedy1), (Toc_Greedy2-Tic_Greedy2), (Toc_LRelax-Tic_LRelax);
 
 
 
