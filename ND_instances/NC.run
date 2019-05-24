@@ -9,6 +9,8 @@ param Tic_Greedy1;
 param Toc_Greedy1;
 param Tic_Greedy2;
 param Toc_Greedy2;
+param Tic_CRelax;
+param Toc_CRelax;
 param Tic_LRelax;
 param Toc_LRelax;
 
@@ -19,7 +21,8 @@ problem Original: x, l, capacity, maxArcs, flowBalance, varConsistency;
 problem Heuristics1: u, Cost, flowBalance_SP;
 problem Heuristics: u, Cost, flowBalance_SP, maxArcs_SP;
 
-problem LagrRelaxation: x, Obj_LR, flowBalance, varConsistency;
+problem ContRelaxation: x_c, l_c, capacity_c, maxArcs_c, flowBalance_c, varConsistency_c;
+problem LagrRelaxation: x, l, Obj_LR, flowBalance, varConsistency;
 
 
 printf "-------------------------------Original ------------------------------\n";
@@ -107,7 +110,25 @@ printf "Upperbound, second greedy:\n";
 display UB2; 
 
 
+printf "-------------------------------Continuous Relaxation------------------------------\n";
+param LB_CR default 0;
+
+let Tic_CRelax := _ampl_elapsed_time;
+
+solve ContRelaxation;
+
+let Toc_CRelax := _ampl_elapsed_time;
+
+let LB_CR := capacity_c;
+
+
 printf "-------------------------------Lagrangian Relaxation------------------------------\n";
+
+let l:= 0;
+for {k in K} {
+	for{(i, j) in A} {
+		let x[i, j, k] := 0;
+} }
 
 param LB_LR default 0;
 
@@ -161,9 +182,9 @@ let Toc_LRelax := _ampl_elapsed_time;
 
 display LB_LR;
 
-printf"********************** TO SUM UP **********************\n";
-display LB, OPT, UB1, UB2, LB_LR;
-display (Toc_original - Tic_original), (Toc_Greedy1-Tic_Greedy1), (Toc_Greedy2-Tic_Greedy2), (Toc_LRelax-Tic_LRelax);
+printf"********************** TO SUM UP istance 1 **********************\n";
+display LB, OPT, UB1, UB2,  LB_CR, LB_LR;
+display (Toc_original - Tic_original), (Toc_Greedy1-Tic_Greedy1), (Toc_Greedy2-Tic_Greedy2), (Toc_CRelax-Tic_CRelax), (Toc_LRelax-Tic_LRelax);
 
 
 

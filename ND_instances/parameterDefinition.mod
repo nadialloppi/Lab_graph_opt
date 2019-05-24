@@ -58,6 +58,29 @@ s.t. maxArcs_SP:
 
 # Relaxation ##--------------------------------------------------
 
+# Continuous#
+var l_c >= 0;
+var x_c{A, K} >= 0, <= 1;
+
+minimize capacity_c:
+	l_c;
+	
+s.t. flowBalance_c { k in  K, i in N}:
+	sum {(i, j) in A} x_c[i, j, k] - sum {(j, i) in A} x_c[j, i, k] = (if i =o[k]
+															then 1
+															else if i = t[k]
+																then -1
+																else 0);
+																
+s.t. maxArcs_c {k in K}:
+	sum {(i, j) in A} x_c[i, j, k] <= h;
+	
+s.t. varConsistency_c {(i, j) in A}:
+	sum {k in K} x_c[i, j, k] * d[k] <= l_c;
+	
+	
+# Lagrangian #
+
 param mu{K} default 0;
 param mu_old{K} default 1;
 
