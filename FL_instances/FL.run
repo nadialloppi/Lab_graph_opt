@@ -1,0 +1,15 @@
+reset;
+
+model parameterDefinition.mod;
+data p1.dat;
+
+
+printf"--------------------------- Original ---------------------------\n";
+param OPT default 0;
+
+option solver cplex;
+solve;
+
+let OPT:= totalcost;
+
+display OPT;
