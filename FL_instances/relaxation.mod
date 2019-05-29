@@ -57,11 +57,11 @@ s.t. capacity_high_level{k in 1..K}:
 s.t. mid_level_assignment{j in 1..J}:
 	sum{k in 1..K} y[j,k] >= z[j];
 
-s.t. coverineq_mid{c in C_mid}:
-	sum{(i,j) in CI_mid[c]} (1-x[i,j])>=1;
+s.t. coverineq_mid{cc in C_mid}:
+	sum{ (i,j)in CI_mid[cc]} (1-x[i,j])>=1;
 	
-s.t. coverineq_high{c in C_high}:
-	sum{(j,k) in CI_high[c]} (1-y[j,k])>=1;
+s.t. coverineq_high{cc in C_high}:
+	sum{(j,k) in CI_high[cc]} (1-y[j,k])>=1;
 	
 	
 	
@@ -74,7 +74,6 @@ s.t. coverineq_high{c in C_high}:
 
 # Fractional solution of current LP
 param x_star{1..I,1..J} >= 0, <= 1;
-param z_star{1..J} >=0, <= 1;
 param j_bar;
 #store the value of the current opt sol
 
@@ -87,11 +86,10 @@ minimize objfnc_mid:
 
 # Cover condition constraint
 s.t. covercond_mid:
-	sum{i in {1..I}} t[i]*u[i,j]>=Gamma+1;
+	sum{i in {1..I}} t[i]*u[i,j_bar]>=Gamma+1;
 	
 # Fractional solution of current LP
 param y_star{1..J,1..K} >= 0, <= 1;
-param w_star{1..K} >=0, <= 1;
 param k_bar;
 #store the value of the current opt sol
 

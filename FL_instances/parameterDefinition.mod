@@ -45,3 +45,5 @@ s.t. capacity_high_level{k in 1..K}:
 	
 s.t. mid_level_assignment{j in 1..J}:
 	sum{k in 1..K} y[j,k] >= z[j];
+	
+	

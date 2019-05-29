@@ -1,7 +1,9 @@
 reset;
 
 model relaxation.mod;
-data p1.dat;
+data p70.dat;
+
+option solver cplex;
 
 problem LP: x,y,z,w,totalcost,client_assignment,capacity_mid_level,capacity_high_level,mid_level_assignment,coverineq_mid,coverineq_high;
 problem separation_mid: u,objfnc_mid,covercond_mid;
@@ -12,8 +14,6 @@ printf"--------------------------- Continuous Relaxation -----------------------
 param initialSol default 0;
 param finalSol default 0;
 
-
-option solver cplex;
 solve LP;
 
 let initialSol := totalcost;
@@ -34,40 +34,40 @@ repeat{
    # Print the optimal value of the LP relaxation with current set of cover inequalities
    printf 'Optimal value of the LP relaxation: \n';
    display totalcost;
-   printf 'Current set of cover inequalities: \n';
-   for {c in {1..C_mid}}
-   	display CI_mid[c];
-   for {c in {1..C_high}}
-   	display CI_mid[c];
-
+   
 
    # Prepare the objective function of the separation problem
    	let {i in {1..I}, j in {1..J}} x_star[i,j] := x[i,j];
-   	let {j in {1..J}, k in {1..K}} y_star[i,j] := y[i,j];
-   
+   	let {j in {1..J}, k in {1..K}} y_star[j,k] := y[j,k];
+   	
    # Solve the separation problem
    for {j in {1..J}}{
    	let j_bar := j;
-   	solve separation_mid;
-	# Check if a violated cover exists
-   	# if so, update the number of cover inequalities
-  	# and create the new cover set
-   	if(objfnc_mid < 1) then{
-    	let cm := cm+1;
-    	let CI_mid[cm]:= setof{ i in {1..I}} : u[i,j_bar]==1} (i,j_bar);
-    	let flag := 1;
+   	if( z[j_bar]!=0) then{
+   		solve separation_mid;
+		# Check if a violated cover exists
+   		# if so, update the number of cover inequalities
+  		# and create the new cover set
+   		if(objfnc_mid < 1) then{
+    		let cm := cm+1;
+    		let CI_mid[cm]:= setof{ i in {1..I} : u[i,j_bar]==1} (i,j_bar);
+    		let flag := 1;
+    		display CI_mid[cm];
+   		}
    	}
    }
    for {k in {1..K}}{
    	let k_bar := k;
-   	solve separation_high;
-	# Check if a violated cover exists
-   	# if so, update the number of cover inequalities
-  	# and create the new cover set
-   	if(objfnc_high < 1) then{
-    	let ch := ch+1;
-    	let CI_high[ch]:= setof{ j in {1..J}} : u[j,k_bar]==1} (j,k_bar);
-    	let flag := 1;
+   	if( w[k_bar]!=0) then{
+   		solve separation_high;
+		# Check if a violated cover exists
+   		# if so, update the number of cover inequalities
+  		# and create the new cover set
+   		if(objfnc_high < 1) then{
+    		let ch := ch+1;
+    		let CI_high[ch]:= setof{ j in {1..J} : u[j,k_bar]==1} (j,k_bar);
+    		let flag := 1;
+   		}
    	}
    }
    
@@ -80,5 +80,7 @@ solve LP;
 
 # Set the value of finalSol
 let finalSol := totalcost;
+
+display initialSol, finalSol;
 
 
