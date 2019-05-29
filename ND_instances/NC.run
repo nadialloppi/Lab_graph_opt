@@ -142,7 +142,7 @@ let step := 1;
 
 let Tic_LRelax := _ampl_elapsed_time;
 
-for {iter in 1..10} {
+for {iter in 1..20} {
   
   # Solve the Lagrangian Relaxation
   solve LagrRelaxation;
@@ -161,7 +161,8 @@ for {iter in 1..10} {
   let step:= 0.995*step;
  
   # Update LB_LR 
-  let LB_LR := Obj_LR;
+  if (Obj_LR > LB_LR) then 
+  	let LB_LR := Obj_LR;
 
   # Update norma
   let norma:= ( sum{k in K} (sum {(i, j) in A} x[i, j, k] - h)^2) ^ (1/2);
