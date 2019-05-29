@@ -1,0 +1,63 @@
+reset;
+
+model parameterDefinition.mod;
+data p1.dat;
+
+
+printf"--------------------------- Original ---------------------------\n";
+param OPT default 0;
+
+option solver cplex;
+solve;
+
+let OPT:= totalcost;
+
+display OPT;
+
+
+printf"--------------------------- Greedy 1 ---------------------------\n";
+
+param UB1 default 0;
+
+param cost default 0;
+param min_cost default 0;
+
+let cost := min{k in K, j in J, i in I} c[j] + l[j, k] + g[k] + d[i,j];		# non so se convenga minimizzare anche su i
+																			# magari minimizzo solo altro poi assegno i
+																			# con minore d[i, j] fino ad esaurimento di Gamma,
+																			# purche' sia d <= R.
+
+set KK default K;		# elementi non ancora asseganti/aperti..
+set II default I;
+set JJ default J;
+
+repeat {										# Check su lambda e su gamma !!!
+	for {k in KK}{
+	for {j in JJ}{
+	for {i in II} {
+		if (c[j] + l[j, k] + g[k] + d[i, j] = cost ) then {		
+			let w[k] := 1;
+			let z[j] := 1;
+			let y[i, k] := 1;
+			if (d[i, j] <= R) then let x[i, j] := 1;
+			
+			let KK := KK diff {k};
+			let II := II diff {i};
+			let JJ := JJ diff {j};
+			
+			for {ii in {II diff {i}} {
+				let min_cost := min {iii in 
+			}
+		}
+		let cost:= min{
+		
+	}}}
+} until sum { ii in {I diff II} } (1) = 0 ;				# Esce quando e' vero, cioe' quando ho assegnato tutti i clienti
+
+let UB1 := sum{j in 1..J}c[j]*z[j] + sum{k in 1..K} g[k]*w[k] + sum{j in 1..J} ( sum{ k in 1..K} l[j,k]*y[j,k]) + sum{i in 1..I} ( sum{j in 1..J} d[i,j]*x[i,j]);
+
+
+
+
+
+
