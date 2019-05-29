@@ -41,7 +41,7 @@ s.t. varConsistency_c {(i, j) in A}:
 	sum {k in K} x_c[i, j, k] * d[k] <= l_c;
 	
 s.t. valid_ineq_c{s in 1..S}:
-	l_c>= sum{k in K} d[k]*b[k,s]	/ sum{(i,j) in A} c[i,j,s];
+	l_c>= ceil( sum{k in K} d[k]*b[k,s]/ sum{(i,j) in A} c[i,j,s]);
 	
 # Valid Inequality
 
@@ -50,6 +50,7 @@ param l_bar;
 var mu{A} binary;	# 1 if the arc has one extreme in S and the othe in N\S
 var u{K} binary;	# 1 if commodities k have source(destination) in S and destination (source) in N\S
 var s{N} binary;	# 1 if node in S
+var eps >=0;
 var z integer;
 
 
@@ -85,4 +86,4 @@ s.t. S_notEmpty:
 s.t. S_notN:
 	sum{i in N} s[i]<=nb_n-1;
 s.t. consistency_9:
-	z <= (sum{k in K} d[k]*u[k] )/ l_bar + 1;
+	z <=(sum{k in K} d[k]*u[k] )/ l_bar + 1 -eps;

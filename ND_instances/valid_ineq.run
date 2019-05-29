@@ -9,7 +9,7 @@ option solver cplex;
 problem master: l_c, x_c, capacity_c, flowBalance_c, maxArcs_c, varConsistency_c,valid_ineq_c;
 
 
-problem pricing: mu,u,s,z,obj,consistency_1,consistency_2,consistency_3,consistency_4,consistency_5,consistency_6,consistency_7,consistency_8,consistency_9,S_notEmpty,S_notN;
+problem pricing: mu,u,s,z, eps,obj,consistency_1,consistency_2,consistency_3,consistency_4,consistency_5,consistency_6,consistency_7,consistency_8,consistency_9,S_notEmpty,S_notN;
 
 
 #auxiliary parameters
@@ -38,7 +38,7 @@ for{counter in 1 .. max_iter}
 	
 	#print the cluster selected by the current pricing problem	
 	printf"\n Valid Inequality\n ";
-	
+	display s;
 	
 	#print the profit of the candidate new cluster
 	printf"\n Profit of the candidate new cluster: %f \n",obj;
@@ -63,7 +63,6 @@ for{counter in 1 .. max_iter}
 			let b[k,S]:=u[k];
 		for{(i,j) in A}
 			let c[i,j,S]:=mu[i,j];
-	
 		 	
 	 	#print the current number of clusters in the master problem
 		printf"\n Current number of clusters in the master problem %f \n",S;
