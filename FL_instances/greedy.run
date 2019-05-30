@@ -1,0 +1,109 @@
+param I; # number of clients
+
+param J; # number of facilities of mid level
+
+param K; # number of facilities of high level
+
+
+param c{j in 1..J}; # mid level facility installation cost
+
+param g{k in 1..K}; # high level facility installation cost
+
+
+param d{i in 1..I, j in 1..J}; # assignment cost clients->mid level
+
+param l{j in 1..J, k in 1..K}; # assignment cost mid level -> high level
+
+
+param t{i in 1..I} default 1; # client weight
+
+param a{j in 1..J} default 1; # mid level facility weight
+
+
+param Gamma;		# mid level facility capacity
+
+param Lambda;		# high level facility capacity
+
+param R default 0;
+
+data p1.dat;
+
+set KK default 1..K;		# elementi non ancora asseganti/aperti..
+set II default 1..I;
+set JJ default 1..J;
+
+set IJ within {1..I,1..J} default {};
+
+
+param min_cost_i default 0;
+param min_cost_j default 0;
+
+param cap_res default Gamma;
+
+printf "Inizio primo livello\n";
+repeat{
+let min_cost_j := min {jj in JJ} c[jj]/(sum{i in II : d[i, jj] <= R} (1));
+let cap_res:= Gamma;
+printf"Repeat esterno\n";
+for {j in JJ}{
+	if (min_cost_j = c[j]/(sum{i in II: d[i, j] <= R} (1))) then {
+		
+		let JJ := JJ diff {j};
+		
+		repeat {
+			printf"Repeat interno\n";
+			let min_cost_i := 	min {i in II} d[i, j];
+			if (min_cost_i > R) then break;
+			for {i in II} {
+				if (min_cost_i = d[i, j] ) then {
+					if (cap_res >= t[i]) then {
+						let cap_res := cap_res - t[i];
+						let IJ := IJ union {(i, j)};
+						let II := II diff {i};
+					}
+				} 
+			}
+		} until ( min{ii in II} t[ii] > cap_res);  
+	}
+}
+} until (sum{iii in II} (1) = 0);
+
+
+printf "Inizio secondo livello";
+param min_cost_k default 0;
+
+set OJ := 1..J diff JJ;		# mid level aperte
+set OJJ default OJ; 		# mid level aperte, ma non ancora asseganti
+
+set JK within {1..J, 1..K} default {};
+
+repeat{
+let min_cost_k := min {k in KK} g[k];
+let cap_res:= Lambda;
+for {k in KK}{
+	if (min_cost_k = g[k]) then {
+		
+		let KK := KK diff {k};
+		
+		repeat {
+			let min_cost_j := 	min {j in OJJ} l[ j, k];
+			
+			for {j in OJJ} {
+				if (min_cost_j = l[j,k] ) then {
+					if (cap_res >= a[j]) then {
+						let cap_res := cap_res - a[j];
+						let JK := JK union {( j, k)};
+						let OJJ := OJJ diff {j};
+					}
+				} 
+			}
+		} until ( min{jj in OJJ} a[jj] >= cap_res);  
+	}
+}
+} until (sum{jjj in OJJ} (1) = 0);
+
+param UB default 0;
+
+let UB := sum{j in OJ}c[j] + sum{k in {K diff KK}} g[k] + sum{j in OJ} ( sum{ k in {K diff KK}} l[j,k]) + sum{i in I} ( sum{j in OJ} d[i,j]);
+
+display UB;
