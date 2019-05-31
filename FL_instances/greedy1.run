@@ -1,0 +1,130 @@
+param I; # number of clients
+
+param J; # number of facilities of mid level
+
+param K; # number of facilities of high level
+
+
+param c{j in 1..J}; # mid level facility installation cost
+
+param g{k in 1..K}; # high level facility installation cost
+
+
+param d{i in 1..I, j in 1..J}; # assignment cost clients->mid level
+
+param l{j in 1..J, k in 1..K}; # assignment cost mid level -> high level
+
+
+param t{i in 1..I} default 1; # client weight
+
+param a{j in 1..J} default 1; # mid level facility weight
+
+
+param Gamma;		# mid level facility capacity
+
+param Lambda;		# high level facility capacity
+
+param R default 0;
+
+data p1.dat;
+
+	
+set II default 1..I;		# elementi non ancora asseganti/aperti..
+set KK default 1..K;	
+
+set OJ default {} ;
+
+set IJ within {1..I,1..J} default {};  # Assegnamenti di primo livello fatti
+
+
+param min_cost_i default 0;
+param min_cost_j default 0;
+param min_cost default 0;
+
+param cap_res{1..J};
+for {j in 1..J} let cap_res[j]:= Gamma;
+
+display cap_res;
+
+param cardinality_i {1..I} default 0;
+param min_card_i default 0;
+
+printf "Inizio primo livello\n";
+for {i in 1..I}
+	let cardinality_i [i] := card(setof{j in 1..J: d[i,  j] <= R}j);
+
+repeat{
+	let min_card_i := min{i in II} cardinality_i[i];
+	for {i in II}{
+		if (cardinality_i[i] = min_card_i) then {
+			let min_cost := min{j in 1..J: cap_res[j] >= t[i] and d[i, j] <= R} (c[j]+d[i,j]);
+			for {j in 1..J :  cap_res[j] >= t[i] and d[i, j] <= R}{
+				if (c[j]+d[i,j] = min_cost) then {
+					let IJ:= IJ union {(i, j)} ;
+					let II:= II diff {i};
+					let cap_res[j] := cap_res[j] - t[i];
+				}
+			}
+		}
+	}
+
+} until (sum{ii in II} (1) = 0);
+
+
+let OJ := setof{j in 1..J: cap_res[j] < Gamma}j;
+
+param actual_cost{1..I} default 0;
+for {(i, j) in IJ}
+	let actual_cost[i] := d[i, j];
+	
+for {i in 1..I}{
+	for {j in OJ}{
+		if (d[i, j] < actual_cost[i] and cap_res[j] >= t[i]) then {
+			
+		}
+	}
+}
+
+
+
+printf "Inizio secondo livello";
+param min_cost_k default 0;
+
+set OJJ default OJ; 		# mid level aperte, ma non ancora asseganti
+
+set JK within {1..J, 1..K} default {};	# assegnamenti 2ndo livello 
+
+param cap_res_k default Lambda;
+
+repeat{
+let min_cost_k := min {k in KK} g[k];
+#let cap_res_k:= Lambda;
+for {k in KK}{
+	let cap_res_k:= Lambda;
+	if (min_cost_k = g[k]) then {
+		let KK := KK diff {k};
+		
+		repeat {
+			let min_cost_j := 	min {j in OJJ: cap_res_k >= a[j]} l[ j, k];
+			
+			for {j in OJJ: cap_res_k >= a[j]} {
+				if (min_cost_j = l[j,k] ) then {
+						let cap_res_k := cap_res_k - a[j];
+						let JK := JK union {( j, k)};
+						let OJJ := OJJ diff {j};
+						break;
+				} 
+			}
+		} until ( min{jj in OJJ} a[jj] >= cap_res_k);  
+	}
+}
+} until (sum{jjj in OJJ} (1) = 0);
+
+param UB default 0;
+
+let UB := sum{j in OJ}c[j] + sum{k in {1..K diff KK}} g[k] + sum{(j, k) in JK} l[j,k] + sum{(i, j) in IJ} d[i,j];
+
+display UB;
+
+
+

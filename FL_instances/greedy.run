@@ -42,25 +42,30 @@ param cap_res default Gamma;
 
 printf "Inizio primo livello\n";
 repeat{
-let min_cost_j := min {jj in JJ} c[jj]/(sum{i in II : d[i, jj] <= R} (1));
+let min_cost_j := min {jj in JJ} c[jj]/(1+sum{i in II : d[i, jj] <= R} (1));
 let cap_res:= Gamma;
 printf"Repeat esterno\n";
 for {j in JJ}{
-	if (min_cost_j = c[j]/(sum{i in II: d[i, j] <= R} (1))) then {
+	if (min_cost_j = c[j]/(1+sum{i in II: d[i, j] <= R} (1))) then {
 		
 		let JJ := JJ diff {j};
 		
 		repeat {
 			printf"Repeat interno\n";
-			let min_cost_i := 	min {i in II} d[i, j];
-			if (min_cost_i > R) then break;
+			let min_cost_i := 	min {i in II: cap_res >= t[i]} d[i, j];
+			if (min_cost_i > R) then { printf "I should break\n"; break;}
 			for {i in II} {
+				printf"Inizio for\n";
 				if (min_cost_i = d[i, j] ) then {
-					if (cap_res >= t[i]) then {
-						let cap_res := cap_res - t[i];
-						let IJ := IJ union {(i, j)};
-						let II := II diff {i};
-					}
+					printf"argmin***************************************\n";
+					
+					printf"Assegnamento\n";
+					let cap_res := cap_res - t[i];
+					display cap_res;
+					let IJ := IJ union {(i, j)};
+					let II := II diff {i};
+		
+					break;
 				} 
 			}
 		} until ( min{ii in II} t[ii] > cap_res);  
@@ -107,3 +112,52 @@ param UB default 0;
 let UB := sum{j in OJ}c[j] + sum{k in {K diff KK}} g[k] + sum{j in OJ} ( sum{ k in {K diff KK}} l[j,k]) + sum{i in I} ( sum{j in OJ} d[i,j]);
 
 display UB;
+
+
+printf"--------------------------- Greedy 1 ---------------------------\n";
+
+param UB1 default 0;
+
+param cost default 0;
+param min_cost default 0;
+
+let cost := min{k in K, j in J, i in I} c[j] + l[j, k] + g[k] + d[i,j];		# non so se convenga minimizzare anche su i
+																			# magari minimizzo solo altro poi assegno i
+																			# con minore d[i, j] fino ad esaurimento di Gamma,
+																			# purche' sia d <= R.
+
+set KK default K;		# elementi non ancora asseganti/aperti..
+set II default I;
+set JJ default J;
+
+repeat {										# Check su lambda e su gamma !!!
+	for {k in KK}{
+	for {j in JJ}{
+	for {i in II} {
+		if (c[j] + l[j, k] + g[k] + d[i, j] = cost ) then {		
+			let w[k] := 1;
+			let z[j] := 1;
+			let y[i, k] := 1;
+			if (d[i, j] <= R) then let x[i, j] := 1;
+			
+			let KK := KK diff {k};
+			let II := II diff {i};
+			let JJ := JJ diff {j};
+			
+			for {ii in {II diff {i}} {
+				let min_cost := min {iii in 
+			}
+		}
+		let cost:= min{
+		
+	}}}
+} until sum { ii in {I diff II} } (1) = 0 ;				# Esce quando e' vero, cioe' quando ho assegnato tutti i clienti
+
+let UB1 := sum{j in 1..J}c[j]*z[j] + sum{k in 1..K} g[k]*w[k] + sum{j in 1..J} ( sum{ k in 1..K} l[j,k]*y[j,k]) + sum{i in 1..I} ( sum{j in 1..J} d[i,j]*x[i,j]);
+
+
+
+
+
+
+
