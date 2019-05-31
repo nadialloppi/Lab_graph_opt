@@ -1,9 +1,10 @@
 reset;
 
 model relaxation.mod;
-data p70.dat;
+data p1.dat;
 
 option solver cplex;
+option cplex_options 'mipgap 0';
 
 problem LP: x,y,z,w,totalcost,client_assignment,capacity_mid_level,capacity_high_level,mid_level_assignment,coverineq_mid,coverineq_high;
 problem separation_mid: u,objfnc_mid,covercond_mid;
@@ -13,6 +14,8 @@ problem separation_high: v,objfnc_high,covercond_high;
 printf"--------------------------- Continuous Relaxation ---------------------------\n";
 param initialSol default 0;
 param finalSol default 0;
+
+param r default 0;
 
 solve LP;
 
@@ -29,12 +32,42 @@ repeat{
   
    # Solve the LP relaxation with current set of cover inequalities 
    solve LP;
-
-
+	
    # Print the optimal value of the LP relaxation with current set of cover inequalities
    printf 'Optimal value of the LP relaxation: \n';
    display totalcost;
    
+#   for {j in 1..J}{
+#   		let r := Uniform(0,1);
+#		if (r <= z[j]) then {
+#    		fix z[j] := 1;	}
+#   		else
+#   			fix z[j] := 0;
+#   }
+	
+#   for {k in 1..K}{
+#   		let r := Uniform(0,1);
+#		if (r <= w[k]) then {
+#    		fix w[k] := 1;	}
+#   		else
+#   			fix w[k] := 0;
+#   }											cosi' infeasible
+
+#   for {j in 1..J}{
+#		if (sum{i in 1..I}x[i, j] > 0) then {
+#    		fix z[j] := 1;	}
+#   		else
+#   			fix z[j] := 0;
+#   }
+	
+#   for {k in 1..K}{
+#		if (sum{j in 1..J}y[j, k] > 0) then {
+#    		fix w[k] := 1;	}
+#   		else
+#   			fix w[k] := 0;
+#   }											cosi' LB > UB
+
+
 
    # Prepare the objective function of the separation problem
    	let {i in {1..I}, j in {1..J}} x_star[i,j] := x[i,j];
@@ -43,11 +76,9 @@ repeat{
    # Solve the separation problem
    for {j in {1..J}}{
    	let j_bar := j;
-   	if( z[j_bar]!=0) then{
+   	if( z[j_bar]=1) then{
    		solve separation_mid;
-		# Check if a violated cover exists
-   		# if so, update the number of cover inequalities
-  		# and create the new cover set
+		# Check if a violated cover exists if so, update the number of cover inequalities and create the new cover set
    		if(objfnc_mid < 1) then{
     		let cm := cm+1;
     		let CI_mid[cm]:= setof{ i in {1..I} : u[i,j_bar]==1} (i,j_bar);
@@ -58,11 +89,9 @@ repeat{
    }
    for {k in {1..K}}{
    	let k_bar := k;
-   	if( w[k_bar]!=0) then{
+   	if( w[k_bar]=1) then{
    		solve separation_high;
-		# Check if a violated cover exists
-   		# if so, update the number of cover inequalities
-  		# and create the new cover set
+		# Check if a violated cover exists if so, update the number of cover inequalities and create the new cover set
    		if(objfnc_high < 1) then{
     		let ch := ch+1;
     		let CI_high[ch]:= setof{ j in {1..J} : u[j,k_bar]==1} (j,k_bar);
@@ -72,7 +101,7 @@ repeat{
    }
    
 } until(flag=0);
-# Add stopping criteria for the repeat cycle
+
   
 
 # Solve LP relaxation with all cover inequalities

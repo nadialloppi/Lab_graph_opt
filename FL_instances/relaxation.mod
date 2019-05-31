@@ -39,8 +39,8 @@ set CI_high{C_high} within {1..J} cross {1..K};
 
 var x{1..I,1..J} >=0, <=1; 	#1 if client i assigned to mid level facility j
 var y{1..J,1..K} >=0, <=1; 	#1 if mid level facility j is assigned to high level facility k
-var z{1..J} binary; 		#1 if mid level facility j is open
-var w{1..K} binary; 		#1 if high level facility k is open
+var z{1..J}  binary;#>=0, <=1; 		#1 if mid level facility j is open
+var w{1..K}  binary;#>=0, <=1; 		#1 if high level facility k is open
 
 minimize totalcost:
 	sum{j in 1..J}c[j]*z[j] + sum{k in 1..K} g[k]*w[k] + sum{j in 1..J} ( sum{ k in 1..K} l[j,k]*y[j,k]) + sum{i in 1..I} ( sum{j in 1..J} d[i,j]*x[i,j]);
@@ -69,8 +69,7 @@ s.t. coverineq_high{cc in C_high}:
 #                 Separation problem
 #--------------------------------------------------
 
-# The separation problem looks for a cover inequality
-# violated by the current LP solution
+# The separation problem looks for a cover inequality violated by the current LP solution
 
 # Fractional solution of current LP
 param x_star{1..I,1..J} >= 0, <= 1;

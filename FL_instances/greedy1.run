@@ -44,7 +44,6 @@ param min_cost default 0;
 param cap_res{1..J};
 for {j in 1..J} let cap_res[j]:= Gamma;
 
-display cap_res;
 
 param cardinality_i {1..I} default 0;
 param min_card_i default 0;
@@ -73,21 +72,46 @@ repeat{
 
 let OJ := setof{j in 1..J: cap_res[j] < Gamma}j;
 
+param mid_Cost_pre default 0;
+let mid_Cost_pre := sum{j in OJ}c[j] + sum{(i, j) in IJ} d[i,j];
+display mid_Cost_pre;
+display sum{j in OJ}c[j];
+display sum{(i, j) in IJ} d[i,j];
+
+display OJ;
+
 param actual_cost{1..I} default 0;
-for {(i, j) in IJ}
+param actual_midlevel{1..I};
+
+for {(i, j) in IJ} {
 	let actual_cost[i] := d[i, j];
-	
+	let actual_midlevel[i] := j;
+}
+
 for {i in 1..I}{
 	for {j in OJ}{
 		if (d[i, j] < actual_cost[i] and cap_res[j] >= t[i]) then {
-			
+			let IJ := IJ diff {(i, actual_midlevel[i])};
+			let IJ := IJ union {(i, j)};
+			let cap_res[j] := cap_res[j] - t[i];
+			let cap_res[actual_midlevel[i]] := cap_res[actual_midlevel[i]] + t[i];
+			if (cap_res[actual_midlevel[i]] = Gamma) then let OJ:= OJ diff {actual_midlevel[i]};
+			let actual_cost[i] := d[i, j];
+			let actual_midlevel[i] := j;
 		}
 	}
 }
 
+param mid_Cost_post default 0;
+let mid_Cost_post := sum{j in OJ}c[j] + sum{(i, j) in IJ} d[i,j];
+display mid_Cost_post;
+display sum{j in OJ}c[j];
+display sum{(i, j) in IJ} d[i,j];
+
+display OJ;
 
 
-printf "Inizio secondo livello";
+printf "Inizio secondo livello\n";
 param min_cost_k default 0;
 
 set OJJ default OJ; 		# mid level aperte, ma non ancora asseganti
@@ -97,11 +121,11 @@ set JK within {1..J, 1..K} default {};	# assegnamenti 2ndo livello
 param cap_res_k default Lambda;
 
 repeat{
-let min_cost_k := min {k in KK} g[k];
+let min_cost_k := min {k in KK} (g[k] + sum{j in OJ} l[j, k]);
 #let cap_res_k:= Lambda;
 for {k in KK}{
 	let cap_res_k:= Lambda;
-	if (min_cost_k = g[k]) then {
+	if (min_cost_k = g[k] + sum{j in OJ} l[j, k]) then {
 		let KK := KK diff {k};
 		
 		repeat {
