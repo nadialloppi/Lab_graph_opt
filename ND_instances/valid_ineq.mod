@@ -81,9 +81,9 @@ s.t. consistency_7{k in K}:
 s.t. consistency_8{k in K}:
 	u[k]<= 2-s[o[k]]-s[t[k]];
 
-s.t. S_notEmpty:
-	sum{i in N} s[i]>=1;
-s.t. S_notN:
-	sum{i in N} s[i]<=nb_n-1;
+#s.t. S_notEmpty:
+#	sum{i in N} s[i]>=1;
+#s.t. S_notN:
+#	sum{i in N} s[i]<=nb_n-1;
 s.t. consistency_9:
 	z <=(sum{k in K} d[k]*u[k] )/ l_bar + 1 -eps;
