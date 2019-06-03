@@ -1,15 +1,15 @@
 
 reset;
 model valid_ineq.mod;
-data demand.dat;
-data topology.dat;
+data demand3.dat;
+data topology3.dat;
 #data prova.dat;
 option solver cplex;
 
 problem master: l_c, x_c, capacity_c, flowBalance_c, maxArcs_c, varConsistency_c,valid_ineq_c;
 
 
-problem pricing: mu,u,s,z, eps,obj,consistency_1,consistency_2,consistency_3,consistency_4,consistency_5,consistency_6,consistency_7,consistency_8,consistency_9,S_notEmpty,S_notN;
+problem pricing: mu,u,s,z, eps,obj,consistency_1,consistency_2,consistency_3,consistency_4,consistency_5,consistency_6,consistency_7,S_notEmpty,S_notN;
 
 
 #auxiliary parameters

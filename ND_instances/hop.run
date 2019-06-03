@@ -11,6 +11,8 @@ param Tic_nohop;
 param Toc_nohop;
 param T_original;
 param T_nohop;
+param T_solve_original; 
+param T_solve_nohop;
 
 param OPT default 0; 
 param NOHOP default 0;
@@ -33,9 +35,10 @@ let Toc_original := _ampl_elapsed_time;
 
 let OPT:= l; display l;
 let T_original := Toc_original - Tic_original;
+let T_solve_original := _ampl_time;
 
 printf"Optimal value: 		%d ", l >Hop_analysis.txt;
-printf"				Required time:		%f \n", T_original  >Hop_analysis.txt;
+printf"				Elapsed time:%f \t Ampl time:%f \n", T_original, T_solve_original >Hop_analysis.txt;
 printf "-------------------------------NoHop ------------------------------\n">Hop_analysis.txt;
 let l:= 0;											# Reset variabili 
 for {k in K} {
@@ -47,11 +50,13 @@ let Tic_nohop := _ampl_elapsed_time;
 solve No_Hop;
 
 let Toc_nohop := _ampl_elapsed_time;
+
 let NOHOP := l; display l;
 let T_nohop := Toc_nohop-Tic_nohop;
+let T_solve_nohop := _solve_system_time;
 
 printf"Optimal value: 		%d ", l >Hop_analysis.txt;
-printf"				Required time: 		%f \n",T_nohop >Hop_analysis.txt;
+printf"				Required time:%f \t Ampl time:%f \n",T_nohop, T_solve_nohop >Hop_analysis.txt;
 printf "\n" > Hop_analysis.txt;
 
 printf "********************************* Istance 2 *********************************\n">Hop_analysis.txt;
@@ -72,9 +77,11 @@ let Toc_original := _ampl_elapsed_time;
 
 let OPT:= l; display l;
 let T_original := Toc_original - Tic_original;
+let T_solve_original := _ampl_time;
 
 printf"Optimal value: 		%d ", l >Hop_analysis.txt;
-printf"				Required time:		%f \n", T_original  >Hop_analysis.txt;
+printf"				Elapsed time:%f \t Ampl time:%f \n", T_original, T_solve_original >Hop_analysis.txt;
+
 printf "-------------------------------NoHop ------------------------------\n">Hop_analysis.txt;
 let l:= 0;											# Reset variabili 
 for {k in K} {
@@ -87,10 +94,12 @@ solve No_Hop;
 
 let Toc_nohop := _ampl_elapsed_time;
 let NOHOP := l; display l;
+
 let T_nohop := Toc_nohop-Tic_nohop;
+let T_solve_nohop := _solve_system_time;
 
 printf"Optimal value: 		%d ", l >Hop_analysis.txt;
-printf"				Required time: 		%f \n",T_nohop >Hop_analysis.txt;
+printf"				Required time:%f \t Ampl time:%f \n",T_nohop, T_solve_nohop >Hop_analysis.txt;
 printf "\n" > Hop_analysis.txt;
 
 printf "********************************* Istance 3 *********************************\n">Hop_analysis.txt;
