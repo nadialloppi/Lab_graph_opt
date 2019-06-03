@@ -1,0 +1,50 @@
+ampl: include 'C:\Users\Nadia\Downloads\ampl_mswin64\Crelax.run';
+CPLEX 12.9.0.0: optimal integer solution within mipgap or absmipgap; objective 829342
+443 MIP simplex iterations
+0 branch-and-bound nodes
+absmipgap = 77, relmipgap = 9.28447e-05
+l = 829342
+
+CPLEX 12.9.0.0: optimal solution; objective 829265
+170 dual simplex iterations (0 in phase I)
+l_c = 829265
+
+CPLEX 12.9.0.0: optimal integer solution; objective 995
+53737 MIP simplex iterations
+3612 branch-and-bound nodes
+l = 995
+
+CPLEX 12.9.0.0: optimal solution; objective 994.5
+711 dual simplex iterations (0 in phase I)
+l_c = 994.5
+
+CPLEX 12.9.0.0: optimal integer solution; objective 7609
+116347 MIP simplex iterations
+2412 branch-and-bound nodes
+l = 7609
+
+CPLEX 12.9.0.0: optimal solution; objective 7608.5
+0 simplex iterations (0 in phase I)
+15 barrier iterations
+l_c = 7608.5
+
+CPLEX 12.9.0.0: optimal integer solution within mipgap or absmipgap; objective 53562
+20169 MIP simplex iterations
+0 branch-and-bound nodes
+absmipgap = 4, relmipgap = 7.46798e-05
+l = 53562
+
+CPLEX 12.9.0.0: optimal solution; objective 53558
+11169 dual simplex iterations (0 in phase I)
+l_c = 53558
+
+CPLEX 12.9.0.0: optimal integer solution; objective 363
+58613 MIP simplex iterations
+0 branch-and-bound nodes
+l = 363
+
+CPLEX 12.9.0.0: optimal solution; objective 362.1111111
+44504 dual simplex iterations (0 in phase I)
+l_c = 362.111
+
+ampl: 
