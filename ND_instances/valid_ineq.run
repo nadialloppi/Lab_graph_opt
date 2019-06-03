@@ -1,23 +1,35 @@
 
 reset;
 model valid_ineq.mod;
+<<<<<<< HEAD
 data demand3.dat;
 data topology3.dat;
 #data prova.dat;
+=======
+#data demand.dat;
+#data topology.dat;
+data prova.dat;
+>>>>>>> ae854b5e106ce0dc4b7b7a4d6c03861dbd272122
 option solver cplex;
 
 problem master: l_c, x_c, capacity_c, flowBalance_c, maxArcs_c, varConsistency_c,valid_ineq_c;
 
 
+<<<<<<< HEAD
 problem pricing: mu,u,s,z, eps,obj,consistency_1,consistency_2,consistency_3,consistency_4,consistency_5,consistency_6,consistency_7,S_notEmpty,S_notN;
+=======
+#problem pricing: mu,u,s,z, eps,obj,consistency_1,consistency_2,consistency_3,consistency_4,consistency_5,consistency_6,consistency_7,consistency_8,consistency_9,S_notEmpty,S_notN;
+
+problem pricing: mu,u,s,z, eps,obj,consistency_1,consistency_2,consistency_3,consistency_4,consistency_5,consistency_6,consistency_7,consistency_8,consistency_9;
+>>>>>>> ae854b5e106ce0dc4b7b7a4d6c03861dbd272122
 
 
 #auxiliary parameters
 param flag default 0;
-param max_iter default 10;
 
-for{counter in 1 .. max_iter} 
-{    
+
+ 
+repeat{    
 	#reset flag
 	let flag := 0;
 
@@ -45,7 +57,7 @@ for{counter in 1 .. max_iter}
 	
 	
 	#check if the candidate new cluster makes the current continuous solution infeasible
-	if  (obj >= 0) then
+	if  (obj >= -1) then
 	{
 		#current master problem solution optimal -> set flag to 0	
 		let flag:=0;
@@ -72,7 +84,7 @@ for{counter in 1 .. max_iter}
 		let flag:=1;
 
 	}
-}
+}until(flag=0);
 
 
 #solve the master problem with the final set of clusters (columns/variables)
