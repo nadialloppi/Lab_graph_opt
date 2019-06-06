@@ -19,7 +19,7 @@ option solver cplex;
 option cplex_options 'mipgap 0';
 
 problem Original: x, y, z, w, totalcost, client_assignment, capacity_mid_level, capacity_high_level, mid_level_assignment;
-problem NoR: x, y, z, w, totalcost, client_assignment, capacity_mid_level, capacity_high_level, LR_assign;
+problem NoR: x, y, z, w, totalcost, capacity_mid_level, capacity_high_level, mid_level_assignment, LR_assign;
 
 
 printf "-------------------------------Original ------------------------------\n">NoR_analysis.txt;
@@ -173,7 +173,7 @@ solve Original;
 
 let Toc_original := _ampl_elapsed_time;
 
-let OPT:= totalcost; display l;
+let OPT:= totalcost;
 let T_original := Toc_original - Tic_original;
 
 printf"Optimal value: 		%d ", OPT >NoR_analysis.txt;
@@ -201,7 +201,7 @@ data p71.dat;
 printf "-------------------------------Original ------------------------------\n">NoR_analysis.txt;
 
 
-let Tic_original := _ampl_elarrpsed_time;
+let Tic_original := _ampl_elapsed_time;
 
 solve Original;
 
