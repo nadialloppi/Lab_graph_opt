@@ -1,0 +1,220 @@
+
+printf "********************************* Istance 1 *********************************\n">CR_analysis.txt;
+
+model parameterDefinition.mod;
+data p1.dat;
+
+param Tic_original;
+param Toc_original;
+param Tic_CR;
+param Toc_CR;
+param T_original;
+param T_CR;
+
+param OPT default 0; 
+param CR default 0;
+
+option solver cplex;
+option cplex_options 'mipgap 0';
+
+problem Original: x, y, z, w, totalcost, client_assignment, capacity_mid_level, capacity_high_level, mid_level_assignment;
+problem ContRelaxation: x_c, y_c, z_c, w_c, totalcost_c, client_assignment_c, capacity_mid_level_c, capacity_high_level_c, mid_level_assignment_c;
+
+printf "---------------------------- Original ---------------------------\n">CR_analysis.txt;
+
+let Tic_original := _ampl_elapsed_time;
+
+solve Original;
+
+let Toc_original := _ampl_elapsed_time;
+
+let OPT:= totalcost; display totalcost;
+let T_original := Toc_original - Tic_original;
+
+printf"Optimal value: 		%d ", totalcost >CR_analysis.txt;
+printf"				Required time:		%f \n", T_original  >CR_analysis.txt;
+printf "------------------------------- CR ------------------------------\n">CR_analysis.txt;
+
+let Tic_CR := _ampl_elapsed_time;
+
+solve ContRelaxation;
+
+let Toc_CR := _ampl_elapsed_time;
+let CR := totalcost_c; display totalcost_c;
+let T_CR := Toc_CR-Tic_CR;
+
+printf"Optimal value: 		%f ", totalcost_c >CR_analysis.txt;
+printf"				Required time: 		%f \n",T_CR >CR_analysis.txt;
+printf "\n" > CR_analysis.txt;
+
+printf "********************************* Istance 67 *********************************\n">CR_analysis.txt;
+reset data;
+#model parameterDefinition.mod;
+data p67.dat;
+
+
+printf "---------------------------- Original ---------------------------\n">CR_analysis.txt;
+
+
+let Tic_original := _ampl_elapsed_time;
+
+solve Original;
+
+let Toc_original := _ampl_elapsed_time;
+
+let OPT:= totalcost; display totalcost;
+let T_original := Toc_original - Tic_original;
+
+printf"Optimal value: 		%d ", totalcost >CR_analysis.txt;
+printf"				Required time:		%f \n", T_original  >CR_analysis.txt;
+printf "-------------------------------CR ------------------------------\n">CR_analysis.txt;
+
+let Tic_CR := _ampl_elapsed_time;
+
+solve ContRelaxation;
+
+let Toc_CR := _ampl_elapsed_time;
+let CR := totalcost_c; display totalcost_c;
+let T_CR := Toc_CR-Tic_CR;
+
+printf"Optimal value: 		%f ", totalcost_c >CR_analysis.txt;
+printf"				Required time: 		%f \n",T_CR >CR_analysis.txt;
+printf "\n" > CR_analysis.txt;
+
+printf "********************************* Istance 68 *********************************\n">CR_analysis.txt;
+reset data;
+#model parameterDefinition.mod;
+data p68.dat;
+
+
+printf "---------------------------- Original ---------------------------\n">CR_analysis.txt;
+
+
+let Tic_original := _ampl_elapsed_time;
+
+solve Original;
+
+let Toc_original := _ampl_elapsed_time;
+
+let OPT:= totalcost; display totalcost;
+let T_original := Toc_original - Tic_original;
+
+printf"Optimal value: 		%d ", totalcost >CR_analysis.txt;
+printf"				Required time:		%f \n", T_original  >CR_analysis.txt;
+printf "------------------------------- CR ------------------------------\n">CR_analysis.txt;
+
+let Tic_CR := _ampl_elapsed_time;
+
+solve ContRelaxation;
+
+let Toc_CR := _ampl_elapsed_time;
+let CR := totalcost_c; display totalcost_c;
+let T_CR := Toc_CR-Tic_CR;
+
+printf"Optimal value: 		%f ", totalcost_c >CR_analysis.txt;
+printf"				Required time: 		%f \n",T_CR >CR_analysis.txt;
+printf "\n" > CR_analysis.txt;
+
+
+printf "********************************* Istance 69 *********************************\n">CR_analysis.txt;
+reset data;
+#model parameterDefinition.mod;
+data p69.dat;
+
+printf "---------------------------- Original ---------------------------\n">CR_analysis.txt;
+
+
+let Tic_original := _ampl_elapsed_time;
+
+solve Original;
+
+let Toc_original := _ampl_elapsed_time;
+
+let OPT:= totalcost; display totalcost;
+let T_original := Toc_original - Tic_original;
+
+printf"Optimal value: 		%d ", totalcost >CR_analysis.txt;
+printf"				Required time:		%f \n", T_original  >CR_analysis.txt;
+printf "------------------------------- CR ------------------------------\n">CR_analysis.txt;
+
+let Tic_CR := _ampl_elapsed_time;
+
+solve ContRelaxation;
+
+let Toc_CR := _ampl_elapsed_time;
+let CR := l_c; display totalcost_c;
+let T_CR := Toc_CR-Tic_CR;
+
+printf"Optimal value: 		%f ", totalcost_c >CR_analysis.txt;
+printf"				Required time: 		%f \n",T_CR >CR_analysis.txt;
+printf "\n" > CR_analysis.txt;
+
+printf "********************************* Istance 70 *********************************\n">CR_analysis.txt;
+reset data;
+#model parameterDefinition.mod;
+data p70.dat;
+
+
+
+printf "---------------------------- Original ---------------------------\n">CR_analysis.txt;
+
+
+let Tic_original := _ampl_elapsed_time;
+
+solve Original;
+
+let Toc_original := _ampl_elapsed_time;
+
+let OPT:= totalcost; display totalcost;
+let T_original := Toc_original - Tic_original;
+
+printf"Optimal value: 		%d ", totalcost >CR_analysis.txt;
+printf"				Required time:		%f \n", T_original  >CR_analysis.txt;
+printf "------------------------------- CR ------------------------------\n">CR_analysis.txt;
+
+let Tic_CR := _ampl_elapsed_time;
+
+solve ContRelaxation;
+
+let Toc_CR := _ampl_elapsed_time;
+let CR := l_c; display totalcost_c;
+let T_CR := Toc_CR-Tic_CR;
+
+printf"Optimal value: 		%f ", totalcost_c >CR_analysis.txt;
+printf"				Required time: 		%f \n",T_CR >CR_analysis.txt;
+printf "\n" > CR_analysis.txt;
+
+printf "********************************* Istance 71 *********************************\n">CR_analysis.txt;
+reset data;
+#model parameterDefinition.mod;
+data p71.dat;
+
+
+
+printf "---------------------------- Original ---------------------------\n">CR_analysis.txt;
+
+
+let Tic_original := _ampl_elapsed_time;
+
+solve Original;
+
+let Toc_original := _ampl_elapsed_time;
+
+let OPT:= totalcost; display totalcost;
+let T_original := Toc_original - Tic_original;
+
+printf"Optimal value: 		%d ", totalcost >CR_analysis.txt;
+printf"				Required time:		%f \n", T_original  >CR_analysis.txt;
+printf "------------------------------- CR ------------------------------\n">CR_analysis.txt;
+
+let Tic_CR := _ampl_elapsed_time;
+
+solve ContRelaxation;
+
+let Toc_CR := _ampl_elapsed_time;
+let CR := totalcost_c; display totalcost_c;
+let T_CR := Toc_CR-Tic_CR;
+
+printf"Optimal value: 		%f ", totalcost_c >CR_analysis.txt;
+printf"				Required time: 		%f \n",T_CR >CR_analysis.txt;
+printf "\n" > CR_analysis.txt;
