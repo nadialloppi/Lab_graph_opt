@@ -1,0 +1,226 @@
+
+printf "********************************* Istance p1 *********************************\n">NoR_analysis.txt;
+
+model parameterDefinition.mod;
+data p1.dat;
+
+param Tic_original;
+param Toc_original;
+param Tic_NoR;
+param Toc_NoR;
+param T_original;
+param T_NoR;
+param T_solve_original; 
+param T_solve_NoR;
+
+param OPT default 0;
+
+option solver cplex;
+option cplex_options 'mipgap 0';
+
+problem Original: x, y, z, w, totalcost, client_assignment, capacity_mid_level, capacity_high_level, mid_level_assignment;
+problem NoR: x, y, z, w, totalcost, client_assignment, capacity_mid_level, capacity_high_level, LR_assign;
+
+
+printf "-------------------------------Original ------------------------------\n">NoR_analysis.txt;
+
+
+let Tic_original := _ampl_elapsed_time;
+
+solve Original;
+
+let Toc_original := _ampl_elapsed_time;
+
+let OPT:= totalcost; 
+
+let T_original := Toc_original - Tic_original;
+let T_solve_original := _ampl_time;
+
+printf"Optimal value: 		%d ", OPT >NoR_analysis.txt;
+printf"				Elapsed time:%f \t Ampl time:%f \n", T_original, T_solve_original >NoR_analysis.txt;
+printf "-------------------------------NoR ------------------------------\n">NoR_analysis.txt;
+
+let Tic_NoR := _ampl_elapsed_time;
+
+solve NoR;
+
+let Toc_NoR := _ampl_elapsed_time;
+
+
+let T_NoR := Toc_NoR-Tic_NoR;
+let T_solve_NoR := _solve_system_time;
+
+printf"Optimal value: 		%d ", totalcost >NoR_analysis.txt;
+printf"				Required time:%f \t Ampl time:%f \n",T_NoR, T_solve_NoR >NoR_analysis.txt;
+printf "\n" > NoR_analysis.txt;
+
+printf "********************************* Istance p67 *********************************\n">NoR_analysis.txt;
+reset data;
+#model parameterDefinition.mod;
+data p67.dat;
+
+printf "-------------------------------Original ------------------------------\n">NoR_analysis.txt;
+
+
+let Tic_original := _ampl_elapsed_time;
+
+solve Original;
+
+let Toc_original := _ampl_elapsed_time;
+
+let OPT:= totalcost; 
+
+let T_original := Toc_original - Tic_original;
+let T_solve_original := _ampl_time;
+
+printf"Optimal value: 		%d ", OPT >NoR_analysis.txt;
+printf"				Elapsed time:%f \t Ampl time:%f \n", T_original, T_solve_original >NoR_analysis.txt;
+
+printf "-------------------------------NoR ------------------------------\n">NoR_analysis.txt;
+
+let Tic_NoR := _ampl_elapsed_time;
+
+solve NoR;
+
+let Toc_NoR := _ampl_elapsed_time;
+
+
+let T_NoR := Toc_NoR-Tic_NoR;
+let T_solve_NoR := _solve_system_time;
+
+printf"Optimal value: 		%d ", totalcost >NoR_analysis.txt;
+printf"				Required time:%f \t Ampl time:%f \n",T_NoR, T_solve_NoR >NoR_analysis.txt;
+printf "\n" > NoR_analysis.txt;
+
+printf "********************************* Istance p68 *********************************\n">NoR_analysis.txt;
+reset data;
+#model parameterDefinition.mod;
+data p68.dat;
+
+printf "-------------------------------Original ------------------------------\n">NoR_analysis.txt;
+
+
+let Tic_original := _ampl_elapsed_time;
+
+solve Original;
+
+let Toc_original := _ampl_elapsed_time;
+
+let OPT:= totalcost; 
+let T_original := Toc_original - Tic_original;
+
+printf"Optimal value: 		%d ", OPT >NoR_analysis.txt;
+printf"				Required time:		%f \n", T_original  >NoR_analysis.txt;
+printf "-------------------------------NoR ------------------------------\n">NoR_analysis.txt;
+
+let Tic_NoR := _ampl_elapsed_time;
+
+solve NoR;
+
+let Toc_NoR := _ampl_elapsed_time;
+let T_NoR := Toc_NoR-Tic_NoR;
+
+printf"Optimal value: 		%d ", totalcost >NoR_analysis.txt;
+printf"				Required time: 		%f \n",T_NoR >NoR_analysis.txt;
+printf "\n" > NoR_analysis.txt;
+
+printf "********************************* Istance p69 *********************************\n">NoR_analysis.txt;
+reset data;
+#model parameterDefinition.mod;
+data p69.dat;
+
+
+printf "-------------------------------Original ------------------------------\n">NoR_analysis.txt;
+
+
+let Tic_original := _ampl_elapsed_time;
+
+solve Original;
+
+let Toc_original := _ampl_elapsed_time;
+
+let OPT:= totalcost;
+let T_original := Toc_original - Tic_original;
+
+printf"Optimal value: 		%d ", OPT >NoR_analysis.txt;
+printf"				Required time:		%f \n", T_original  >NoR_analysis.txt;
+printf "-------------------------------NoR ------------------------------\n">NoR_analysis.txt;
+
+let Tic_NoR := _ampl_elapsed_time;
+
+solve NoR;
+
+let Toc_NoR := _ampl_elapsed_time;
+
+let T_NoR := Toc_NoR-Tic_NoR;
+
+printf"Optimal value: 		%d ", totalcost >NoR_analysis.txt;
+printf"				Required time: 		%f \n",T_NoR >NoR_analysis.txt;
+printf "\n" > NoR_analysis.txt;
+
+printf "********************************* Istance p70' *********************************\n">NoR_analysis.txt;
+reset data;
+#model parameterDefinition.mod;
+data p70.dat;
+
+
+printf "-------------------------------Original ------------------------------\n">NoR_analysis.txt;
+
+
+let Tic_original := _ampl_elapsed_time;
+
+solve Original;
+
+let Toc_original := _ampl_elapsed_time;
+
+let OPT:= totalcost; display l;
+let T_original := Toc_original - Tic_original;
+
+printf"Optimal value: 		%d ", OPT >NoR_analysis.txt;
+printf"				Required time:		%f \n", T_original  >NoR_analysis.txt;
+printf "-------------------------------NoR ------------------------------\n">NoR_analysis.txt;
+
+let Tic_NoR := _ampl_elapsed_time;
+
+solve NoR;
+
+let Toc_NoR := _ampl_elapsed_time;
+
+let T_NoR := Toc_NoR-Tic_NoR;
+
+printf"Optimal value: 		%d ", totalcost >NoR_analysis.txt;
+printf"				Required time: 		%f \n",T_NoR >NoR_analysis.txt;
+
+
+printf "********************************* Istance p71 *********************************\n">NoR_analysis.txt;
+reset data;
+#model parameterDefinition.mod;
+data p71.dat;
+
+
+printf "-------------------------------Original ------------------------------\n">NoR_analysis.txt;
+
+
+let Tic_original := _ampl_elarrpsed_time;
+
+solve Original;
+
+let Toc_original := _ampl_elapsed_time;
+
+let OPT:= totalcost; 
+let T_original := Toc_original - Tic_original;
+
+printf"Optimal value: 		%d ", OPT >NoR_analysis.txt;
+printf"				Required time:		%f \n", T_original  >NoR_analysis.txt;
+printf "-------------------------------NoR ------------------------------\n">NoR_analysis.txt;
+
+let Tic_NoR := _ampl_elapsed_time;
+
+solve NoR;
+
+let Toc_NoR := _ampl_elapsed_time;
+
+let T_NoR := Toc_NoR-Tic_NoR;
+
+printf"Optimal value: 		%d ", totalcost >NoR_analysis.txt;
+printf"				Required time: 		%f \n",T_NoR >NoR_analysis.txt;
