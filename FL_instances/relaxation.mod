@@ -46,7 +46,7 @@ minimize totalcost:
 	sum{j in 1..J}c[j]*z[j] + sum{k in 1..K} g[k]*w[k] + sum{j in 1..J} ( sum{ k in 1..K} l[j,k]*y[j,k]) + sum{i in 1..I} ( sum{j in 1..J} d[i,j]*x[i,j]);
 	
 s.t. client_assignment{i in 1..I}:
-	sum{j in 1..J: d[i,j] <= R} x[i,j]	>=	1;  # non so se < o <= R, ma va beh 
+	sum{j in 1..J: d[i,j] <= R} x[i,j]	>=	1;  
 	
 s.t. capacity_mid_level{j in 1..J}:
 	sum{i in 1..I} t[i]*x[i,j]	<=	Gamma*z[j];

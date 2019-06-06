@@ -1,3 +1,5 @@
+# Problemi di feasibility, perche non guardo cardinalita' (ne' cap res min)
+
 param I; # number of clients
 
 param J; # number of facilities of mid level
