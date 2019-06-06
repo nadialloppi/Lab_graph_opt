@@ -142,7 +142,7 @@ let Tic_CR := _ampl_elapsed_time;
 solve ContRelaxation;
 
 let Toc_CR := _ampl_elapsed_time;
-let CR := l_c; display totalcost_c;
+let CR := total_c; display totalcost_c;
 let T_CR := Toc_CR-Tic_CR;
 
 printf"Optimal value: 		%f ", totalcost_c >CR_analysis.txt;
@@ -177,7 +177,7 @@ let Tic_CR := _ampl_elapsed_time;
 solve ContRelaxation;
 
 let Toc_CR := _ampl_elapsed_time;
-let CR := l_c; display totalcost_c;
+let CR := totalcost_c; display totalcost_c;
 let T_CR := Toc_CR-Tic_CR;
 
 printf"Optimal value: 		%f ", totalcost_c >CR_analysis.txt;
