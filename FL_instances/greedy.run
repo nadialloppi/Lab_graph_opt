@@ -28,7 +28,7 @@ param Lambda;		# high level facility capacity
 
 param R default 0;
 
-data p1.dat;
+data p68.dat;
 
 set KK default 1..K;		# elementi non ancora asseganti/aperti..
 set II default 1..I;
@@ -40,12 +40,13 @@ set IJ within {1..I,1..J} default {};
 param min_cost_i default 0;
 param min_cost_j default 0;
 
-param cap_res default Gamma;
+param cap_res{1..J} default Gamma;
+param infeas_flag default 0;
 
 printf "Inizio primo livello\n";
 repeat{
 let min_cost_j := min {jj in JJ} c[jj]/(1+sum{i in II : d[i, jj] <= R} (1));
-let cap_res:= Gamma;
+#let cap_res:= Gamma;
 printf"Repeat esterno\n";
 for {j in JJ}{
 	if (min_cost_j = c[j]/(1+sum{i in II: d[i, j] <= R} (1))) then {
@@ -54,7 +55,8 @@ for {j in JJ}{
 		
 		repeat {
 			printf"Repeat interno\n";
-			let min_cost_i := 	min {i in II: cap_res >= t[i]} d[i, j];
+			if (min{ii in II}card(setof{jj in 1..J: cap_res[jj] >= t[ii] and d[ii, jj] <= R}jj)=0 ) then let infeas_flag := 1; else {
+			let min_cost_i := 	min {i in II: cap_res[j] >= t[i]} d[i, j];
 			if (min_cost_i > R) then { printf "I should break\n"; break;}
 			for {i in II} {
 				printf"Inizio for\n";
@@ -62,23 +64,26 @@ for {j in JJ}{
 					printf"argmin***************************************\n";
 					
 					printf"Assegnamento\n";
-					let cap_res := cap_res - t[i];
-					display cap_res;
+					let cap_res[j] := cap_res[j] - t[i];
+					display cap_res[j];
 					let IJ := IJ union {(i, j)};
 					let II := II diff {i};
 		
 					break;
 				} 
 			}
-		} until ( min{ii in II} t[ii] > cap_res);  
+			}
+		} until ( min{ii in II} t[ii] > cap_res[j] or infeas_flag=1);  
 	}
 }
-} until (sum{iii in II} (1) = 0);
+} until (sum{iii in II} (1) = 0 or infeas_flag =1);
+
+if (infeas_flag = 1) then {printf"***********************Il greedy non riesce a trovare una soluzione feasible\nNon ho assegnato:"; display II;}
 
 
 printf "Inizio secondo livello";
 param min_cost_k default 0;
-
+param cap_res_h;
 set OJ := 1..J diff JJ;		# mid level aperte
 set OJJ default OJ; 		# mid level aperte, ma non ancora asseganti
 
@@ -86,7 +91,7 @@ set JK within {1..J, 1..K} default {};
 
 repeat{
 let min_cost_k := min {k in KK} g[k];
-let cap_res:= Lambda;
+let cap_res_h:= Lambda;
 for {k in KK}{
 	if (min_cost_k = g[k]) then {
 		
@@ -97,66 +102,23 @@ for {k in KK}{
 			
 			for {j in OJJ} {
 				if (min_cost_j = l[j,k] ) then {
-					if (cap_res >= a[j]) then {
-						let cap_res := cap_res - a[j];
+					if (cap_res_h >= a[j]) then {
+						let cap_res_h := cap_res_h - a[j];
 						let JK := JK union {( j, k)};
 						let OJJ := OJJ diff {j};
 					}
 				} 
 			}
-		} until ( min{jj in OJJ} a[jj] >= cap_res);  
+		} until ( min{jj in OJJ} a[jj] >= cap_res_h);  
 	}
 }
 } until (sum{jjj in OJJ} (1) = 0);
 
 param UB default 0;
 
-let UB := sum{j in OJ}c[j] + sum{k in {K diff KK}} g[k] + sum{j in OJ} ( sum{ k in {K diff KK}} l[j,k]) + sum{i in I} ( sum{j in OJ} d[i,j]);
+let UB := sum{j in OJ}c[j] + sum{k in 1..K diff KK} g[k] + sum{j in OJ} ( sum{ k in {1..K diff KK}} l[j,k]) + sum{i in 1..I} ( sum{j in OJ} d[i,j]);
 
 display UB;
-
-
-printf"--------------------------- Greedy 1 ---------------------------\n";
-
-param UB1 default 0;
-
-param cost default 0;
-param min_cost default 0;
-
-let cost := min{k in K, j in J, i in I} c[j] + l[j, k] + g[k] + d[i,j];		# non so se convenga minimizzare anche su i
-																			# magari minimizzo solo altro poi assegno i
-																			# con minore d[i, j] fino ad esaurimento di Gamma,
-																			# purche' sia d <= R.
-
-set KK default K;		# elementi non ancora asseganti/aperti..
-set II default I;
-set JJ default J;
-
-repeat {										# Check su lambda e su gamma !!!
-	for {k in KK}{
-	for {j in JJ}{
-	for {i in II} {
-		if (c[j] + l[j, k] + g[k] + d[i, j] = cost ) then {		
-			let w[k] := 1;
-			let z[j] := 1;
-			let y[i, k] := 1;
-			if (d[i, j] <= R) then let x[i, j] := 1;
-			
-			let KK := KK diff {k};
-			let II := II diff {i};
-			let JJ := JJ diff {j};
-			
-			for {ii in {II diff {i}} {
-				let min_cost := min {iii in 
-			}
-		}
-		let cost:= min{
-		
-	}}}
-} until sum { ii in {I diff II} } (1) = 0 ;				# Esce quando e' vero, cioe' quando ho assegnato tutti i clienti
-
-let UB1 := sum{j in 1..J}c[j]*z[j] + sum{k in 1..K} g[k]*w[k] + sum{j in 1..J} ( sum{ k in 1..K} l[j,k]*y[j,k]) + sum{i in 1..I} ( sum{j in 1..J} d[i,j]*x[i,j]);
-
 
 
 
