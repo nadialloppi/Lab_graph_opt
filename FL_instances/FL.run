@@ -1,16 +1,71 @@
 reset;
 
 model parameterDefinition.mod;
-data p1.dat;
+data p69.dat;
 
+option solver cplex;
+option cplex_options 'mipgap 0';
+
+problem Original: x, y, z, w, totalcost, client_assignment, capacity_mid_level, capacity_high_level, mid_level_assignment;
+problem LR: x, y, z, w, Obj_LR, LR_assign, capacity_mid_level, capacity_high_level, mid_level_assignment;
 
 printf"--------------------------- Original ---------------------------\n";
 param OPT default 0;
 
-option solver cplex;
-solve;
+solve Original;
 
 let OPT:= totalcost;
 
 display OPT;
+
+
+printf"--------------------------- Lagrangian Relaxation ---------------------------\n";
+
+param LB_LR default 0;
+param UB_LR;
+param norma default 1;
+param temp default 0;
+
+let step := 1;
+
+for {iter in 1..10} {
+  
+  # Solve the Lagrangian Relaxation
+  solve LR;
+  
+  # Check for feasibility: 
+  # update UB_LR if feasible
+  let temp:= 0;
+  for {i in 1..I} {
+  	if (sum {j in 1..J} x[i, j]*d[i, j] > R) then {
+  		let temp:=1;
+  		break;
+  }}
+  if (temp=0) then let UB_LR:= Obj_LR;
+
+  # Update step size
+  let step:= 0.995*step;
+ 
+  # Update LB_LR 
+  if (Obj_LR > LB_LR) then 
+  	let LB_LR := Obj_LR;
+
+  # Update norma
+  let norma:= ( sum{i in 1..I} (sum {j in 1..J} d[i,j]*x[i, j] - R)^2) ^ (1/2);
+	
+	  
+  # Update multipliers
+  
+  # Memorize old values
+  for {i in 1..I}
+  	let mu_old[i] := mu[i];
+
+  # Calculate new values
+  for {i in 1..I}
+  	let mu[i]:= max(0, mu_old[i] + step*(sum {j in 1..J} x[i, j]*d[i, j] - R)/norma);
+  	
+}
+
+display LB_LR;
+
 

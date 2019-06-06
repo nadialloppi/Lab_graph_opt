@@ -46,3 +46,17 @@ s.t. capacity_high_level{k in 1..K}:
 	
 s.t. mid_level_assignment{j in 1..J}:
 	sum{k in 1..K} y[j,k] >= z[j];
+	
+	
+# LR
+param mu{1..I} default 0;
+param mu_old{1..I} default 1;
+
+param step default 1; # step size
+minimize Obj_LR:
+	sum{j in 1..J}c[j]*z[j] + sum{k in 1..K} g[k]*w[k] + sum{j in 1..J} ( sum{ k in 1..K} l[j,k]*y[j,k]) + sum{i in 1..I} ( sum{j in 1..J} d[i,j]*x[i,j]) 
+	+ sum{i in 1..I} mu[i]*(sum{j in 1..J} d[i,j]*x[i,j]-R);
+	
+s.t. LR_assign{i in 1..I}:
+	sum{j in 1..J} x[i,j]	>=	1; 	
+	
