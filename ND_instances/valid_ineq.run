@@ -2,19 +2,19 @@
 reset;
 model valid_ineq.mod;
 #data prova.dat;
-data demand2.dat;
-data topology2.dat;
+data demand5.dat;
+data topology5.dat;
 
 
 option solver cplex;
 
 problem master: l_c, x_c, capacity_c, flowBalance_c, maxArcs_c, varConsistency_c,valid_ineq_c;
 
-problem pricing: mu,u,s,z, eps,obj,consistency_1,consistency_2,consistency_3,consistency_4,consistency_5,consistency_6,consistency_7,S_notEmpty,S_notN;
+problem separation: mu,u,s,z, eps,obj,consistency_1,consistency_2,consistency_3,consistency_4,consistency_5,consistency_6,consistency_7,S_notEmpty,S_notN;
 
 #auxiliary parameters
 param flag default 0;
-
+printf "------------------------------- VALID INEQUALITIES INSTANCE 5 ------------------------------\n">Valid_ineq_analysis.txt;
 repeat{    
 	#reset flag
 	let flag := 0;
@@ -23,22 +23,22 @@ repeat{
 	solve master;
 	
 	#print the optimal objective value of the current master problem
-	printf"\n Solution of the master problem: %f \n",capacity_c;
+	printf"\n Solution of the master problem: %f \n",capacity_c >Valid_ineq_analysis.txt;;
 
 	let l_bar:= capacity_c;
 		
-	#solve the current pricing problem
-	solve pricing;
+	#solve the current separation problem
+	solve separation;
 	
-	#print the cluster selected by the current pricing problem	
-	printf"\n Valid Inequality\n ";
-	display s;
+	#print the subset selected by the current separation problem	
+	printf"\n Set S: \n ">Valid_ineq_analysis.txt;
+	display s>Valid_ineq_analysis.txt;
 	
-	#print the profit of the candidate new cluster
-	printf"\n Profit of the candidate new cluster: %f \n",obj;
+	#print the objective function of the separation pb
+	printf"\n Objective function of the separation problem (available capacity - needed capacity): %f \n",obj >Valid_ineq_analysis.txt;
 	
 	#check if the candidate new cluster makes the current continuous solution infeasible
-	if  (obj >= -1) then
+	if  (obj >= 0) then # ho sostituito -1 con 0, perchè violo la disuglianza se obj<0
 	{
 		#current master problem solution optimal -> set flag to 0	
 		let flag:=0;
@@ -48,7 +48,7 @@ repeat{
 	}
 	else
 	{		
-		#add the candidate new cluster (column/variable) to the master problem				
+		#add the associated valid inequality to the master problem				
 		let S:=S+1;	    			
 		for{i in N}
 			let a[i,S]:=s[i];
@@ -58,7 +58,7 @@ repeat{
 			let c[i,j,S]:=mu[i,j];
 		 	
 	 	#print the current number of clusters in the master problem
-		printf"\n Current number of clusters in the master problem %f \n",S;
+		printf"\n Current number of added valid inequalities %d \n",S >Valid_ineq_analysis.txt;
 	
 		#current master problem solution not optimal -> set flag to 1	
 		let flag:=1;
@@ -69,10 +69,10 @@ repeat{
 solve master;
 
 #print the optimal objective function value of the final master problem
-printf"\n Solution of the final master problem: %f \n",capacity_c;
+printf"\n Solution of the final master problem: %f \n",capacity_c >Valid_ineq_analysis.txt;
 			
-#print the number of columns (variables) of the final master problem	
-printf"\n Number of rows in the final master problem %f \n",S;
+#print the number of valid inequalities of the final master problem	
+printf"\n Number of rows in the final master problem: %d \n",S >Valid_ineq_analysis.txt;
 
 #check if the column (row) generation procedure is forced to terminate
 #before finding the optimal solution 

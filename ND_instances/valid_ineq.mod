@@ -63,7 +63,7 @@ s.t. consistency_1{(i,j) in A}:
 	mu[i,j]>=s[i]-s[j];
 	
 s.t. consistency_2{(i,j) in A}:
-	mu[i,j]>=s[j]/2+s[i];
+	mu[i,j]>=s[i];
 	
 s.t. consistency_3{(i,j) in A}:
 	mu[i,j]<=2-s[i]-s[j];
@@ -72,7 +72,7 @@ s.t. consistency_4{k in K}:
 	u[k]>=s[o[k]]-s[t[k]];
 	
 s.t. consistency_5{k in K}:
-	u[k]<=s[t[k]]/2+s[t[k]];
+	u[k]<=s[o[k]];
 
 s.t. consistency_6{k in K}:
 	u[k]<= 2-s[o[k]]-s[t[k]];
