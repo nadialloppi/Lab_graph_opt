@@ -1,7 +1,7 @@
 
 model parameterDefinition.mod;
-data demand.dat;
-data topology.dat;
+data demand1.dat;
+data topology1.dat;
 
 param Tic_original;
 param Toc_original;
@@ -50,6 +50,8 @@ let OPT:= l;
 
 printf "-------------------------------Greedy 1------------------------------\n";
 
+param feasible_flag default 0;
+
 let Tic_Greedy1 := _ampl_elapsed_time;
 
 for {k in K} {
@@ -58,7 +60,8 @@ for {k in K} {
 	for {(i, j) in A}
 		let c[i, j] := 1;	
 	solve Heuristics1;
-
+	if (sum{(i,j) in A} u[i,j,k_bar] <= h) then let feasible_flag := 1;
+	else printf "Infeasible instace, demand %d cannot be routed using only %d arcs", k_bar, h;
 }
 
 let lambda := max {(i, j) in A} sum{k in K} u[i, j, k] * d[k];
