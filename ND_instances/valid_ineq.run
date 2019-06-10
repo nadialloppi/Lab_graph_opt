@@ -1,52 +1,34 @@
 
 reset;
 model valid_ineq.mod;
-<<<<<<< HEAD
-data demand3.dat;
-data topology3.dat;
 #data prova.dat;
-=======
-#data demand.dat;
-#data topology.dat;
-data prova.dat;
->>>>>>> ae854b5e106ce0dc4b7b7a4d6c03861dbd272122
+data demand2.dat;
+data topology2.dat;
+
+
 option solver cplex;
 
 problem master: l_c, x_c, capacity_c, flowBalance_c, maxArcs_c, varConsistency_c,valid_ineq_c;
 
-
-<<<<<<< HEAD
 problem pricing: mu,u,s,z, eps,obj,consistency_1,consistency_2,consistency_3,consistency_4,consistency_5,consistency_6,consistency_7,S_notEmpty,S_notN;
-=======
-#problem pricing: mu,u,s,z, eps,obj,consistency_1,consistency_2,consistency_3,consistency_4,consistency_5,consistency_6,consistency_7,consistency_8,consistency_9,S_notEmpty,S_notN;
-
-problem pricing: mu,u,s,z, eps,obj,consistency_1,consistency_2,consistency_3,consistency_4,consistency_5,consistency_6,consistency_7,consistency_8,consistency_9;
->>>>>>> ae854b5e106ce0dc4b7b7a4d6c03861dbd272122
-
 
 #auxiliary parameters
 param flag default 0;
 
-
- 
 repeat{    
 	#reset flag
 	let flag := 0;
-
 	      
     #solve the current master problem  
 	solve master;
 	
-	
 	#print the optimal objective value of the current master problem
 	printf"\n Solution of the master problem: %f \n",capacity_c;
-
 
 	let l_bar:= capacity_c;
 		
 	#solve the current pricing problem
 	solve pricing;
-	
 	
 	#print the cluster selected by the current pricing problem	
 	printf"\n Valid Inequality\n ";
@@ -55,13 +37,12 @@ repeat{
 	#print the profit of the candidate new cluster
 	printf"\n Profit of the candidate new cluster: %f \n",obj;
 	
-	
 	#check if the candidate new cluster makes the current continuous solution infeasible
 	if  (obj >= -1) then
 	{
 		#current master problem solution optimal -> set flag to 0	
 		let flag:=0;
-				
+			
 		#terminate the row generation procedure
 		break;
 	}
@@ -79,17 +60,13 @@ repeat{
 	 	#print the current number of clusters in the master problem
 		printf"\n Current number of clusters in the master problem %f \n",S;
 	
-		
 		#current master problem solution not optimal -> set flag to 1	
 		let flag:=1;
-
 	}
 }until(flag=0);
 
-
 #solve the master problem with the final set of clusters (columns/variables)
 solve master;
-
 
 #print the optimal objective function value of the final master problem
 printf"\n Solution of the final master problem: %f \n",capacity_c;
@@ -97,7 +74,6 @@ printf"\n Solution of the final master problem: %f \n",capacity_c;
 #print the number of columns (variables) of the final master problem	
 printf"\n Number of rows in the final master problem %f \n",S;
 
-
-#check if the column generation procedure is forced to terminate
+#check if the column (row) generation procedure is forced to terminate
 #before finding the optimal solution 
 display flag;
