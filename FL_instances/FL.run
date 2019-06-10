@@ -52,15 +52,12 @@ for {iter in 1..10} {
 
   # Update norma
   let norma:= ( sum{i in 1..I} (sum {j in 1..J} d[i,j]*x[i, j] - R)^2) ^ (1/2);
-	
-	  
-  # Update multipliers
   
   # Memorize old values
   for {i in 1..I}
   	let mu_old[i] := mu[i];
 
-  # Calculate new values
+  # Update multipliers
   for {i in 1..I}
   	let mu[i]:= max(0, mu_old[i] + step*(sum {j in 1..J} x[i, j]*d[i, j] - R)/norma);
   	

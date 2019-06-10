@@ -1,4 +1,9 @@
 # Cardinalita' riaggiornata e min cost
+# Minimizzo costo = 1
+# Minimizzo capacità residua = 0
+# Update cardinalità = 1
+# Update costo di apertura = 1
+# Local search = 1
 
 param I; # number of clients
 
@@ -53,29 +58,38 @@ param min_card_i default 0;
 
 param flag default 0;		# ex equo cardinalita'
 param infeas_flag default 0; # Mi dice se esco perche' infeasible
+
+# Assegnamento cliente - struttura medio livello
 printf "Inizio primo livello\n";
 
 repeat{
 	for {i in II}	
-	let cardinality_i [i] := card(setof{j in 1..J: d[i,  j] <= R and t[i] <= cap_res[j]}j);
+	let cardinality_i [i] := card(setof{j in 1..J: d[i,  j] <= R and t[i] <= cap_res[j]}j);	
 	
-	let min_card_i := min{i in II} cardinality_i[i];
-	if (min_card_i = 0) then let infeas_flag := 1; else{
-	let flag:= 0;
-	for {i in II} { 
-		if (flag==0 and cardinality_i[i] = min_card_i) then {
-			let flag := 1;
-			let min_cost := min{j in 1..J: cap_res[j] >= t[i] and d[i, j] <= R} (open_c[j]+d[i,j]);
-			for {j in 1..J :  cap_res[j] >= t[i] and d[i, j] <= R}{
-				if (open_c[j]+d[i,j] = min_cost and i in II) then { # argmin, controllando di non avere gia' assegnato i (exequo di prezzi)
-					let IJ:= IJ union {(i, j)} ;
-					let II:= II diff {i};
-					let cap_res[j] := cap_res[j] - t[i];
-					let open_c[j] := 0; 		# metto a zero il costo di apertura per il futuro
+	let min_card_i := min{i in II} cardinality_i[i];	# 1. Seleziono cliente con meno collegamenti
+	if (min_card_i = 0) then let infeas_flag := 1; 
+	else{
+		let flag:= 0;
+		for {i in II} { 
+			
+			if (flag==0 and cardinality_i[i] = min_card_i) then {
+				let flag := 1;
+				let min_cost := min{j in 1..J: cap_res[j] >= t[i] and d[i, j] <= R} (open_c[j]+d[i,j]); # 2. Seleziono facility più economica
+				for {j in 1..J :  cap_res[j] >= t[i] and d[i, j] <= R}{
+					if (open_c[j]+d[i,j] = min_cost and i in II) then { # argmin, controllando di non avere gia' assegnato i (exequo di prezzi)
+																		# dato che stiamo facendo il ciclo sulle i in II non è scontato che i sia in II?
+						let IJ:= IJ union {(i, j)} ;
+						let II:= II diff {i};
+						let cap_res[j] := cap_res[j] - t[i];
+						let open_c[j] := 0; 		# metto a zero il costo di apertura per il futuro
+					}
 				}
+			# break;
 			}
+		# Potremmo usare flag come criterio di uscita dal ciclo for, è inutile che continui a ciclare se tanto non entra nell'if e non fa nulla
+		# Proposta: inserire un break all'interno dell'if e togliere la variabile flag
+		
 		}
-	}
 	}
 } until (sum{ii in II} (1) = 0 or infeas_flag=1);
 
@@ -92,6 +106,7 @@ display mid_Cost_pre;
 display IJ;
 display OJ;
 
+# Local search 
 param actual_cost{1..I} default 0;
 param actual_midlevel{1..I};
 
@@ -122,6 +137,8 @@ display mid_Cost_post;
 
 display OJ;
 
+
+# Assegnamento struttura medio livello - struttura alto livello
 
 printf "Inizio secondo livello\n";
 param min_cost_k default 0;

@@ -47,7 +47,7 @@ s.t. capacity_high_level{k in 1..K}:
 s.t. mid_level_assignment{j in 1..J}:
 	sum{k in 1..K} y[j,k] >= z[j];
 	
-# CR
+# CR -------------------------------------------------------------------------------------------
 
 var x_c{1..I,1..J} >= 0, <=1; 	#1 if client i assigned to mid level facility j
 var y_c{1..J,1..K} >= 0, <=1; 	#1 if mid level facility j is assigned to high level facility k
@@ -70,7 +70,7 @@ s.t. capacity_high_level_c{k in 1..K}:
 s.t. mid_level_assignment_c{j in 1..J}:
 	sum{k in 1..K} y_c[j,k] >= z_c[j];
 	
-# LR
+# LR --------------------------------------------------------------------------------------------
 param mu{1..I} default 0;
 param mu_old{1..I} default 1;
 

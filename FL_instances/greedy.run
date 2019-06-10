@@ -1,4 +1,9 @@
 # Problemi di feasibility, perche non guardo cardinalita' (ne' cap res min)
+# Minimizzo costo = 1
+# Minimizzo capacità residua = 0
+# Update cardinalità = 0
+# Update costo di apertura = 0
+# Local search = 0
 
 param I; # number of clients
 
@@ -12,7 +17,7 @@ param c{j in 1..J}; # mid level facility installation cost
 param g{k in 1..K}; # high level facility installation cost
 
 
-param d{i in 1..I, j in 1..J}; # assignment cost clients->mid level
+param d{i in 1..I, j in 1..J}; # assignment cost clients -> mid level
 
 param l{j in 1..J, k in 1..K}; # assignment cost mid level -> high level
 
@@ -43,9 +48,11 @@ param min_cost_j default 0;
 param cap_res{1..J} default Gamma;
 param infeas_flag default 0;
 
+# Assegnamento cliente - struttura medio livello
+
 printf "Inizio primo livello\n";
 repeat{
-let min_cost_j := min {jj in JJ} c[jj]/(1+sum{i in II : d[i, jj] <= R} (1));
+let min_cost_j := min {jj in JJ} c[jj]/(1+sum{i in II : d[i, jj] <= R} (1));	# fisso mid-level con costo/collegamenti minore
 #let cap_res:= Gamma;
 printf"Repeat esterno\n";
 for {j in JJ}{
@@ -55,23 +62,24 @@ for {j in JJ}{
 		
 		repeat {
 			printf"Repeat interno\n";
-			if (min{ii in II}card(setof{jj in 1..J: cap_res[jj] >= t[ii] and d[ii, jj] <= R}jj)=0 ) then let infeas_flag := 1; else {
-			let min_cost_i := 	min {i in II: cap_res[j] >= t[i]} d[i, j];
-			if (min_cost_i > R) then { printf "I should break\n"; break;}
-			for {i in II} {
-				printf"Inizio for\n";
-				if (min_cost_i = d[i, j] ) then {
-					printf"argmin***************************************\n";
+			if (min{ii in II} card(setof{jj in 1..J: cap_res[jj] >= t[ii] and d[ii, jj] <= R} jj)=0 ) then let infeas_flag := 1;
+			else {
+				let min_cost_i := 	min {i in II: cap_res[j] >= t[i]} d[i, j]; # perchè non: let min_cost_i := 	min {i in II: cap_res[j] >= t[i] and d[i,j] <= R} d[i, j];?
+				if (min_cost_i > R) then { printf "I should break\n"; break;}  # entrerò mai in questo if quando infeasible flag=1?
+				for {i in II} {
+					printf"Inizio for\n";
+					if (min_cost_i = d[i, j] ) then {
+						printf"argmin***************************************\n";
 					
-					printf"Assegnamento\n";
-					let cap_res[j] := cap_res[j] - t[i];
-					display cap_res[j];
-					let IJ := IJ union {(i, j)};
-					let II := II diff {i};
+						printf"Assegnamento\n";
+						let cap_res[j] := cap_res[j] - t[i];
+						display cap_res[j];
+						let IJ := IJ union {(i, j)};
+						let II := II diff {i};
 		
-					break;
-				} 
-			}
+						break;
+					} 
+				}
 			}
 		} until ( min{ii in II} t[ii] > cap_res[j] or infeas_flag=1);  
 	}
@@ -80,17 +88,18 @@ for {j in JJ}{
 
 if (infeas_flag = 1) then {printf"***********************Il greedy non riesce a trovare una soluzione feasible\nNon ho assegnato:"; display II;}
 
+# Assegnamento struttura medio livello - struttura alto livello
 
 printf "Inizio secondo livello";
 param min_cost_k default 0;
 param cap_res_h;
 set OJ := 1..J diff JJ;		# mid level aperte
-set OJJ default OJ; 		# mid level aperte, ma non ancora asseganti
+set OJJ default OJ; 		# mid level aperte, ma non ancora assegnate
 
 set JK within {1..J, 1..K} default {};
 
 repeat{
-let min_cost_k := min {k in KK} g[k];
+let min_cost_k := min {k in KK} g[k]; # considero solo costo apertura
 let cap_res_h:= Lambda;
 for {k in KK}{
 	if (min_cost_k = g[k]) then {

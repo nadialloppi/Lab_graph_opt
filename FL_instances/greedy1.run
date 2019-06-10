@@ -1,3 +1,9 @@
+# Minimizzo costo = 1
+# Minimizzo capacità residua = 0
+# Update cardinalità = 0
+# Update costo di apertura = 0
+# Local search = 1
+
 param I; # number of clients
 
 param J; # number of facilities of mid level
@@ -48,15 +54,17 @@ for {j in 1..J} let cap_res[j]:= Gamma;
 param cardinality_i {1..I} default 0;
 param min_card_i default 0;
 
+# Assegnamento cliente - struttura medio livello
+
 printf "Inizio primo livello\n";
 for {i in 1..I}
 	let cardinality_i [i] := card(setof{j in 1..J: d[i,  j] <= R}j);
 
 repeat{
-	let min_card_i := min{i in II} cardinality_i[i];
+	let min_card_i := min{i in II} cardinality_i[i]; 	# 1. Seleziono cliente con meno collegamenti
 	for {i in II}{
 		if (cardinality_i[i] = min_card_i) then {
-			let min_cost := min{j in 1..J: cap_res[j] >= t[i] and d[i, j] <= R} (c[j]+d[i,j]);
+			let min_cost := min{j in 1..J: cap_res[j] >= t[i] and d[i, j] <= R} (c[j]+d[i,j]);	# 2. Seleziono mid-level facility più economica
 			for {j in 1..J :  cap_res[j] >= t[i] and d[i, j] <= R}{
 				if (c[j]+d[i,j] = min_cost) then {
 					let IJ:= IJ union {(i, j)} ;
@@ -79,6 +87,8 @@ display sum{j in OJ}c[j];
 display sum{(i, j) in IJ} d[i,j];
 
 display OJ;
+
+# Local search 
 
 param actual_cost{1..I} default 0;
 param actual_midlevel{1..I};
@@ -110,7 +120,7 @@ display sum{(i, j) in IJ} d[i,j];
 
 display OJ;
 
-
+# Assegnamento struttura medio livello - struttura alto livello
 printf "Inizio secondo livello\n";
 param min_cost_k default 0;
 
@@ -121,7 +131,7 @@ set JK within {1..J, 1..K} default {};	# assegnamenti 2ndo livello
 param cap_res_k default Lambda;
 
 repeat{
-let min_cost_k := min {k in KK} (g[k] + sum{j in OJ} l[j, k]);
+let min_cost_k := min {k in KK} (g[k] + sum{j in OJ} l[j, k]); # considero costo apertura + assegnamento
 #let cap_res_k:= Lambda;
 for {k in KK}{
 	let cap_res_k:= Lambda;
