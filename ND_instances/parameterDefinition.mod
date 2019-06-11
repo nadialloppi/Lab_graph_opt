@@ -18,7 +18,7 @@ param d {K}; 			# Flow demand
 
 param h default 10;
 
-var l >= 0, integer;
+var l >= 0, integer;  # probabilmente non necessario integer, ragionare
 var x{A, K} binary;
 
 minimize capacity:
