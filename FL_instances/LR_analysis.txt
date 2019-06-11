@@ -1,0 +1,226 @@
+--------------------------- Lagrangian Relaxation ---------------------------
+--------------------------- p1 ----------------------------------------------
+--------------------------- p1 ----------------------------------------------
+At iteration 1 the LR objective is: 14323.000000
+At iteration 2 the LR objective is: 14323.000000
+At iteration 3 the LR objective is: 14323.000000
+At iteration 4 the LR objective is: 14323.000000
+At iteration 5 the LR objective is: 14323.000000
+At iteration 6 the LR objective is: 14323.000000
+At iteration 7 the LR objective is: 14323.000000
+At iteration 8 the LR objective is: 14323.000000
+At iteration 9 the LR objective is: 14323.000000
+At iteration 10 the LR objective is: 14323.000000
+LB_LR = 14323
+
+--------------------------- p67 ----------------------------------------------
+initial step = 1
+
+At iteration 1 the LR objective is: 42436.000000
+At iteration 2 the LR objective is: 42436.351131
+At iteration 3 the LR objective is: 42436.611197
+At iteration 4 the LR objective is: 42436.869962
+At iteration 5 the LR objective is: 42437.127433
+At iteration 6 the LR objective is: 42437.383618
+At iteration 7 the LR objective is: 42437.638521
+At iteration 8 the LR objective is: 42437.892150
+At iteration 9 the LR objective is: 42438.144510
+At iteration 10 the LR objective is: 42438.395609
+LB_LR = 42438.4
+
+initial step = 10
+
+At iteration 1 the LR objective is: 42436.000000
+At iteration 2 the LR objective is: 42439.511309
+At iteration 3 the LR objective is: 42442.111966
+At iteration 4 the LR objective is: 42444.699620
+At iteration 5 the LR objective is: 42447.274335
+At iteration 6 the LR objective is: 42449.836176
+At iteration 7 the LR objective is: 42452.385209
+At iteration 8 the LR objective is: 42454.921496
+At iteration 9 the LR objective is: 42457.445102
+At iteration 10 the LR objective is: 42459.956090
+LB_LR = 42460
+
+initial step = 50
+
+At iteration 1 the LR objective is: 42436.000000
+Ho trovato una soluzione feasible? 0
+step = 49.75
+
+At iteration 2 the LR objective is: 42453.556546
+Ho trovato una soluzione feasible? 0
+step = 49.5012
+
+At iteration 3 the LR objective is: 42466.559830
+Ho trovato una soluzione feasible? 0
+step = 49.2537
+
+At iteration 4 the LR objective is: 42479.498098
+Ho trovato una soluzione feasible? 0
+step = 49.0075
+
+At iteration 5 the LR objective is: 42363.899409
+Ho trovato una soluzione feasible? 1
+step = 48.7624
+
+At iteration 6 the LR objective is: 42436.000000
+Ho trovato una soluzione feasible? 0
+step = 48.5186
+
+At iteration 7 the LR objective is: 42453.121999
+Ho trovato una soluzione feasible? 0
+step = 48.276
+
+At iteration 8 the LR objective is: 42465.803436
+Ho trovato una soluzione feasible? 0
+step = 48.0347
+
+At iteration 9 the LR objective is: 42478.421465
+Ho trovato una soluzione feasible? 0
+step = 47.7945
+
+At iteration 10 the LR objective is: 42377.416079
+Ho trovato una soluzione feasible? 1
+step = 47.5555
+
+LB_LR = 42479.5
+
+--------------------------- p68 ----------------------------------------------
+initial step = 50 (mi ero scordata di cambiarlo)
+
+--------------------------- p68 ----------------------------------------------
+At iteration 1 the LR objective is: 37377.000000
+Ho trovato una soluzione feasible? 1
+step = 49.75
+
+At iteration 2 the LR objective is: 37377.000000
+Ho trovato una soluzione feasible? 1
+step = 49.5012
+
+At iteration 3 the LR objective is: 37377.000000
+Ho trovato una soluzione feasible? 1
+step = 49.2537
+
+At iteration 4 the LR objective is: 37377.000000
+Ho trovato una soluzione feasible? 1
+step = 49.0075
+
+At iteration 5 the LR objective is: 37377.000000
+Ho trovato una soluzione feasible? 1
+step = 48.7624
+
+At iteration 6 the LR objective is: 37377.000000
+Ho trovato una soluzione feasible? 1
+step = 48.5186
+
+At iteration 7 the LR objective is: 37377.000000
+Ho trovato una soluzione feasible? 1
+step = 48.276
+
+At iteration 8 the LR objective is: 37377.000000
+Ho trovato una soluzione feasible? 1
+step = 48.0347
+
+At iteration 9 the LR objective is: 37377.000000
+Ho trovato una soluzione feasible? 1
+step = 47.7945
+
+At iteration 10 the LR objective is: 37377.000000
+Ho trovato una soluzione feasible? 1
+step = 47.5555
+
+LB_LR = 37377
+
+--------------------------- p69 ----------------------------------------------
+At iteration 1 the LR objective is: 46849.000000
+Ho trovato una soluzione feasible? 0
+step = 9.95
+
+At iteration 2 the LR objective is: 46864.438109
+Ho trovato una soluzione feasible? 0
+step = 9.90025
+
+At iteration 3 the LR objective is: 46835.567909
+Ho trovato una soluzione feasible? 1
+step = 9.85075
+
+At iteration 4 the LR objective is: 46849.000000
+Ho trovato una soluzione feasible? 0
+step = 9.8015
+
+At iteration 5 the LR objective is: 46864.207693
+Ho trovato una soluzione feasible? 0
+step = 9.75249
+
+At iteration 6 the LR objective is: 46837.365373
+Ho trovato una soluzione feasible? 1
+step = 9.70373
+
+At iteration 7 the LR objective is: 46849.000000
+Ho trovato una soluzione feasible? 0
+step = 9.65521
+
+At iteration 8 the LR objective is: 46863.980716
+Ho trovato una soluzione feasible? 0
+step = 9.60693
+
+At iteration 9 the LR objective is: 46839.136010
+Ho trovato una soluzione feasible? 1
+step = 9.5589
+
+At iteration 10 the LR objective is: 46849.000000
+Ho trovato una soluzione feasible? 0
+step = 9.5111
+
+LB_LR = 46864.4
+
+--------------------------- p70 ----------------------------------------------
+initial step = 10
+
+At iteration 1 the LR objective is: 68549.000000
+Ho trovato una soluzione feasible? 0
+step = 9.95
+
+At iteration 2 the LR objective is: 68564.438109
+Ho trovato una soluzione feasible? 0
+step = 9.90025
+
+At iteration 3 the LR objective is: 68535.567909
+Ho trovato una soluzione feasible? 1
+step = 9.85075
+
+At iteration 4 the LR objective is: 68549.000000
+Ho trovato una soluzione feasible? 0
+step = 9.8015
+
+At iteration 5 the LR objective is: 68564.207693
+Ho trovato una soluzione feasible? 0
+step = 9.75249
+
+At iteration 6 the LR objective is: 68537.365373
+Ho trovato una soluzione feasible? 1
+step = 9.70373
+
+Ho stoppato perchè non finiva più, non perchè abbia stampato anche questi valori
+
+At iteration 7 the LR objective is: 68656.000000
+Ho trovato una soluzione feasible? 1
+step = 9.65521
+
+At iteration 8 the LR objective is: 68656.000000
+Ho trovato una soluzione feasible? 1
+step = 9.60693
+
+At iteration 9 the LR objective is: 68656.000000
+Ho trovato una soluzione feasible? 1
+step = 9.5589
+
+At iteration 10 the LR objective is: 68656.000000
+Ho trovato una soluzione feasible? 1
+step = 9.5111
+
+LB_LR = 68656
+
+
+
