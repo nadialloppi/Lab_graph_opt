@@ -1,0 +1,127 @@
+reset;
+
+model parameterDefinition.mod;
+data p71.dat;
+
+option solver cplex;
+option cplex_options 'mipgap 0';
+
+#problem Original: x, y, z, w, totalcost, client_assignment, capacity_mid_level, capacity_high_level, mid_level_assignment;
+
+printf"--------------------------- Lagrangian Relaxation ---------------------------\n";
+
+param LB_LR default 0;
+param UB_LR;
+param norma_mu default 1;
+param norma_nu default 1;
+param infeasibility_1 default 0;
+param infeasibility_2 default 0;
+param actual_min default max{i in 1..I, j in 1..J} (d[i,j] + mu[j]*t[i]);
+param actual_min2 default max{j in 1..J, k in 1..K} (l[j,k] + nu[k]*a[j]);
+param setted default 0; # mi dice se ho già trovato un assegnamento
+param  Obj_LR;
+
+let step := 0.2;
+printf"Passo iniziale: %f \n", step > LRnew_analysis.txt;
+for {iter in 1..500} {
+  
+  
+  # Solve the Lagrangian Relaxation
+  # Risolvo problema x[i,j]
+  for {i in 1..I}{
+  	let actual_min := min{j in 1..J: d[i,j] <= R} (d[i,j] + mu[j]*t[i]);
+  	let setted := 0;
+  	for {j in 1..J}{
+  		if ((d[i,j] + mu[j]*t[i]) == actual_min and d[i,j] <= R and setted==0) then {
+  			let x[i,j] := 1;
+  			let setted := 1;
+  		} else let x[i,j] := 0;
+  	}
+  }
+  
+  # Risolvo problema per z[j]
+  for {j in 1..J}{
+  	if ((c[j] - mu[j]*Gamma) <= 0) then let z[j] := 1;
+  	else let z[j] := 0;  
+  }
+  
+  # Risolvo problema y[j,k]
+  for {j in 1..J}{
+  	if (z[j] == 1) then { # ho pensato che trovare il minimo fosse un'operazione dispendiosa, quindi gliela faccio fare solo se necessario
+  		let actual_min2 := min{k in 1..K} (l[j,k] + nu[k]*a[j]);
+  		let setted := 0;
+  		for {k in 1..K}{
+  			if ((l[j,k] + nu[k]*a[j]) == actual_min2 and setted==0) then {
+  				let y[j,k] := 1;
+  				let setted := 1;
+  			} else let y[j,k] := 0;
+  		}
+  	}
+  	else {
+  		for{k in 1..K}{
+  			let y[j,k] := 0;
+  		}
+  	}
+  }
+  
+  # Risolvo problema per w[k]
+  for {k in 1..K}{
+  	if ((g[k] - nu[k]*Lambda) <= 0) then let w[k] := 1;
+  	else let w[k] := 0;  
+  }
+  
+  # Calcolo ottimo Lagrangiano
+  let Obj_LR := sum{j in 1..J}(c[j]-mu[j]*Gamma)*z[j] + sum{k in 1..K} (g[k]-nu[k]*Lambda)*w[k] + sum{j in 1..J} ( sum{ k in 1..K} (l[j,k]+nu[k]*a[j])*y[j,k]) + sum{i in 1..I} ( sum{j in 1..J} (d[i,j]+mu[j]*t[i])*x[i,j]);
+  if (iter mod 20 == 0) then
+  	printf"Iteration: %d, \t Obj_LR = %f \n", iter, Obj_LR > LRnew_analysis.txt;
+  
+  # Check for feasibility: 
+  # update UB_LR if feasible
+  let infeasibility_1:= 0;
+  for {j in 1..J} {
+  	if (sum{i in 1..I} t[i]*x[i,j] > Gamma*z[j]) then {
+  		let infeasibility_1 := 1;
+  		break;
+  	}
+  }		
+  let infeasibility_2:= 0;
+  for {k in 1..K} {
+  	if (sum{j in 1..J} a[j]*y[j,k]	>	Lambda*w[k]) then {
+  		let infeasibility_2 := 1;
+  		break;
+  	}
+  }	
+  
+  if (infeasibility_1 == 0 and infeasibility_2 == 0) then let UB_LR:= Obj_LR;
+  #display infeasibility_1;
+  #display infeasibility_2;
+
+
+  # Update step size
+  let step:= 0.995*step;
+ 
+  # Update LB_LR 
+  if (Obj_LR > LB_LR) then 
+  	let LB_LR := Obj_LR;
+
+  # Update norma
+  let norma_mu:= ( sum{j in 1..J} (sum{i in 1..I} t[i]*x[i,j] - Gamma*z[j])^2) ^ (1/2);
+  let norma_nu:= ( sum{k in 1..K} (sum{j in 1..J} a[j]*y[j,k] - Lambda*w[k])^2) ^ (1/2);
+  
+  # Memorize old values
+  for {j in 1..J}
+  	let mu_old[j] := mu[j];
+  for {k in 1..K}
+  	let nu_old[k] := nu[k];
+
+  # Update multipliers
+  for {j in 1..J}
+  	let mu[j] := max(0, mu_old[j] + step*(sum{i in 1..I} t[i]*x[i,j] - Gamma*z[j])/norma_mu);
+  for {k in 1..K}
+  	let nu[k] := max(0, nu_old[k] + step*(sum{j in 1..J} a[j]*y[j,k] - Lambda*w[k])/norma_mu);
+  	
+}
+
+display LB_LR > LRnew_analysis.txt;
+
+

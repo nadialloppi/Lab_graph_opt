@@ -1,0 +1,219 @@
+------------------------------- LAGRANGE RELAXATION ----------------------------------------
+**************************************** p1 ************************************************
+Passo iniziale: 0.100000 
+Iteration: 20, 	 Obj_LR = 6923.506228 
+Iteration: 40, 	 Obj_LR = 7759.813607 
+Iteration: 60, 	 Obj_LR = 9090.736664 
+Iteration: 80, 	 Obj_LR = 10532.856441 
+Iteration: 100, 	 Obj_LR = 11490.055927 
+Iteration: 120, 	 Obj_LR = 10551.592827 
+Iteration: 140, 	 Obj_LR = 11903.253851 
+Iteration: 160, 	 Obj_LR = 10623.743717 
+Iteration: 180, 	 Obj_LR = 11506.260923 
+Iteration: 200, 	 Obj_LR = 12379.615582 
+Iteration: 220, 	 Obj_LR = 11481.826895 
+Iteration: 240, 	 Obj_LR = 12319.836480 
+Iteration: 260, 	 Obj_LR = 10985.148932 
+Iteration: 280, 	 Obj_LR = 11694.463721 
+Iteration: 300, 	 Obj_LR = 12060.826534 
+LB_LR = 12702
+Optimal value: 		14323
+CR: 		11329.271362 	 
+**************************************** p67 ************************************************
+Passo iniziale: 0.100000 
+Iteration: 20, 	 Obj_LR = 15106.891662 
+Iteration: 40, 	 Obj_LR = 17113.542925 
+Iteration: 60, 	 Obj_LR = 18893.342133 
+Iteration: 80, 	 Obj_LR = 20453.900478 
+Iteration: 100, 	 Obj_LR = 21315.890286 
+Iteration: 120, 	 Obj_LR = 22047.028513 
+Iteration: 140, 	 Obj_LR = 24165.745316 
+Iteration: 160, 	 Obj_LR = 24968.474623 
+Iteration: 180, 	 Obj_LR = 25294.626152 
+Iteration: 200, 	 Obj_LR = 27261.248548 
+Iteration: 220, 	 Obj_LR = 25310.360845 
+Iteration: 240, 	 Obj_LR = 27995.818172 
+Iteration: 260, 	 Obj_LR = 28766.936425 
+Iteration: 280, 	 Obj_LR = 27692.521427 
+Iteration: 300, 	 Obj_LR = 30318.875215 
+LB_LR = 31482.3
+Optimal value: 		42859
+Optimal value: 		30243.746883
+---------
+Passo iniziale: 0.100000 
+Iteration: 20, 	 Obj_LR = 15106.891662 
+Iteration: 40, 	 Obj_LR = 17113.542925 
+Iteration: 60, 	 Obj_LR = 18893.342133 
+Iteration: 80, 	 Obj_LR = 20453.900478 
+Iteration: 100, 	 Obj_LR = 21315.890286 
+Iteration: 120, 	 Obj_LR = 22047.028513 
+Iteration: 140, 	 Obj_LR = 24165.745316 
+Iteration: 160, 	 Obj_LR = 24968.474623 
+Iteration: 180, 	 Obj_LR = 25294.626152 
+Iteration: 200, 	 Obj_LR = 27261.248548 
+Iteration: 220, 	 Obj_LR = 25310.360845 
+Iteration: 240, 	 Obj_LR = 27995.818172 
+Iteration: 260, 	 Obj_LR = 28766.936425 
+Iteration: 280, 	 Obj_LR = 27692.521427 
+Iteration: 300, 	 Obj_LR = 30318.875215 
+Iteration: 320, 	 Obj_LR = 29921.100656 
+Iteration: 340, 	 Obj_LR = 30726.552402 
+Iteration: 360, 	 Obj_LR = 30921.077704 
+Iteration: 380, 	 Obj_LR = 30032.368048 
+Iteration: 400, 	 Obj_LR = 26559.893517 
+Iteration: 420, 	 Obj_LR = 30606.193564 
+Iteration: 440, 	 Obj_LR = 28966.665282 
+Iteration: 460, 	 Obj_LR = 27672.963425 
+Iteration: 480, 	 Obj_LR = 31151.388023 
+Iteration: 500, 	 Obj_LR = 34297.023600 
+LB_LR = 34297
+
+**************************************** p68 ************************************************
+Passo iniziale: 0.100000 
+Iteration: 20, 	 Obj_LR = 15303.690422 
+Iteration: 40, 	 Obj_LR = 17241.037774 
+Iteration: 60, 	 Obj_LR = 19171.572392 
+Iteration: 80, 	 Obj_LR = 20873.313077 
+Iteration: 100, 	 Obj_LR = 21881.859462 
+Iteration: 120, 	 Obj_LR = 22530.835493 
+Iteration: 140, 	 Obj_LR = 21410.296485 
+Iteration: 160, 	 Obj_LR = 21900.575509 
+Iteration: 180, 	 Obj_LR = 24521.662825 
+Iteration: 200, 	 Obj_LR = 23281.677765 
+Iteration: 220, 	 Obj_LR = 21591.580315 
+Iteration: 240, 	 Obj_LR = 21559.383002 
+Iteration: 260, 	 Obj_LR = 23280.909502 
+Iteration: 280, 	 Obj_LR = 23382.392911 
+Iteration: 300, 	 Obj_LR = 23861.472669 
+Iteration: 320, 	 Obj_LR = 23057.745431 
+Iteration: 340, 	 Obj_LR = 23577.714989 
+Iteration: 360, 	 Obj_LR = 22758.148257 
+Iteration: 380, 	 Obj_LR = 22880.500082 
+Iteration: 400, 	 Obj_LR = 22945.634759 
+Iteration: 420, 	 Obj_LR = 25850.638966 
+Iteration: 440, 	 Obj_LR = 23578.982225 
+Iteration: 460, 	 Obj_LR = 23844.117599 
+Iteration: 480, 	 Obj_LR = 24023.393561 
+Iteration: 500, 	 Obj_LR = 24517.282729 
+LB_LR = 27499.3
+Optimal value: 	37377
+CR: 		23890.022049
+-------------------------------
+Passo iniziale: 0.200000 
+Iteration: 20, 	 Obj_LR = 17338.454400 
+Iteration: 40, 	 Obj_LR = 19642.337609 
+Iteration: 60, 	 Obj_LR = 21984.718076 
+Iteration: 80, 	 Obj_LR = 20795.058104 
+Iteration: 100, 	 Obj_LR = 24853.573110 
+Iteration: 120, 	 Obj_LR = 21014.199791 
+Iteration: 140, 	 Obj_LR = 23529.270277 
+Iteration: 160, 	 Obj_LR = 22467.449321 
+Iteration: 180, 	 Obj_LR = 23758.562880 
+Iteration: 200, 	 Obj_LR = 23311.510591 
+Iteration: 220, 	 Obj_LR = 22593.667731 
+Iteration: 240, 	 Obj_LR = 22682.190477 
+Iteration: 260, 	 Obj_LR = 24132.206114 
+Iteration: 280, 	 Obj_LR = 23961.127166 
+Iteration: 300, 	 Obj_LR = 21862.622530 
+Iteration: 320, 	 Obj_LR = 22846.249142 
+Iteration: 340, 	 Obj_LR = 26901.045540 
+Iteration: 360, 	 Obj_LR = 22125.128960 
+Iteration: 380, 	 Obj_LR = 23242.218209 
+Iteration: 400, 	 Obj_LR = 23989.162707 
+Iteration: 420, 	 Obj_LR = 24041.424317 
+Iteration: 440, 	 Obj_LR = 27134.143610 
+Iteration: 460, 	 Obj_LR = 24413.848001 
+Iteration: 480, 	 Obj_LR = 26159.463638 
+Iteration: 500, 	 Obj_LR = 23369.112310 
+LB_LR = 27533.9
+
+**************************************** p69 ************************************************
+Passo iniziale: 0.200000 
+Iteration: 20, 	 Obj_LR = 17386.822857 
+Iteration: 40, 	 Obj_LR = 21232.136048 
+Iteration: 60, 	 Obj_LR = 23657.205506 
+Iteration: 80, 	 Obj_LR = 27166.278054 
+Iteration: 100, 	 Obj_LR = 26362.472711 
+Iteration: 120, 	 Obj_LR = 27510.109148 
+Iteration: 140, 	 Obj_LR = 29236.662348 
+Iteration: 160, 	 Obj_LR = 29167.315304 
+Iteration: 180, 	 Obj_LR = 25957.513138 
+Iteration: 200, 	 Obj_LR = 29617.435474 
+Iteration: 220, 	 Obj_LR = 31081.958435 
+Iteration: 240, 	 Obj_LR = 30097.573154 
+Iteration: 260, 	 Obj_LR = 24195.894081 
+Iteration: 280, 	 Obj_LR = 27951.227525 
+Iteration: 300, 	 Obj_LR = 29563.236314 
+Iteration: 320, 	 Obj_LR = 31470.614423 
+Iteration: 340, 	 Obj_LR = 25882.642235 
+Iteration: 360, 	 Obj_LR = 27120.165993 
+Iteration: 380, 	 Obj_LR = 28611.676166 
+Iteration: 400, 	 Obj_LR = 29570.206218 
+Iteration: 420, 	 Obj_LR = 30535.623306 
+Iteration: 440, 	 Obj_LR = 29300.594813 
+Iteration: 460, 	 Obj_LR = 32390.146784 
+Iteration: 480, 	 Obj_LR = 29036.084783 
+Iteration: 500, 	 Obj_LR = 28889.234466 
+LB_LR = 36331.7
+Optimal value: 	46956
+CR: 		29921.635163
+**************************************** p70 ************************************************
+Passo iniziale: 0.200000 
+Iteration: 20, 	 Obj_LR = 17386.822857 
+Iteration: 40, 	 Obj_LR = 21288.920956 
+Iteration: 60, 	 Obj_LR = 24612.671176 
+Iteration: 80, 	 Obj_LR = 27805.981197 
+Iteration: 100, 	 Obj_LR = 29741.265101 
+Iteration: 120, 	 Obj_LR = 32286.993018 
+Iteration: 140, 	 Obj_LR = 30806.564805 
+Iteration: 160, 	 Obj_LR = 35753.376827 
+Iteration: 180, 	 Obj_LR = 32725.829686 
+Iteration: 200, 	 Obj_LR = 35742.838774 
+Iteration: 220, 	 Obj_LR = 38619.032192 
+Iteration: 240, 	 Obj_LR = 38981.179272 
+Iteration: 260, 	 Obj_LR = 43928.826091 
+Iteration: 280, 	 Obj_LR = 46081.136498 
+Iteration: 300, 	 Obj_LR = 40693.798456 
+Iteration: 320, 	 Obj_LR = 46803.774839 
+Iteration: 340, 	 Obj_LR = 43540.818138 
+Iteration: 360, 	 Obj_LR = 41961.047570 
+Iteration: 380, 	 Obj_LR = 49626.904710 
+Iteration: 400, 	 Obj_LR = 39458.780170 
+Iteration: 420, 	 Obj_LR = 43772.431473 
+Iteration: 440, 	 Obj_LR = 40798.787616 
+Iteration: 460, 	 Obj_LR = 51610.851693 
+Iteration: 480, 	 Obj_LR = 42704.679451 
+Iteration: 500, 	 Obj_LR = 39496.905877 
+LB_LR = 54622.5
+Optimal value: 	68656 
+CR: 		43869.484977
+**************************************** p71 ************************************************
+Passo iniziale: 0.200000 
+Iteration: 20, 	 Obj_LR = 17386.822857 
+Iteration: 40, 	 Obj_LR = 21013.002849 
+Iteration: 60, 	 Obj_LR = 23064.012326 
+Iteration: 80, 	 Obj_LR = 26332.071413 
+Iteration: 100, 	 Obj_LR = 26760.462026 
+Iteration: 120, 	 Obj_LR = 25104.889595 
+Iteration: 140, 	 Obj_LR = 28578.193236 
+Iteration: 160, 	 Obj_LR = 27124.894915 
+Iteration: 180, 	 Obj_LR = 26501.647471 
+Iteration: 200, 	 Obj_LR = 28204.572064 
+Iteration: 220, 	 Obj_LR = 31092.773974 
+Iteration: 240, 	 Obj_LR = 29990.308686 
+Iteration: 260, 	 Obj_LR = 30964.392613 
+Iteration: 280, 	 Obj_LR = 30138.496216 
+Iteration: 300, 	 Obj_LR = 26708.450604 
+Iteration: 320, 	 Obj_LR = 27896.367910 
+Iteration: 340, 	 Obj_LR = 29280.940350 
+Iteration: 360, 	 Obj_LR = 29089.362746 
+Iteration: 380, 	 Obj_LR = 26312.576951 
+Iteration: 400, 	 Obj_LR = 28025.973024 
+Iteration: 420, 	 Obj_LR = 29447.093564 
+Iteration: 440, 	 Obj_LR = 28447.625862 
+Iteration: 460, 	 Obj_LR = 31209.168421 
+Iteration: 480, 	 Obj_LR = 31707.533363 
+Iteration: 500, 	 Obj_LR = 31878.038178 
+LB_LR = 35130.7
+Optimal value: 	43694
+CR: 		29837.584703 
