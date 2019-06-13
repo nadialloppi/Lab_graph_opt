@@ -1,16 +1,16 @@
 
 printf "********************************* Istance 1 *********************************\n">Hop_analysis.txt;
 
-model parameterDefinition.mod;
+model Original_pb.mod;
 data demand1.dat;
 data topology1.dat;
 
-param Tic_original;
-param Toc_original;
-param Tic_nohop;
-param Toc_nohop;
-param T_original;
-param T_nohop;
+#param Tic_original;
+#param Toc_original;
+#param Tic_nohop;
+#param Toc_nohop;
+#param T_original;
+#param T_nohop;
 param T_solve_original; 
 param T_solve_nohop;
 
@@ -27,36 +27,38 @@ problem No_Hop: x, l, capacity, flowBalance, varConsistency;
 printf "-------------------------------Original ------------------------------\n">Hop_analysis.txt;
 
 
-let Tic_original := _ampl_system_time;
+#let Tic_original := _ampl_system_time;
 
 solve Original;
 
-let Toc_original := _ampl_system_time;
+#let Toc_original := _ampl_system_time;
 
 let OPT:= l; display l;
-let T_original := Toc_original - Tic_original;
+#let T_original := Toc_original - Tic_original;
 let T_solve_original := _solve_system_time;
 
 printf"Optimal value: 		%d ", l >Hop_analysis.txt;
-printf"				Elapsed time:%f \t Ampl time:%f \n", T_original, T_solve_original >Hop_analysis.txt;
+#printf"				Elapsed time:%f \t Ampl time:%f \n", T_original, T_solve_original >Hop_analysis.txt;
+printf"				time:%f \n",T_solve_original >Hop_analysis.txt;
 printf "-------------------------------NoHop ------------------------------\n">Hop_analysis.txt;
 let l:= 0;											# Reset variabili 
 for {k in K} {
 	for{(i, j) in A} {
 		let x[i, j, k] := 0;
 } }
-let Tic_nohop := _ampl_system_time;
+#let Tic_nohop := _ampl_system_time;
 
 solve No_Hop;
 
-let Toc_nohop := _ampl_system_time;
+#let Toc_nohop := _ampl_system_time;
 
 let NOHOP := l; display l;
-let T_nohop := Toc_nohop-Tic_nohop;
+#let T_nohop := Toc_nohop-Tic_nohop;
 let T_solve_nohop := _solve_system_time;
 
 printf"Optimal value: 		%d ", l >Hop_analysis.txt;
-printf"				Required time:%f \t Ampl time:%f \n",T_nohop, T_solve_nohop >Hop_analysis.txt;
+#printf"				Required time:%f \t Ampl time:%f \n",T_nohop, T_solve_nohop >Hop_analysis.txt;
+printf"				time:%f \n",T_solve_nohop >Hop_analysis.txt;
 printf "\n" > Hop_analysis.txt;
 
 printf "********************************* Istance 2 *********************************\n">Hop_analysis.txt;
@@ -69,37 +71,38 @@ data topology2.dat;
 printf "-------------------------------Original ------------------------------\n">Hop_analysis.txt;
 
 
-let Tic_original := _ampl_system_time;
+#let Tic_original := _ampl_system_time;
 
 solve Original;
 
-let Toc_original := _ampl_system_time;
+#let Toc_original := _ampl_system_time;
 
 let OPT:= l; display l;
-let T_original := Toc_original - Tic_original;
+#let T_original := Toc_original - Tic_original;
 let T_solve_original := _solve_system_time;
 
 printf"Optimal value: 		%d ", l >Hop_analysis.txt;
-printf"				Elapsed time:%f \t Ampl time:%f \n", T_original, T_solve_original >Hop_analysis.txt;
-
+#printf"				Elapsed time:%f \t Ampl time:%f \n", T_original, T_solve_original >Hop_analysis.txt;
+printf"				time:%f \n",T_solve_original >Hop_analysis.txt;
 printf "-------------------------------NoHop ------------------------------\n">Hop_analysis.txt;
 let l:= 0;											# Reset variabili 
 for {k in K} {
 	for{(i, j) in A} {
 		let x[i, j, k] := 0;
 } }
-let Tic_nohop := _ampl_system_time;
+#let Tic_nohop := _ampl_system_time;
 
 solve No_Hop;
 
-let Toc_nohop := _ampl_system_time;
-let NOHOP := l; display l;
+#let Toc_nohop := _ampl_system_time;
 
-let T_nohop := Toc_nohop-Tic_nohop;
+let NOHOP := l; display l;
+#let T_nohop := Toc_nohop-Tic_nohop;
 let T_solve_nohop := _solve_system_time;
 
 printf"Optimal value: 		%d ", l >Hop_analysis.txt;
-printf"				Required time:%f \t Ampl time:%f \n",T_nohop, T_solve_nohop >Hop_analysis.txt;
+#printf"				Required time:%f \t Ampl time:%f \n",T_nohop, T_solve_nohop >Hop_analysis.txt;
+printf"				time:%f \n",T_solve_nohop >Hop_analysis.txt;
 printf "\n" > Hop_analysis.txt;
 
 printf "********************************* Istance 3 *********************************\n">Hop_analysis.txt;
@@ -112,35 +115,38 @@ data topology3.dat;
 printf "-------------------------------Original ------------------------------\n">Hop_analysis.txt;
 
 
-let Tic_original := _ampl_system_time;
+#let Tic_original := _ampl_system_time;
 
 solve Original;
 
-let Toc_original := _ampl_system_time;
+#let Toc_original := _ampl_system_time;
 
 let OPT:= l; display l;
-let T_original := Toc_original - Tic_original;
+#let T_original := Toc_original - Tic_original;
 let T_solve_original := _solve_system_time;
 
 printf"Optimal value: 		%d ", l >Hop_analysis.txt;
-printf"				Elapsed time:%f \t Ampl time:%f \n", T_original, T_solve_original>Hop_analysis.txt;
+#printf"				Elapsed time:%f \t Ampl time:%f \n", T_original, T_solve_original >Hop_analysis.txt;
+printf"				time:%f \n",T_solve_original >Hop_analysis.txt;
 printf "-------------------------------NoHop ------------------------------\n">Hop_analysis.txt;
 let l:= 0;											# Reset variabili 
 for {k in K} {
 	for{(i, j) in A} {
 		let x[i, j, k] := 0;
 } }
-let Tic_nohop := _ampl_system_time;
+#let Tic_nohop := _ampl_system_time;
 
 solve No_Hop;
 
-let Toc_nohop := _ampl_system_time;
+#let Toc_nohop := _ampl_system_time;
+
 let NOHOP := l; display l;
-let T_nohop := Toc_nohop-Tic_nohop;
+#let T_nohop := Toc_nohop-Tic_nohop;
 let T_solve_nohop := _solve_system_time;
 
 printf"Optimal value: 		%d ", l >Hop_analysis.txt;
-printf"				Required time:%f \t Ampl time:%f \n",T_nohop, T_solve_nohop >Hop_analysis.txt;
+#printf"				Required time:%f \t Ampl time:%f \n",T_nohop, T_solve_nohop >Hop_analysis.txt;
+printf"				time:%f \n",T_solve_nohop >Hop_analysis.txt;
 printf "\n" > Hop_analysis.txt;
 
 printf "********************************* Istance 4 *********************************\n">Hop_analysis.txt;
@@ -153,35 +159,39 @@ data topology4.dat;
 printf "-------------------------------Original ------------------------------\n">Hop_analysis.txt;
 
 
-let Tic_original := _ampl_system_time;
+
+#let Tic_original := _ampl_system_time;
 
 solve Original;
 
-let Toc_original := _ampl_system_time;
+#let Toc_original := _ampl_system_time;
 
 let OPT:= l; display l;
-let T_original := Toc_original - Tic_original;
+#let T_original := Toc_original - Tic_original;
 let T_solve_original := _solve_system_time;
 
-
 printf"Optimal value: 		%d ", l >Hop_analysis.txt;
-printf"				Elapsed time:%f \t Ampl time:%f \n", T_original, T_solve_original>Hop_analysis.txt;
+#printf"				Elapsed time:%f \t Ampl time:%f \n", T_original, T_solve_original >Hop_analysis.txt;
+printf"				time:%f \n",T_solve_original >Hop_analysis.txt;
 printf "-------------------------------NoHop ------------------------------\n">Hop_analysis.txt;
 let l:= 0;											# Reset variabili 
 for {k in K} {
 	for{(i, j) in A} {
 		let x[i, j, k] := 0;
 } }
-let Tic_nohop := _ampl_system_time;
+#let Tic_nohop := _ampl_system_time;
 
 solve No_Hop;
 
-let Toc_nohop := _ampl_system_time;
+#let Toc_nohop := _ampl_system_time;
+
 let NOHOP := l; display l;
-let T_nohop := Toc_nohop-Tic_nohop;
+#let T_nohop := Toc_nohop-Tic_nohop;
 let T_solve_nohop := _solve_system_time;
+
 printf"Optimal value: 		%d ", l >Hop_analysis.txt;
-printf"				Required time:%f \t Ampl time:%f \n",T_nohop, T_solve_nohop ",T_nohop >Hop_analysis.txt;
+#printf"				Required time:%f \t Ampl time:%f \n",T_nohop, T_solve_nohop >Hop_analysis.txt;
+printf"				time:%f \n",T_solve_nohop >Hop_analysis.txt;
 printf "\n" > Hop_analysis.txt;
 
 printf "********************************* Istance 5 *********************************\n">Hop_analysis.txt;
@@ -194,30 +204,37 @@ data topology5.dat;
 printf "-------------------------------Original ------------------------------\n">Hop_analysis.txt;
 
 
-let Tic_original := _ampl_system_time;
+
+#let Tic_original := _ampl_system_time;
 
 solve Original;
 
-let Toc_original := _ampl_system_time;
+#let Toc_original := _ampl_system_time;
 
 let OPT:= l; display l;
-let T_original := Toc_original - Tic_original;
+#let T_original := Toc_original - Tic_original;
 let T_solve_original := _solve_system_time;
+
 printf"Optimal value: 		%d ", l >Hop_analysis.txt;
-printf"				Elapsed time:%f \t Ampl time:%f \n", T_original, T_solve_original >Hop_analysis.txt;
+#printf"				Elapsed time:%f \t Ampl time:%f \n", T_original, T_solve_original >Hop_analysis.txt;
+printf"				time:%f \n",T_solve_original >Hop_analysis.txt;
 printf "-------------------------------NoHop ------------------------------\n">Hop_analysis.txt;
 let l:= 0;											# Reset variabili 
 for {k in K} {
 	for{(i, j) in A} {
 		let x[i, j, k] := 0;
 } }
-let Tic_nohop := _ampl_system_time;
+#let Tic_nohop := _ampl_system_time;
 
 solve No_Hop;
 
-let Toc_nohop := _ampl_system_time;
+#let Toc_nohop := _ampl_system_time;
+
 let NOHOP := l; display l;
-let T_nohop := Toc_nohop-Tic_nohop;
+#let T_nohop := Toc_nohop-Tic_nohop;
 let T_solve_nohop := _solve_system_time;
+
 printf"Optimal value: 		%d ", l >Hop_analysis.txt;
-printf"				Required time:%f \t Ampl time:%f \n",T_nohop, T_solve_nohop >Hop_analysis.txt;
+#printf"				Required time:%f \t Ampl time:%f \n",T_nohop, T_solve_nohop >Hop_analysis.txt;
+printf"				time:%f \n",T_solve_nohop >Hop_analysis.txt;
+printf "\n" > Hop_analysis.txt;
