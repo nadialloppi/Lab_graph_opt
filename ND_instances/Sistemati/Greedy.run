@@ -39,7 +39,7 @@ let lambda := max {(i, j) in A} sum{k in K} u[i, j, k] * d[k];
 let UB1 := lambda;
 let Toc1 := _ampl_system_time;
 
-let T1 := Toc1 - Tic1;
+let T1 := _total_solve_system_time;
 display T1;
 
 let Tic2 := _ampl_system_time;
@@ -74,7 +74,7 @@ let Toc2 := _ampl_system_time;
 
 
 
-let T2 := Toc2 - Tic2;
+let T2 := _total_solve_system_time;
 display T2;
 
 printf"Greedy 1: 		%d \t Greeedy2: 		%d\n", UB1,UB2 >Greedy1.txt;
@@ -125,7 +125,7 @@ let lambda := max {(i, j) in A} sum{k in K} u[i, j, k] * d[k];
 let UB1 := lambda;
 let Toc1 := _ampl_system_time;
 
-let T1 := Toc1 - Tic1;
+let T1 := _total_solve_system_time;
 display T1;
 
 let Tic2 := _ampl_system_time;
@@ -160,7 +160,7 @@ let Toc2 := _ampl_system_time;
 
 
 
-let T2 := Toc2 - Tic2;
+let T2 := _total_solve_system_time;
 display T2;
 
 printf"Greedy 1: 		%d \t Greeedy2: 		%d\n", UB1,UB2 >Greedy2.txt;
@@ -212,7 +212,7 @@ let lambda := max {(i, j) in A} sum{k in K} u[i, j, k] * d[k];
 let UB1 := lambda;
 let Toc1 := _ampl_system_time;
 
-let T1 := Toc1 - Tic1;
+let T1 := _total_solve_system_time;
 display T1;
 
 let Tic2 := _ampl_system_time;
@@ -247,7 +247,7 @@ let Toc2 := _ampl_system_time;
 
 
 
-let T2 := Toc2 - Tic2;
+let T2 := _total_solve_system_time;
 display T2;
 
 printf"Greedy 1: 		%d \t Greeedy2: 		%d\n", UB1,UB2 >Greedy3.txt;
@@ -299,7 +299,7 @@ let lambda := max {(i, j) in A} sum{k in K} u[i, j, k] * d[k];
 let UB1 := lambda;
 let Toc1 := _ampl_system_time;
 
-let T1 := Toc1 - Tic1;
+let T1 := _total_solve_system_time;
 display T1;
 
 let Tic2 := _ampl_system_time;
@@ -334,7 +334,7 @@ let Toc2 := _ampl_system_time;
 
 
 
-let T2 := Toc2 - Tic2;
+let T2 := _total_solve_system_time;
 display T2;
 
 printf"Greedy 1: 		%d \t Greeedy2: 		%d\n", UB1,UB2 >Greedy4.txt;
@@ -387,7 +387,7 @@ let lambda := max {(i, j) in A} sum{k in K} u[i, j, k] * d[k];
 let UB1 := lambda;
 let Toc1 := _ampl_system_time;
 
-let T1 := Toc1 - Tic1;
+let T1 := _total_solve_system_time;
 display T1;
 
 let Tic2 := _ampl_system_time;
@@ -422,7 +422,7 @@ let Toc2 := _ampl_system_time;
 
 
 
-let T2 := Toc2 - Tic2;
+let T2 := _total_solve_system_time;
 display T2;
 
 printf"Greedy 1: 		%d \t Greeedy2: 		%d \n", UB1,UB2>Greedy5.txt;
