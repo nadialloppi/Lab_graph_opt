@@ -33,7 +33,7 @@ param Lambda;		# high level facility capacity
 
 param R default 0;
 
-data p1.dat;
+data p71.dat;
 
 set KK default 1..K;				  # High level facility non ancora considerate
 set II default 1..I;				  # Clienti non ancora assegnati 
@@ -119,11 +119,11 @@ for {k in KK}{									# Algoritmo del tutto analogo a prima
 
 param UB default 0;
 
-let UB := sum{j in OJ}c[j] + sum{k in 1..K diff KK} g[k] + sum{j in OJ} ( sum{ k in {1..K diff KK}} l[j,k]) + sum{i in 1..I} ( sum{j in OJ} d[i,j]);
+set OK := setof{(j, k) in JK}k;						# high level aperte
+
+let UB := sum{j in OJ}c[j] + sum{k in OK} g[k] + sum{j in OJ} ( sum{ k in {1..K diff KK}} l[j,k]) + sum{i in 1..I} ( sum{j in OJ} d[i,j]);
 
 display UB;
-
-
 
 
 
