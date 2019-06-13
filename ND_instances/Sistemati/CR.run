@@ -1,0 +1,120 @@
+printf "********************************* Istance 1 *********************************\n">CR_pb.txt;
+
+model CR.mod;
+data demand1.dat;
+data topology1.dat;
+
+param OPT default 0; 
+
+
+param T;
+option solver cplex;
+option cplex_options 'mipgap 0';
+
+problem CR: x, l, capacity, maxArcs, flowBalance, varConsistency;
+
+
+
+printf "-------------------------------CR ------------------------------\n">CR_pb.txt;
+
+
+solve CR;
+
+let OPT:= l; 
+display l;
+
+let T := _solve_system_time;;
+
+
+printf"Optimal value: 		%d ", l >CR_pb.txt;
+printf"				time:%f  \n", T>CR_pb.txt;
+
+printf "********************************* Istance 2 *********************************\n">CR_pb.txt;
+
+reset data;
+
+data demand2.dat;
+data topology2.dat;
+
+
+printf "-------------------------------CR ------------------------------\n">CR_pb.txt;
+
+
+solve CR;
+
+let OPT:= l; 
+display l;
+
+let T := _solve_system_time;;
+
+
+printf"Optimal value: 		%d ", l >CR_pb.txt;
+printf"				time:%f  \n", T>CR_pb.txt;
+
+
+printf "********************************* Istance 3 *********************************\n">CR_pb.txt;
+
+reset data;
+
+data demand3.dat;
+data topology3.dat;
+
+printf "-------------------------------CR ------------------------------\n">CR_pb.txt;
+
+
+
+solve CR;
+
+let OPT:= l; 
+display l;
+
+let T := _solve_system_time;;
+
+
+printf"Optimal value: 		%d ", l >CR_pb.txt;
+printf"				time:%f  \n", T>CR_pb.txt;
+
+printf "********************************* Istance 4 *********************************\n">CR_pb.txt;
+
+reset data;
+
+data demand4.dat;
+data topology4.dat;
+
+printf "-------------------------------CR ------------------------------\n">CR_pb.txt;
+
+
+solve CR;
+
+let OPT:= l; 
+display l;
+
+let T := _solve_system_time;;
+
+
+printf"Optimal value: 		%d ", l >CR_pb.txt;
+printf"				time:%f  \n", T>CR_pb.txt;
+
+
+printf "********************************* Istance 5 *********************************\n">CR_pb.txt;
+
+reset data;
+
+data demand5.dat;
+data topology5.dat;
+
+printf "-------------------------------CR ------------------------------\n">CR_pb.txt;
+
+
+
+solve CR;
+
+let OPT:= l; 
+display l;
+
+let T := _solve_system_time;;
+
+
+printf"Optimal value: 		%d ", l >CR_pb.txt;
+printf"				time:%f  \n", T>CR_pb.txt;
+
