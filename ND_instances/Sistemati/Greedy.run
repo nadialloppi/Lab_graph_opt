@@ -379,7 +379,6 @@ for {k in K} {
 	for {(i, j) in A}
 		let c[i, j] := 1;	
 	solve Heuristics1;
-	printf"qua ci arrivo" >Greedy.txt;
 	if (sum{(i,j) in A} u[i,j,k_bar] <= h) then let feasible_flag := 1;
 	else printf "Infeasible instace, demand %d cannot be routed using only %d arcs", k_bar, h;
 }
