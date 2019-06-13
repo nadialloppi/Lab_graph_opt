@@ -35,6 +35,7 @@ set II default 1..I;		# elementi non ancora asseganti/aperti..
 set KK default 1..K;	
 
 set OJ default {} ;
+set OK default {} ;
 
 set IJ within {1..I,1..J} default {};  # Assegnamenti di primo livello fatti
 
@@ -161,7 +162,7 @@ for {k in KK}{
 }
 } until (sum{jjj in OJJ} (1) = 0);
 
-set OK := setof{(j, k) in JK}k;		
+let OK := setof{(j, k) in JK}k;		
 
 param UB default 0;
 

@@ -35,7 +35,7 @@ set II default 1..I;		# elementi non ancora asseganti/aperti..
 set KK default 1..K;	
 
 set OJ default {} ;
-
+set OK default {} ;
 set IJ within {1..I,1..J} default {};  # Assegnamenti di primo livello fatti
 
 
@@ -80,7 +80,7 @@ repeat{
 
 if (infeas_flag = 1) then {printf"***********************Il greedy non riesce a trovare una soluzione feasible\nNon ho assegnato:"; display II;}
 
-let OJ := setof{j in 1..J: cap_res[j] < Gamma}j;
+let OJ := setof{(j, k) in JK}k;
 
 param mid_Cost_pre default 0;
 let mid_Cost_pre := sum{j in OJ}c[j] + sum{(i, j) in IJ} d[i,j];
@@ -154,9 +154,11 @@ for {k in KK}{
 }
 } until (sum{jjj in OJJ} (1) = 0);
 
+let OK default {} ;
+
 param UB default 0;
 
-let UB := sum{j in OJ}c[j] + sum{k in {1..K diff KK}} g[k] + sum{(j, k) in JK} l[j,k] + sum{(i, j) in IJ} d[i,j];
+let UB := sum{j in OJ}c[j] + sum{k in OK} g[k] + sum{(j, k) in JK} l[j,k] + sum{(i, j) in IJ} d[i,j];
 
 display UB;
 
