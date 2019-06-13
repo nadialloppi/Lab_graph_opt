@@ -28,7 +28,7 @@ param Lambda;		# high level facility capacity
 
 param R default 0;
 
-data p1.dat;
+data p71.dat;
 
 	
 set II default 1..I;		# elementi non ancora asseganti/aperti..
@@ -81,7 +81,7 @@ repeat{
 
 
 if (infeas_flag = 1) then {printf"***********************Il greedy non riesce a trovare una soluzione feasible\nNon ho assegnato:"; display II;}
-let OJ := setof{j in 1..J: cap_res[j] < Gamma}j;
+let OJ := setof{(i, j) in IJ}j;		#let OJ := setof{j in 1..J: cap_res[j] < Gamma}j;
 
 param mid_Cost_pre default 0;
 let mid_Cost_pre := sum{j in OJ}c[j] + sum{(i, j) in IJ} d[i,j];
@@ -161,9 +161,11 @@ for {k in KK}{
 }
 } until (sum{jjj in OJJ} (1) = 0);
 
+set OK := setof{(j, k) in JK}k;		
+
 param UB default 0;
 
-let UB := sum{j in OJ}c[j] + sum{k in {1..K diff KK}} g[k] + sum{(j, k) in JK} l[j,k] + sum{(i, j) in IJ} d[i,j];
+let UB := sum{j in OJ}c[j] + sum{k in OK} g[k] + sum{(j, k) in JK} l[j,k] + sum{(i, j) in IJ} d[i,j];
 
 display UB;
 
