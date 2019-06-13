@@ -1,0 +1,429 @@
+printf "********************************* Istance 1 *********************************\n">Greedy1.txt;
+
+model Greedy.mod;
+data demand1.dat;
+data topology1.dat;
+
+param UB1 default 0; 
+param UB2 default 0;
+param Tic1;
+param Toc1;
+param Tic2;
+param Toc2;
+param T1;
+param T2;
+param feasible_flag default 0;
+
+option solver cplex;
+option cplex_options 'mipgap 0';
+
+problem Heuristics1: u, Cost, flowBalance_SP;
+problem Heuristics2: u, Cost, flowBalance_SP, maxArcs_SP;
+
+
+printf "-------------------------------Greedy ------------------------------\n">Greedy1.txt;
+
+
+let Tic1 := _ampl_system_time;
+
+for {k in K} {
+	let k_bar := k;
+	
+	for {(i, j) in A}
+		let c[i, j] := 1;	
+	solve Heuristics1;
+	if (sum{(i,j) in A} u[i,j,k_bar] <= h) then let feasible_flag := 1;
+	else printf "Infeasible instace, demand %d cannot be routed using only %d arcs", k_bar, h;
+}
+let lambda := max {(i, j) in A} sum{k in K} u[i, j, k] * d[k];
+let UB1 := lambda;
+let Toc1 := _ampl_system_time;
+
+let T1 := Toc1 - Tic1;
+display T1;
+
+let Tic2 := _ampl_system_time;
+
+set K_assigned within K default {};  	# set of demands already routed
+param d_max default 0; 					# max flow
+param cap_res{A} default 0; 			# capacity installed and not used on the arc
+let d_max := max{k in K} d[k];
+let lambda := d_max;
+
+repeat {
+	let d_max := max{k in {K diff K_assigned}} d[k];
+
+	for {k in {K diff K_assigned}} {
+		if (d[k] = d_max) then {
+			let k_bar := k;
+			
+			for {(i, j) in A}{
+				let cap_res[i, j] := lambda - sum{kk in K_assigned} u[i, j, kk]*d[kk];
+				let c[i, j] := if (cap_res[i,j] >= d[k_bar]) then 0
+									else d[k_bar]-cap_res[i, j];
+			}
+			let K_assigned := K_assigned union {k_bar};
+			solve Heuristics2;
+			let lambda := max {(i, j) in A} sum{kk in K_assigned} u[i, j, kk] * d[kk]; 
+	}}
+} until sum{kk in {K diff K_assigned}} (1) = 0;
+
+let UB2:= lambda;
+
+let Toc2 := _ampl_system_time;
+
+
+
+let T2 := Toc2 - Tic2;
+display T2;
+
+printf"Greedy 1: 		%d \t Greeedy2: 		%d\n", UB1,UB2 >Greedy1.txt;
+printf"time1:           %f \t time2:            %f\n", T1,T2>Greedy1.txt;
+
+
+reset;
+printf "********************************* Istance 2 *********************************\n">Greedy2.txt;
+
+model Greedy.mod;
+
+param UB1 default 0; 
+param UB2 default 0;
+param Tic1;
+param Toc1;
+param Tic2;
+param Toc2;
+param T1;
+param T2;
+param feasible_flag default 0;
+
+option solver cplex;
+option cplex_options 'mipgap 0';
+
+problem Heuristics1: u, Cost, flowBalance_SP;
+problem Heuristics2: u, Cost, flowBalance_SP, maxArcs_SP;
+
+data demand2.dat;
+data topology2.dat;
+
+
+
+printf "-------------------------------Greedy ------------------------------\n">Greedy2.txt;
+
+
+let Tic1 := _ampl_system_time;
+
+for {k in K} {
+	let k_bar := k;
+	
+	for {(i, j) in A}
+		let c[i, j] := 1;	
+	solve Heuristics1;
+	if (sum{(i,j) in A} u[i,j,k_bar] <= h) then let feasible_flag := 1;
+	else printf "Infeasible instace, demand %d cannot be routed using only %d arcs", k_bar, h;
+}
+let lambda := max {(i, j) in A} sum{k in K} u[i, j, k] * d[k];
+let UB1 := lambda;
+let Toc1 := _ampl_system_time;
+
+let T1 := Toc1 - Tic1;
+display T1;
+
+let Tic2 := _ampl_system_time;
+
+set K_assigned within K default {};  	# set of demands already routed
+param d_max default 0; 					# max flow
+param cap_res{A} default 0; 			# capacity installed and not used on the arc
+let d_max := max{k in K} d[k];	
+let lambda := d_max;
+
+repeat {
+	let d_max := max{k in {K diff K_assigned}} d[k];
+
+	for {k in {K diff K_assigned}} {
+		if (d[k] = d_max) then {
+			let k_bar := k;
+			
+			for {(i, j) in A}{
+				let cap_res[i, j] := lambda - sum{kk in K_assigned} u[i, j, kk]*d[kk];
+				let c[i, j] := if (cap_res[i,j] >= d[k_bar]) then 0
+									else d[k_bar]-cap_res[i, j];
+			}
+			let K_assigned := K_assigned union {k_bar};
+			solve Heuristics2;
+			let lambda := max {(i, j) in A} sum{kk in K_assigned} u[i, j, kk] * d[kk]; 
+	}}
+} until sum{kk in {K diff K_assigned}} (1) = 0;
+
+let UB2:= lambda;
+
+let Toc2 := _ampl_system_time;
+
+
+
+let T2 := Toc2 - Tic2;
+display T2;
+
+printf"Greedy 1: 		%d \t Greeedy2: 		%d\n", UB1,UB2 >Greedy2.txt;
+printf"time1:           %f \t time2:            %f\n", T1,T2>Greedy2.txt;
+
+
+
+reset;
+printf "********************************* Istance 3 *********************************\n">Greedy3.txt;
+
+model Greedy.mod;
+
+param UB1 default 0; 
+param UB2 default 0;
+param Tic1;
+param Toc1;
+param Tic2;
+param Toc2;
+param T1;
+param T2;
+param feasible_flag default 0;
+
+option solver cplex;
+option cplex_options 'mipgap 0';
+
+problem Heuristics1: u, Cost, flowBalance_SP;
+problem Heuristics2: u, Cost, flowBalance_SP, maxArcs_SP;
+
+
+data demand3.dat;
+data topology3.dat;
+
+
+printf "-------------------------------Greedy ------------------------------\n">Greedy3.txt;
+
+
+let Tic1 := _ampl_system_time;
+
+for {k in K} {
+	let k_bar := k;
+	
+	for {(i, j) in A}
+		let c[i, j] := 1;	
+	solve Heuristics1;
+	if (sum{(i,j) in A} u[i,j,k_bar] <= h) then let feasible_flag := 1;
+	else printf "Infeasible instace, demand %d cannot be routed using only %d arcs", k_bar, h;
+}
+let lambda := max {(i, j) in A} sum{k in K} u[i, j, k] * d[k];
+let UB1 := lambda;
+let Toc1 := _ampl_system_time;
+
+let T1 := Toc1 - Tic1;
+display T1;
+
+let Tic2 := _ampl_system_time;
+
+set K_assigned within K default {};  	# set of demands already routed
+param d_max default 0; 					# max flow
+param cap_res{A} default 0; 			# capacity installed and not used on the arc
+let d_max := max{k in K} d[k];	
+let lambda := d_max;
+
+repeat {
+	let d_max := max{k in {K diff K_assigned}} d[k];
+
+	for {k in {K diff K_assigned}} {
+		if (d[k] = d_max) then {
+			let k_bar := k;
+			
+			for {(i, j) in A}{
+				let cap_res[i, j] := lambda - sum{kk in K_assigned} u[i, j, kk]*d[kk];
+				let c[i, j] := if (cap_res[i,j] >= d[k_bar]) then 0
+									else d[k_bar]-cap_res[i, j];
+			}
+			let K_assigned := K_assigned union {k_bar};
+			solve Heuristics2;
+			let lambda := max {(i, j) in A} sum{kk in K_assigned} u[i, j, kk] * d[kk]; 
+	}}
+} until sum{kk in {K diff K_assigned}} (1) = 0;
+
+let UB2:= lambda;
+
+let Toc2 := _ampl_system_time;
+
+
+
+let T2 := Toc2 - Tic2;
+display T2;
+
+printf"Greedy 1: 		%d \t Greeedy2: 		%d\n", UB1,UB2 >Greedy3.txt;
+printf"time1:           %f \t time2:            %f\n", T1,T2>Greedy3.txt;
+
+
+
+
+reset;
+printf "********************************* Istance 4 *********************************\n">Greedy4.txt;
+model Greedy.mod;
+
+param UB1 default 0; 
+param UB2 default 0;
+param Tic1;
+param Toc1;
+param Tic2;
+param Toc2;
+param T1;
+param T2;
+param feasible_flag default 0;
+
+option solver cplex;
+option cplex_options 'mipgap 0';
+
+problem Heuristics1: u, Cost, flowBalance_SP;
+problem Heuristics2: u, Cost, flowBalance_SP, maxArcs_SP;
+
+
+data demand4.dat;
+data topology4.dat;
+
+
+printf "-------------------------------Greedy ------------------------------\n">Greedy4.txt;
+
+
+let Tic1 := _ampl_system_time;
+
+for {k in K} {
+	let k_bar := k;
+	
+	for {(i, j) in A}
+		let c[i, j] := 1;	
+	solve Heuristics1;
+	if (sum{(i,j) in A} u[i,j,k_bar] <= h) then let feasible_flag := 1;
+	else printf "Infeasible instace, demand %d cannot be routed using only %d arcs", k_bar, h;
+}
+let lambda := max {(i, j) in A} sum{k in K} u[i, j, k] * d[k];
+let UB1 := lambda;
+let Toc1 := _ampl_system_time;
+
+let T1 := Toc1 - Tic1;
+display T1;
+
+let Tic2 := _ampl_system_time;
+
+set K_assigned within K default {};  	# set of demands already routed
+param d_max default 0; 					# max flow
+param cap_res{A} default 0; 			# capacity installed and not used on the arc
+let d_max := max{k in K} d[k];	
+let lambda := d_max;
+
+repeat {
+	let d_max := max{k in {K diff K_assigned}} d[k];
+
+	for {k in {K diff K_assigned}} {
+		if (d[k] = d_max) then {
+			let k_bar := k;
+			
+			for {(i, j) in A}{
+				let cap_res[i, j] := lambda - sum{kk in K_assigned} u[i, j, kk]*d[kk];
+				let c[i, j] := if (cap_res[i,j] >= d[k_bar]) then 0
+									else d[k_bar]-cap_res[i, j];
+			}
+			let K_assigned := K_assigned union {k_bar};
+			solve Heuristics2;
+			let lambda := max {(i, j) in A} sum{kk in K_assigned} u[i, j, kk] * d[kk]; 
+	}}
+} until sum{kk in {K diff K_assigned}} (1) = 0;
+
+let UB2:= lambda;
+
+let Toc2 := _ampl_system_time;
+
+
+
+let T2 := Toc2 - Tic2;
+display T2;
+
+printf"Greedy 1: 		%d \t Greeedy2: 		%d\n", UB1,UB2 >Greedy4.txt;
+printf"time1:           %f \t time2:            %f\n", T1,T2>Greedy4.txt;
+
+
+
+
+reset;
+printf "********************************* Istance 5 *********************************\n">Greedy5.txt;
+model Greedy.mod;
+
+param UB1 default 0; 
+param UB2 default 0;
+param Tic1;
+param Toc1;
+param Tic2;
+param Toc2;
+param T1;
+param T2;
+param feasible_flag default 0;
+
+option solver cplex;
+option cplex_options 'mipgap 0';
+
+problem Heuristics1: u, Cost, flowBalance_SP;
+problem Heuristics2: u, Cost, flowBalance_SP, maxArcs_SP;
+
+
+data demand5.dat;
+data topology5.dat;
+
+
+printf "-------------------------------Greedy ------------------------------\n">Greedy5.txt;
+
+
+let Tic1 := _ampl_system_time;
+
+for {k in K} {
+	let k_bar := k;
+	
+	for {(i, j) in A}
+		let c[i, j] := 1;	
+	solve Heuristics1;
+	printf"qua ci arrivo" >Greedy.txt;
+	if (sum{(i,j) in A} u[i,j,k_bar] <= h) then let feasible_flag := 1;
+	else printf "Infeasible instace, demand %d cannot be routed using only %d arcs", k_bar, h;
+}
+let lambda := max {(i, j) in A} sum{k in K} u[i, j, k] * d[k];
+let UB1 := lambda;
+let Toc1 := _ampl_system_time;
+
+let T1 := Toc1 - Tic1;
+display T1;
+
+let Tic2 := _ampl_system_time;
+
+set K_assigned within K default {};  	# set of demands already routed
+param d_max default 0; 					# max flow
+param cap_res{A} default 0; 			# capacity installed and not used on the arc
+let d_max := max{k in K} d[k];	
+let lambda := d_max;
+
+repeat {
+	let d_max := max{k in {K diff K_assigned}} d[k];
+
+	for {k in {K diff K_assigned}} {
+		if (d[k] = d_max) then {
+			let k_bar := k;
+			
+			for {(i, j) in A}{
+				let cap_res[i, j] := lambda - sum{kk in K_assigned} u[i, j, kk]*d[kk];
+				let c[i, j] := if (cap_res[i,j] >= d[k_bar]) then 0
+									else d[k_bar]-cap_res[i, j];
+			}
+			let K_assigned := K_assigned union {k_bar};
+			solve Heuristics2;
+			let lambda := max {(i, j) in A} sum{kk in K_assigned} u[i, j, kk] * d[kk]; 
+	}}
+} until sum{kk in {K diff K_assigned}} (1) = 0;
+
+let UB2:= lambda;
+
+let Toc2 := _ampl_system_time;
+
+
+
+let T2 := Toc2 - Tic2;
+display T2;
+
+printf"Greedy 1: 		%d \t Greeedy2: 		%d \n", UB1,UB2>Greedy5.txt;
+printf"time1:           %f \t time2:            %f\n", T1,T2>Greedy5.txt;

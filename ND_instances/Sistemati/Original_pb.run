@@ -1,0 +1,136 @@
+printf "********************************* Istance 1 *********************************\n">Original_pb.txt;
+
+model Original_pb.mod;
+data demand1.dat;
+data topology1.dat;
+
+param OPT default 0; 
+
+param Tic;
+param Toc;
+param T;
+option solver cplex;
+option cplex_options 'mipgap 0';
+
+problem Original: x, l, capacity, maxArcs, flowBalance, varConsistency;
+
+
+
+printf "-------------------------------Original ------------------------------\n">Original_pb.txt;
+
+
+let Tic := _ampl_system_time;
+
+solve Original;
+
+let Toc := _ampl_system_time;
+
+let OPT:= l; 
+display l;
+
+let T := Toc - Tic;
+display T;
+
+printf"Optimal value: 		%d ", l >Original_pb.txt;
+printf"				time:%f  \n", T>Original_pb.txt;
+
+printf "********************************* Istance 2 *********************************\n">Original_pb.txt;
+
+reset data;
+
+data demand2.dat;
+data topology2.dat;
+
+
+printf "-------------------------------Original ------------------------------\n">Original_pb.txt;
+
+
+let Tic := _ampl_system_time;
+
+solve Original;
+
+let Toc := _ampl_system_time;
+
+let OPT:= l; 
+display l;
+
+let T := Toc - Tic;
+
+
+printf"Optimal value: 		%d ", l >Original_pb.txt;
+printf"				time:%f  \n", T>Original_pb.txt;
+
+printf "********************************* Istance 3 *********************************\n">Original_pb.txt;
+
+reset data;
+
+data demand3.dat;
+data topology3.dat;
+
+printf "-------------------------------Original ------------------------------\n">Original_pb.txt;
+
+
+let Tic := _ampl_system_time;
+
+solve Original;
+
+let Toc := _ampl_system_time;
+
+let OPT:= l; 
+display l;
+
+let T := Toc - Tic;
+
+
+printf"Optimal value: 		%d ", l >Original_pb.txt;
+printf"				time:%f  \n", T>Original_pb.txt;
+
+printf "********************************* Istance 4 *********************************\n">Original_pb.txt;
+
+reset data;
+
+data demand4.dat;
+data topology4.dat;
+
+printf "-------------------------------Original ------------------------------\n">Original_pb.txt;
+
+
+let Tic := _ampl_system_time;
+
+solve Original;
+
+let Toc := _ampl_system_time;
+
+let OPT:= l; 
+display l;
+
+let T := Toc - Tic;
+
+
+printf"Optimal value: 		%d ", l >Original_pb.txt;
+printf"				 time:%f  \n", T>Original_pb.txt;
+
+printf "********************************* Istance 5 *********************************\n">Original_pb.txt;
+
+reset data;
+
+data demand5.dat;
+data topology5.dat;
+
+printf "-------------------------------Original ------------------------------\n">Original_pb.txt;
+
+
+let Tic := _ampl_system_time;
+
+solve Original;
+
+let Toc := _ampl_system_time;
+
+let OPT:= l; 
+display l;
+
+let T := Toc - Tic;
+
+
+printf"Optimal value: 		%d ", l >Original_pb.txt;
+printf"				time:%f \n", T>Original_pb.txt;
