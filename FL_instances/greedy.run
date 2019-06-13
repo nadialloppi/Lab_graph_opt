@@ -1,7 +1,7 @@
 # Problemi di feasibility, perche non guardo cardinalita' (ne' cap res min)
 # Minimizzo costo = 1
-# Minimizzo capacità residua = 0
-# Update cardinalità = 0
+# Minimizzo capacita' residua = 0
+# Update cardinalita' = 0
 # Update costo di apertura = 0
 # Local search = 0
 
@@ -35,11 +35,11 @@ param R default 0;
 
 data p68.dat;
 
-set KK default 1..K;		# elementi non ancora asseganti/aperti..
+set KK default 1..K;		# Insiemi di elementi non ancora asseganti/aperti
 set II default 1..I;
 set JJ default 1..J;
 
-set IJ within {1..I,1..J} default {};
+set IJ within {1..I,1..J} default {}; # Assegnamenti (i, j) gia' effettuati
 
 
 param min_cost_i default 0;
@@ -52,30 +52,24 @@ param infeas_flag default 0;
 
 printf "Inizio primo livello\n";
 repeat{
-let min_cost_j := min {jj in JJ} c[jj]/(1+sum{i in II : d[i, jj] <= R} (1));	# fisso mid-level con costo/collegamenti minore
-#let cap_res:= Gamma;
-printf"Repeat esterno\n";
-for {j in JJ}{
+let min_cost_j := min {jj in JJ} c[jj]/(1+sum{i in II : d[i, jj] <= R} (1));	# fisso mid-level con costo/num_collegamenti minore
+
+for {j in JJ}{			# Implementazione dell'argmin
 	if (min_cost_j = c[j]/(1+sum{i in II: d[i, j] <= R} (1))) then {
-		
-		let JJ := JJ diff {j};
+		let JJ := JJ diff {j};		# Apro la mid level facility j-esima
 		
 		repeat {
-			printf"Repeat interno\n";
-			if (min{ii in II} card(setof{jj in 1..J: cap_res[jj] >= t[ii] and d[ii, jj] <= R} jj)=0 ) then let infeas_flag := 1;
+			if (min{ii in II} card(setof{jj in 1..J: cap_res[jj] >= t[ii] and d[ii, jj] <= R} jj)=0 ) then let infeas_flag := 1;  # Check se ci sono clienti che non possono esssere piu' assegnati
+																																  # dopo le scelte effettuate. Nel caso metto il flag a 1
 			else {
-				let min_cost_i := 	min {i in II: cap_res[j] >= t[i]} d[i, j]; # perchè non: let min_cost_i := 	min {i in II: cap_res[j] >= t[i] and d[i,j] <= R} d[i, j];?
-				if (min_cost_i > R) then { printf "I should break\n"; break;}  # entrerò mai in questo if quando infeasible flag=1?
-				for {i in II} {
-					printf"Inizio for\n";
+				let min_cost_i := 	min {i in II: cap_res[j] >= t[i]} d[i, j]; # perche' non: let min_cost_i := 	min {i in II: cap_res[j] >= t[i] and d[i,j] <= R} d[i, j];? Risp: magari e' vuoto e impazzosce
+				if (min_cost_i > R) then { break;}  # entrera' mai in questo if quando infeasible flag=1? Risp: No
+				for {i in II} {			# Implementazione dell'argmin
 					if (min_cost_i = d[i, j] ) then {
-						printf"argmin***************************************\n";
-					
-						printf"Assegnamento\n";
-						let cap_res[j] := cap_res[j] - t[i];
-						display cap_res[j];
-						let IJ := IJ union {(i, j)};
-						let II := II diff {i};
+						let cap_res[j] := cap_res[j] - t[i];		# Aggiorno la capacita' residua di j
+						#display cap_res[j];
+						let IJ := IJ union {(i, j)};				# Aggiungo l'assegnemnto
+						let II := II diff {i};						# Rimuovo i dall'insieme dei clienti da aggiungere 
 		
 						break;
 					} 
@@ -101,7 +95,7 @@ set JK within {1..J, 1..K} default {};
 repeat{
 let min_cost_k := min {k in KK} g[k]; # considero solo costo apertura
 let cap_res_h:= Lambda;
-for {k in KK}{
+for {k in KK}{									# Algoritmo del tutto analogo a prima
 	if (min_cost_k = g[k]) then {
 		
 		let KK := KK diff {k};
