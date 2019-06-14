@@ -1,0 +1,30 @@
+Initial step = 0.2
+Max iter = 800
+
+
+
+
+*********************************** p1 ********************************
+
+Lower bound LB_LR = 13365.201480 trovato all'iterazione 764
+
+*********************************** p67 ********************************
+
+Lower bound LB_LR = 36017.421156 trovato all'iterazione 534
+Lower bound LB_LR = 32338.776447 trovato all'iterazione 784
+
+*********************************** p68 ********************************
+
+Lower bound LB_LR = 28102.645320 trovato all'iterazione 799
+
+*********************************** p69 ********************************
+
+Lower bound LB_LR = 36341.743115 trovato all'iterazione 516
+
+*********************************** p70 ********************************
+
+Lower bound LB_LR = 54622.480694 trovato all'iterazione 482
+
+*********************************** p71 ********************************
+
+Lower bound LB_LR = 36594.097631 trovato all'iterazione 748
