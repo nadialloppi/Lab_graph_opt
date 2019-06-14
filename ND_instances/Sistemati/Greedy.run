@@ -24,7 +24,7 @@ problem Heuristics2: u, Cost, flowBalance_SP, maxArcs_SP;
 printf "-------------------------------Greedy ------------------------------\n">Greedy1.txt;
 
 
-let Tic1 := _ampl_system_time;
+let Tic1 := _ampl_system_time + _total_solve_system_time;
 
 for {k in K} {
 	let k_bar := k;
@@ -37,12 +37,12 @@ for {k in K} {
 }
 let lambda := max {(i, j) in A} sum{k in K} u[i, j, k] * d[k];
 let UB1 := lambda;
-let Toc1 := _ampl_system_time;
+let Toc1 := _ampl_system_time + _total_solve_system_time;
 
-let T1 := _total_solve_system_time;
+let T1 := Toc1 - Tic1;
 display T1;
 
-let Tic2 := _ampl_system_time;
+let Tic2 := _ampl_system_time + _total_solve_system_time;
 
 set K_assigned within K default {};  	# set of demands already routed
 param d_max default 0; 					# max flow
@@ -70,11 +70,11 @@ repeat {
 
 let UB2:= lambda;
 
-let Toc2 := _ampl_system_time;
+let Toc2 := _ampl_system_time + _total_solve_system_time;
 
 
 
-let T2 := _total_solve_system_time;
+let T2 := Toc2 - Tic2;
 display T2;
 
 printf"Greedy 1: 		%d \t Greeedy2: 		%d\n", UB1,UB2 >Greedy1.txt;
@@ -110,7 +110,7 @@ data topology2.dat;
 printf "-------------------------------Greedy ------------------------------\n">Greedy2.txt;
 
 
-let Tic1 := _ampl_system_time;
+let Tic1 := _ampl_system_time + _total_solve_system_time;
 
 for {k in K} {
 	let k_bar := k;
@@ -123,12 +123,12 @@ for {k in K} {
 }
 let lambda := max {(i, j) in A} sum{k in K} u[i, j, k] * d[k];
 let UB1 := lambda;
-let Toc1 := _ampl_system_time;
+let Toc1 := _ampl_system_time + _total_solve_system_time;
 
-let T1 := _total_solve_system_time;
+let T1 := Toc1 - Tic1;
 display T1;
 
-let Tic2 := _ampl_system_time;
+let Tic2 := _ampl_system_time + _total_solve_system_time;
 
 set K_assigned within K default {};  	# set of demands already routed
 param d_max default 0; 					# max flow
@@ -156,11 +156,11 @@ repeat {
 
 let UB2:= lambda;
 
-let Toc2 := _ampl_system_time;
+let Toc2 := _ampl_system_time + _total_solve_system_time;
 
 
 
-let T2 := _total_solve_system_time;
+let T2 := Toc2 - Tic2;
 display T2;
 
 printf"Greedy 1: 		%d \t Greeedy2: 		%d\n", UB1,UB2 >Greedy2.txt;
@@ -197,7 +197,7 @@ data topology3.dat;
 printf "-------------------------------Greedy ------------------------------\n">Greedy3.txt;
 
 
-let Tic1 := _ampl_system_time;
+let Tic1 := _ampl_system_time + _total_solve_system_time;
 
 for {k in K} {
 	let k_bar := k;
@@ -210,12 +210,12 @@ for {k in K} {
 }
 let lambda := max {(i, j) in A} sum{k in K} u[i, j, k] * d[k];
 let UB1 := lambda;
-let Toc1 := _ampl_system_time;
+let Toc1 := _ampl_system_time + _total_solve_system_time;
 
-let T1 := _total_solve_system_time;
+let T1 := Toc1 - Tic1;
 display T1;
 
-let Tic2 := _ampl_system_time;
+let Tic2 := _ampl_system_time + _total_solve_system_time;
 
 set K_assigned within K default {};  	# set of demands already routed
 param d_max default 0; 					# max flow
@@ -243,11 +243,11 @@ repeat {
 
 let UB2:= lambda;
 
-let Toc2 := _ampl_system_time;
+let Toc2 := _ampl_system_time + _total_solve_system_time;
 
 
 
-let T2 := _total_solve_system_time;
+let T2 := Toc2 - Tic2;
 display T2;
 
 printf"Greedy 1: 		%d \t Greeedy2: 		%d\n", UB1,UB2 >Greedy3.txt;
@@ -284,7 +284,7 @@ data topology4.dat;
 printf "-------------------------------Greedy ------------------------------\n">Greedy4.txt;
 
 
-let Tic1 := _ampl_system_time;
+let Tic1 := _ampl_system_time + _total_solve_system_time;
 
 for {k in K} {
 	let k_bar := k;
@@ -297,12 +297,12 @@ for {k in K} {
 }
 let lambda := max {(i, j) in A} sum{k in K} u[i, j, k] * d[k];
 let UB1 := lambda;
-let Toc1 := _ampl_system_time;
+let Toc1 := _ampl_system_time + _total_solve_system_time;
 
-let T1 := _total_solve_system_time;
+let T1 := Toc1 - Tic1;
 display T1;
 
-let Tic2 := _ampl_system_time;
+let Tic2 := _ampl_system_time + _total_solve_system_time;
 
 set K_assigned within K default {};  	# set of demands already routed
 param d_max default 0; 					# max flow
@@ -330,11 +330,11 @@ repeat {
 
 let UB2:= lambda;
 
-let Toc2 := _ampl_system_time;
+let Toc2 := _ampl_system_time + _total_solve_system_time;
 
 
 
-let T2 := _total_solve_system_time;
+let T2 := Toc2 - Tic2;
 display T2;
 
 printf"Greedy 1: 		%d \t Greeedy2: 		%d\n", UB1,UB2 >Greedy4.txt;
@@ -371,7 +371,7 @@ data topology5.dat;
 printf "-------------------------------Greedy ------------------------------\n">Greedy5.txt;
 
 
-let Tic1 := _ampl_system_time;
+let Tic1 := _ampl_system_time + _total_solve_system_time;
 
 for {k in K} {
 	let k_bar := k;
@@ -384,12 +384,12 @@ for {k in K} {
 }
 let lambda := max {(i, j) in A} sum{k in K} u[i, j, k] * d[k];
 let UB1 := lambda;
-let Toc1 := _ampl_system_time;
+let Toc1 := _ampl_system_time + _total_solve_system_time;
 
-let T1 := _total_solve_system_time;
+let T1 := Toc1 - Tic1;
 display T1;
 
-let Tic2 := _ampl_system_time;
+let Tic2 := _ampl_system_time + _total_solve_system_time;
 
 set K_assigned within K default {};  	# set of demands already routed
 param d_max default 0; 					# max flow
@@ -417,11 +417,11 @@ repeat {
 
 let UB2:= lambda;
 
-let Toc2 := _ampl_system_time;
+let Toc2 := _ampl_system_time + _total_solve_system_time;
 
 
 
-let T2 := _total_solve_system_time;
+let T2 := Toc2 - Tic2;
 display T2;
 
 printf"Greedy 1: 		%d \t Greeedy2: 		%d \n", UB1,UB2>Greedy5.txt;
