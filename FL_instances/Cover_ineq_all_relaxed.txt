@@ -1,0 +1,45 @@
+Cover inequalities nuove
+
+************************** istanza p1 *********************************
+ -------------- Iterazione 1 ---------------
+
+The optimal value of the LP relaxation is: 	 11329.271362
+Numero di cover inequalities per speration_mid = 	 0 
+Numero di cover inequalities per speration_high = 	 0 
+
+************************** istanza p67 *********************************
+
+ -------------- Iterazione 1 ---------------
+
+The optimal value of the LP relaxation is: 	 30243.746883
+Numero di cover inequalities per speration_mid = 	 0 
+Numero di cover inequalities per speration_high = 	 0 
+
+************************** istanza p68 *********************************
+ -------------- Iterazione 1 ---------------
+
+The optimal value of the LP relaxation is: 	 23890.022049
+Numero di cover inequalities per speration_mid = 	 0 
+Numero di cover inequalities per speration_high = 	 0 
+
+************************** istanza p69 *********************************
+ -------------- Iterazione 1 ---------------
+
+The optimal value of the LP relaxation is: 	 29921.635163
+Numero di cover inequalities per speration_mid = 	 0 
+Numero di cover inequalities per speration_high = 	 0 
+
+************************** istanza p70 *********************************
+ -------------- Iterazione 1 ---------------
+
+The optimal value of the LP relaxation is: 	 43869.484977
+Numero di cover inequalities per speration_mid = 	 0 
+Numero di cover inequalities per speration_high = 	 0 
+
+************************** istanza p71 *********************************
+ -------------- Iterazione 1 ---------------
+
+The optimal value of the LP relaxation is: 	 29837.584703
+Numero di cover inequalities per speration_mid = 	 0 
+Numero di cover inequalities per speration_high = 	 0 
+

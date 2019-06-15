@@ -18,7 +18,7 @@ param infeasibility_1 default 0;
 param infeasibility_2 default 0;
 param actual_min default max{i in 1..I, j in 1..J} (d[i,j] + mu[j]*t[i]);
 param actual_min2 default max{j in 1..J, k in 1..K} (l[j,k] + nu[k]*a[j]);
-param setted default 0; # mi dice se ho già trovato un assegnamento
+param setted default 0; # mi dice se ho gia' trovato un assegnamento
 param  Obj_LR;
 
 let step := 0.2;
