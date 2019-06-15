@@ -46,10 +46,18 @@ s.t. client_assignment{i in 1..I}:
 	sum{j in 1..J: d[i,j] <= R} x[i,j]	>=	1; 
 	
 s.t. capacity_mid_level{j in 1..J}:
-	sum{i in 1..I} t[i]*x[i,j]	<=	Gamma*z[j];
+	sum{i in 1..I} t[i]*x[i,j]	<=	Gamma;
 	
 s.t. capacity_high_level{k in 1..K}:
-	sum{j in 1..J} a[j]*y[j,k]	<=	Lambda*w[k];
+	sum{j in 1..J} a[j]*y[j,k]	<=	Lambda;
+	
+s.t. link_x_z{i in 1..I, j in 1..J}:
+	x[i,j]<=z[j];
+	
+s.t. link_y_w{j in 1..J, k in 1..K}:
+	y[j,k]<=w[k];
 	
 s.t. mid_level_assignment{j in 1..J}:
 	sum{k in 1..K} y[j,k] >= z[j];
+	
+	

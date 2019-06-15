@@ -11,8 +11,7 @@ param T;
 option solver cplex;
 option cplex_options 'mipgap 0';
 
-problem CR: x, y, z, w, totalcost, client_assignment, capacity_mid_level, capacity_high_level, mid_level_assignment;
-
+problem CR:x, y, z, w, totalcost, client_assignment, capacity_mid_level, capacity_high_level, link_x_z, link_y_w, mid_level_assignment;
 
 
 printf "-------------------------------CR ------------------------------\n">CR_pb.txt;
@@ -26,7 +25,7 @@ display totalcost;
 let T := _solve_system_time;;
 
 
-printf"Optimal value: 		%d ", totalcost >CR_pb.txt;
+printf"Optimal value: 		%f ", totalcost >CR_pb.txt;
 printf"				time:%f  \n", T>CR_pb.txt;
 
 printf "********************************* Istance p67 *********************************\n">CR_pb.txt;
@@ -46,7 +45,7 @@ display totalcost;
 let T := _solve_system_time;;
 
 
-printf"Optimal value: 		%d ", totalcost >CR_pb.txt;
+printf"Optimal value: 		%f ", totalcost >CR_pb.txt;
 printf"				time:%f  \n", T>CR_pb.txt;
 
 printf "********************************* Istance p68 *********************************\n">CR_pb.txt;
@@ -65,7 +64,7 @@ display totalcost;
 let T := _solve_system_time;;
 
 
-printf"Optimal value: 		%d ", totalcost >CR_pb.txt;
+printf"Optimal value: 		%f ", totalcost >CR_pb.txt;
 printf"				time:%f  \n", T>CR_pb.txt;
 
 printf "********************************* Istance p69 *********************************\n">CR_pb.txt;
@@ -85,7 +84,7 @@ display totalcost;
 let T := _solve_system_time;;
 
 
-printf"Optimal value: 		%d ", totalcost >CR_pb.txt;
+printf"Optimal value: 		%f ", totalcost >CR_pb.txt;
 printf"				time:%f  \n", T>CR_pb.txt;
 
 printf "********************************* Istance p70 *********************************\n">CR_pb.txt;
@@ -104,7 +103,7 @@ display totalcost;
 let T := _solve_system_time;;
 
 
-printf"Optimal value: 		%d ", totalcost >CR_pb.txt;
+printf"Optimal value: 		%f ", totalcost >CR_pb.txt;
 printf"				time:%f  \n", T>CR_pb.txt;
 
 printf "********************************* Istance p71 *********************************\n">CR_pb.txt;
@@ -123,5 +122,5 @@ display totalcost;
 let T := _solve_system_time;;
 
 
-printf"Optimal value: 		%d ", totalcost >CR_pb.txt;
+printf"Optimal value: 		%f ", totalcost >CR_pb.txt;
 printf"				time:%f  \n", T>CR_pb.txt;
