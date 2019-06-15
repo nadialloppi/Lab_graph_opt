@@ -74,7 +74,7 @@ repeat{
 		}
 	}
 	}
-	
+	s
 } until (sum{ii in II} (1) = 0 or infeas_flag=1);
 
 
