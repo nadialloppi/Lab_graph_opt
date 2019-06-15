@@ -1,0 +1,59 @@
+Cover inequalities con z e w binarie, ma senza if 
+
+***************************** p1 ************************************
+ -------------- Iterazione 1 ---------------
+
+The optimal value of the LP relaxation is: 	 14271.612245
+Numero di cover inequalities per speration_mid = 	 4 
+Numero di cover inequalities per speration_high = 	 0 
+ -------------- Iterazione 2 ---------------
+
+The optimal value of the LP relaxation is: 	 14282.294118
+Numero di cover inequalities per speration_mid = 	 7 
+Numero di cover inequalities per speration_high = 	 0 
+ -------------- Iterazione 3 ---------------
+
+The optimal value of the LP relaxation is: 	 14292.863823
+Numero di cover inequalities per speration_mid = 	 9 
+Numero di cover inequalities per speration_high = 	 0 
+ -------------- Iterazione 4 ---------------
+
+The optimal value of the LP relaxation is: 	 14293.357143
+Numero di cover inequalities per speration_mid = 	 11 
+Numero di cover inequalities per speration_high = 	 0 
+ -------------- Iterazione 5 ---------------
+
+The optimal value of the LP relaxation is: 	 14301.172932
+Numero di cover inequalities per speration_mid = 	 12 
+Numero di cover inequalities per speration_high = 	 0 
+ -------------- Iterazione 6 ---------------
+
+The optimal value of the LP relaxation is: 	 14301.966969
+Numero di cover inequalities per speration_mid = 	 12 
+Numero di cover inequalities per speration_high = 	 0 
+***************************** p67 ***********************************
+***************************** p68 ***********************************
+ -------------- Iterazione 1 ---------------
+
+The optimal value of the LP relaxation is: 	 37363.172610
+Numero di cover inequalities per speration_mid = 	 4 
+Numero di cover inequalities per speration_high = 	 0 
+ -------------- Iterazione 2 ---------------
+
+The optimal value of the LP relaxation is: 	 37369.523457
+Numero di cover inequalities per speration_mid = 	 6 
+Numero di cover inequalities per speration_high = 	 0 
+ -------------- Iterazione 3 ---------------
+
+The optimal value of the LP relaxation is: 	 37370.036707
+Numero di cover inequalities per speration_mid = 	 8 
+Numero di cover inequalities per speration_high = 	 0 
+ -------------- Iterazione 4 ---------------
+
+The optimal value of the LP relaxation is: 	 37371.086207
+Numero di cover inequalities per speration_mid = 	 8 
+Numero di cover inequalities per speration_high = 	 0 
+
+***************************** p69 ***********************************
+***************************** p70 ***********************************
+***************************** p71 ***********************************

@@ -1,4 +1,3 @@
-
 printf "********************************* Istance 1 *********************************\n">CR_analysis.txt;
 
 model parameterDefinition.mod;
@@ -18,9 +17,9 @@ option solver cplex;
 option cplex_options 'mipgap 0';
 
 problem Original: x, y, z, w, totalcost, client_assignment, capacity_mid_level, capacity_high_level, mid_level_assignment;
-problem ContRelaxation: x_c, y_c, z_c, w_c, totalcost_c, client_assignment_c, capacity_mid_level_c, capacity_high_level_c, mid_level_assignment_c;
+problem ContRelaxation: x_c, y_c, z_c, w_c, totalcost_c, client_assignment_c, capacity_mid_level_c, capacity_high_level_c, link_x_z_c, link_y_w_c, mid_level_assignment_c;
 
-printf "---------------------------- Original ---------------------------\n">CR_analysis.txt;
+printf"---------------------------- Original ---------------------------\n">CR_analysis.txt;
 
 let Tic_original := _ampl_elapsed_time;
 

@@ -47,7 +47,7 @@ s.t. capacity_high_level{k in 1..K}:
 s.t. mid_level_assignment{j in 1..J}:
 	sum{k in 1..K} y[j,k] >= z[j];
 	
-# CR -------------------------------------------------------------------------------------------
+# ------------------------------ Continuous Relaxation -------------------------------------------------------------------------------------------
 
 var x_c{1..I,1..J} >= 0, <=1; 	#1 if client i assigned to mid level facility j
 var y_c{1..J,1..K} >= 0, <=1; 	#1 if mid level facility j is assigned to high level facility k
@@ -62,10 +62,16 @@ s.t. client_assignment_c{i in 1..I}:
 												# Attenzione al >= 1 che quando rilasso l'integralita' devo mettere anche <= 1
 	
 s.t. capacity_mid_level_c{j in 1..J}:
-	sum{i in 1..I} t[i]*x_c[i,j]	<=	Gamma*z_c[j];
+	sum{i in 1..I} t[i]*x_c[i,j]	<=	Gamma;
 	
 s.t. capacity_high_level_c{k in 1..K}:
-	sum{j in 1..J} a[j]*y_c[j,k]	<=	Lambda*w_c[k];
+	sum{j in 1..J} a[j]*y_c[j,k]	<=	Lambda;
+	
+s.t. link_x_z_c{i in 1..I, j in 1..J}:
+	x_c[i,j]<=z_c[j];
+	
+s.t. link_y_w_c{j in 1..J, k in 1..K}:
+	y_c[j,k]<=w_c[k];
 	
 s.t. mid_level_assignment_c{j in 1..J}:
 	sum{k in 1..K} y_c[j,k] >= z_c[j];
