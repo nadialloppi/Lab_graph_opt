@@ -1,8 +1,4 @@
-# Minimizzo costo = 1
-# Minimizzo capacità residua = 0
-# Update cardinalità = 0
-# Update costo di apertura = 0
-# Local search = 1
+# Cardinalita' non riaggiornata e min cost
 
 param I; # number of clients
 
@@ -32,14 +28,14 @@ param Lambda;		# high level facility capacity
 
 param R default 0;
 
-data p1.dat;
+data p71.dat;
 
 	
 set II default 1..I;		# elementi non ancora asseganti/aperti..
 set KK default 1..K;	
 
 set OJ default {} ;
-
+set OK default {} ;
 set IJ within {1..I,1..J} default {};  # Assegnamenti di primo livello fatti
 
 
@@ -47,38 +43,44 @@ param min_cost_i default 0;
 param min_cost_j default 0;
 param min_cost default 0;
 
+param open_c {1..J};
 param cap_res{1..J};
-for {j in 1..J} let cap_res[j]:= Gamma;
+for {j in 1..J} {let cap_res[j]:= Gamma; let open_c[j] := c[j];}
 
 
 param cardinality_i {1..I} default 0;
 param min_card_i default 0;
 
-# Assegnamento cliente - struttura medio livello
+param infeas_flag default 0; 		# Mi dice se esco perche' infeasible
 
 printf "Inizio primo livello\n";
 for {i in 1..I}
 	let cardinality_i [i] := card(setof{j in 1..J: d[i,  j] <= R}j);
 
 repeat{
-	let min_card_i := min{i in II} cardinality_i[i]; 	# 1. Seleziono cliente con meno collegamenti
+	let min_card_i := min{i in II} cardinality_i[i];
 	for {i in II}{
 		if (cardinality_i[i] = min_card_i) then {
-			let min_cost := min{j in 1..J: cap_res[j] >= t[i] and d[i, j] <= R} (c[j]+d[i,j]);	# 2. Seleziono mid-level facility più economica
+			if (min{ii in II}card(setof{j in 1..J: cap_res[j] >= t[ii] and d[ii, j] <= R}j)=0 ) then let infeas_flag := 1; else {
+			let min_cost := min{j in 1..J: cap_res[j] >= t[i] and d[i, j] <= R} (open_c[j]+d[i,j]);
 			for {j in 1..J :  cap_res[j] >= t[i] and d[i, j] <= R}{
-				if (c[j]+d[i,j] = min_cost) then {
+				if (open_c[j]+d[i,j] = min_cost and i in II) then {
 					let IJ:= IJ union {(i, j)} ;
 					let II:= II diff {i};
 					let cap_res[j] := cap_res[j] - t[i];
+					let open_c[j] := 0; 		# metto a zero il costo di apertura per il futuro
 				}
 			}
 		}
 	}
+	}
+	
+} until (sum{ii in II} (1) = 0 or infeas_flag=1);
 
-} until (sum{ii in II} (1) = 0);
 
+if (infeas_flag = 1) then {printf"***********************Il greedy non riesce a trovare una soluzione feasible\nNon ho assegnato:"; display II;}
 
-let OJ := setof{j in 1..J: cap_res[j] < Gamma}j;
+let OJ := setof{(i, j) in IJ}j;
 
 param mid_Cost_pre default 0;
 let mid_Cost_pre := sum{j in OJ}c[j] + sum{(i, j) in IJ} d[i,j];
@@ -87,8 +89,6 @@ display sum{j in OJ}c[j];
 display sum{(i, j) in IJ} d[i,j];
 
 display OJ;
-
-# Local search 
 
 param actual_cost{1..I} default 0;
 param actual_midlevel{1..I};
@@ -120,7 +120,7 @@ display sum{(i, j) in IJ} d[i,j];
 
 display OJ;
 
-# Assegnamento struttura medio livello - struttura alto livello
+
 printf "Inizio secondo livello\n";
 param min_cost_k default 0;
 
@@ -131,7 +131,7 @@ set JK within {1..J, 1..K} default {};	# assegnamenti 2ndo livello
 param cap_res_k default Lambda;
 
 repeat{
-let min_cost_k := min {k in KK} (g[k] + sum{j in OJ} l[j, k]); # considero costo apertura + assegnamento
+let min_cost_k := min {k in KK} (g[k] + sum{j in OJ} l[j, k]);
 #let cap_res_k:= Lambda;
 for {k in KK}{
 	let cap_res_k:= Lambda;
@@ -154,9 +154,11 @@ for {k in KK}{
 }
 } until (sum{jjj in OJJ} (1) = 0);
 
+let OK := setof{(j, k) in JK} k;
+
 param UB default 0;
 
-let UB := sum{j in OJ}c[j] + sum{k in {1..K diff KK}} g[k] + sum{(j, k) in JK} l[j,k] + sum{(i, j) in IJ} d[i,j];
+let UB := sum{j in OJ}c[j] + sum{k in OK} g[k] + sum{(j, k) in JK} l[j,k] + sum{(i, j) in IJ} d[i,j];
 
 display UB;
 
