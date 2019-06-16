@@ -1,0 +1,7 @@
+*************************** Instance p1 *******************************
+--------------------------- Lagrangian Relaxation ---------------------------
+Passo iniziale: 0.500000 
+Soluzione iniziale: 6041.000000 
+Valore ottimo trovato per il rilassamennto lagrangiano: 11329.216172 
+Trovato all'iterazione 1952 di 800
+   Time: 	 12.234375 
