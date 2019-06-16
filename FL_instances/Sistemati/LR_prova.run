@@ -33,7 +33,7 @@ printf"--------------------------- Lagrangian Relaxation -----------------------
 let step := 0.2;
 printf"Passo iniziale: %f \n", step > LR_prova.txt;
 
-let Tic := _ampl_system_time+_solve_system_time;
+let Tic := _ampl_system_time+_total_solve_system_time;
 
 for {iter in 1..10} {
 	
@@ -94,7 +94,7 @@ for {iter in 1..10} {
   	
 }
 
-let Toc :=  _ampl_system_time+_solve_system_time;
+let Toc :=  _ampl_system_time+_total_solve_system_time;
 let T := Toc-Tic;
 
 printf"Valore ottimo trovato per il rilassamennto lagrangiano: %f \n", LB_LR_prova > LR_prova.txt;
@@ -113,7 +113,7 @@ printf"--------------------------- Lagrangian Relaxation -----------------------
 let step := 0.2;
 printf"Passo iniziale: %f \n", step > LR_prova.txt;
 
-let Tic := _ampl_system_time+_solve_system_time;
+let Tic := _ampl_system_time+_total_solve_system_time;
 
 for {iter in 1..10} {
 	
@@ -174,7 +174,7 @@ for {iter in 1..10} {
   	
 }
 
-let Toc :=  _ampl_system_time+_solve_system_time;
+let Toc :=  _ampl_system_time+_total_solve_system_time;
 let T := Toc-Tic;
 
 printf"Valore ottimo trovato per il rilassamennto lagrangiano: %f \n", LB_LR_prova > LR_prova.txt;
@@ -194,7 +194,7 @@ printf"--------------------------- Lagrangian Relaxation -----------------------
 let step := 0.2;
 printf"Passo iniziale: %f \n", step > LR_prova.txt;
 
-let Tic := _ampl_system_time+_solve_system_time;
+let Tic := _ampl_system_time+_total_solve_system_time;
 
 for {iter in 1..10} {
 	
@@ -255,7 +255,7 @@ for {iter in 1..10} {
   	
 }
 
-let Toc :=  _ampl_system_time+_solve_system_time;
+let Toc :=  _ampl_system_time+_total_solve_system_time;
 let T := Toc-Tic;
 
 printf"Valore ottimo trovato per il rilassamennto lagrangiano: %f \n", LB_LR_prova > LR_prova.txt;
@@ -274,7 +274,7 @@ printf"--------------------------- Lagrangian Relaxation -----------------------
 let step := 0.2;
 printf"Passo iniziale: %f \n", step > LR_prova.txt;
 
-let Tic := _ampl_system_time+_solve_system_time;
+let Tic := _ampl_system_time+_total_solve_system_time;
 
 for {iter in 1..10} {
 	
@@ -335,7 +335,7 @@ for {iter in 1..10} {
   	
 }
 
-let Toc :=  _ampl_system_time+_solve_system_time;
+let Toc :=  _ampl_system_time+_total_solve_system_time;
 let T := Toc-Tic;
 
 printf"Valore ottimo trovato per il rilassamennto lagrangiano: %f \n", LB_LR_prova > LR_prova.txt;
@@ -355,7 +355,7 @@ printf"--------------------------- Lagrangian Relaxation -----------------------
 let step := 0.2;
 printf"Passo iniziale: %f \n", step > LR_prova.txt;
 
-let Tic := _ampl_system_time+_solve_system_time;
+let Tic := _ampl_system_time+_total_solve_system_time;
 
 for {iter in 1..10} {
 	
@@ -416,7 +416,7 @@ for {iter in 1..10} {
   	
 }
 
-let Toc :=  _ampl_system_time+_solve_system_time;
+let Toc :=  _ampl_system_time+_total_solve_system_time;
 let T := Toc-Tic;
 
 printf"Valore ottimo trovato per il rilassamennto lagrangiano: %f \n", LB_LR_prova > LR_prova.txt;
@@ -435,7 +435,7 @@ printf"--------------------------- Lagrangian Relaxation -----------------------
 let step := 0.2;
 printf"Passo iniziale: %f \n", step > LR_prova.txt;
 
-let Tic := _ampl_system_time+_solve_system_time;
+let Tic := _ampl_system_time + _total_solve_system_time;
 
 for {iter in 1..10} {
 	
@@ -496,7 +496,7 @@ for {iter in 1..10} {
   	
 }
 
-let Toc :=  _ampl_system_time+_solve_system_time;
+let Toc :=  _ampl_system_time+_total_solve_system_time;
 let T := Toc-Tic;
 
 printf"Valore ottimo trovato per il rilassamennto lagrangiano: %f \n", LB_LR_prova > LR_prova.txt;

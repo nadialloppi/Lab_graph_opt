@@ -4,39 +4,39 @@ Passo iniziale: 0.200000
 Soluzione iniziale: 14027.000000 
 Valore ottimo trovato per il rilassamennto lagrangiano: 14172.484806 
 Trovato all'iterazione 7 di 10
-   Time: 	 0.062500 
+   Time: 	 0.390625 
 *************************** Instance p67 *******************************
 --------------------------- Lagrangian Relaxation ---------------------------
 Passo iniziale: 0.200000 
 Soluzione iniziale: 42333.000000 
 Valore ottimo trovato per il rilassamennto lagrangiano: 42526.721647 
 Trovato all'iterazione 4 di 10
-   Time: 	 1.343750 
+   Time: 	 10.937500 
 *************************** Instance p68 *******************************
 --------------------------- Lagrangian Relaxation ---------------------------
 Passo iniziale: 0.200000 
 Soluzione iniziale: 37326.000000 
 Valore ottimo trovato per il rilassamennto lagrangiano: 37346.622823 
 Trovato all'iterazione 10 di 10
-   Time: 	 0.781250 
+   Time: 	 20.562500 
 *************************** Instance p69 *******************************
 --------------------------- Lagrangian Relaxation ---------------------------
 Passo iniziale: 0.200000 
 Soluzione iniziale: 46679.000000 
 Valore ottimo trovato per il rilassamennto lagrangiano: 46810.815663 
 Trovato all'iterazione 4 di 10
-   Time: 	 0.125000 
+   Time: 	 18.171875 
 *************************** Instance p70 *******************************
 --------------------------- Lagrangian Relaxation ---------------------------
 Passo iniziale: 0.200000 
 Soluzione iniziale: 66898.000000 
 Valore ottimo trovato per il rilassamennto lagrangiano: 66996.765593 
 Trovato all'iterazione 2 di 10
-   Time: 	 2.156250 
+   Time: 	 31.296875 
 *************************** Instance p71 *******************************
 --------------------------- Lagrangian Relaxation ---------------------------
 Passo iniziale: 0.200000 
 Soluzione iniziale: 43041.000000 
 Valore ottimo trovato per il rilassamennto lagrangiano: 43383.914650 
 Trovato all'iterazione 5 di 10
-   Time: 	 -2.156250 
+   Time: 	 13.156250 
