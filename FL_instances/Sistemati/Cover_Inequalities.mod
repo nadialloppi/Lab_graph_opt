@@ -97,7 +97,7 @@ s.t. covercond_mid:
 	sum{i in {1..I}} t[i]*u[i,j_bar]>=Gamma+1;
 	
 # Fractional solution of current LP
-param y_star{1..J,1..K};
+param y_star{1..J,1..K} >=0;
 param k_bar;
 #store the value of the current opt sol
 

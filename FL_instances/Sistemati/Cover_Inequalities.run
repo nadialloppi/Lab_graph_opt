@@ -19,9 +19,9 @@ param Tic;
 param Toc;
 param T;
 
-printf "********************************* Istance p71 *********************************\n">cover_ineq_p71.txt;
+printf "********************************* Istance p69 *********************************\n">cover_ineq_p69.txt;
 
-data p71.dat;
+data p69.dat;
 
 solve LP;
 
@@ -56,7 +56,8 @@ repeat{
    	if( z[j_bar]=1) then{
    		solve separation_mid;
 		# Check if a violated cover exists if so, update the number of cover inequalities and create the new cover set
-   		if(objfnc_mid < 1-0.001) then{
+   		if(objfnc_mid < 1) then{
+   			display objfnc_mid;
     		let cm := cm+1;
     		let CI_mid[cm]:= setof{ i in {1..I} : u[i,j_bar]==1} (i,j_bar);
     		let flag := 1;
@@ -94,7 +95,7 @@ display initialSol, finalSol;
 
 
 
-printf"LB value: 		%f ", finalSol >cover_ineq_p71.txt;
-printf"				time:%f  \n", T>cover_ineq_p71.txt;
-printf"n. of inequalities added mid level: 		%d\n", cm>cover_ineq_p71.txt;
-printf"n. of inequalities added high level: 		%d\n", ch>cover_ineq_p71.txt;
+printf"LB value: 		%f ", finalSol >cover_ineq_p69.txt;
+printf"				time:%f  \n", T>cover_ineq_p69.txt;
+printf"n. of inequalities added mid level: 		%d\n", cm>cover_ineq_p69.txt;
+printf"n. of inequalities added high level: 		%d\n", ch>cover_ineq_p69.txt;
