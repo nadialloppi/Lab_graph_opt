@@ -1,0 +1,127 @@
+printf "********************************* Istance p1 *********************************\n">Original_pb.txt;
+
+model Original_pb.mod;
+data p1.dat;
+
+
+param OPT default 0; 
+
+
+param T;
+option solver cplex;
+option cplex_options 'mipgap 0';
+
+problem Original: x, y, z, w, totalcost, client_assignment, capacity_mid_level, capacity_high_level, mid_level_assignment;
+
+
+
+printf "-------------------------------Original ------------------------------\n">Original_pb.txt;
+
+
+solve Original;
+
+let OPT:= totalcost; 
+display totalcost;
+
+let T := _solve_system_time;;
+
+
+printf"Optimal value: 		%d ", OPT >Original_pb.txt;
+printf"				time:%f  \n", T>Original_pb.txt;
+
+printf "********************************* Istance p67 *********************************\n">Original_pb.txt;
+
+reset data;
+data p67.dat;
+
+
+printf "-------------------------------Original ------------------------------\n">Original_pb.txt;
+
+
+solve Original;
+
+let OPT:= totalcost; 
+display totalcost;
+
+let T := _solve_system_time;;
+
+
+printf"Optimal value: 		%d ", OPT >Original_pb.txt;
+printf"				time:%f  \n", T>Original_pb.txt;
+
+printf "********************************* Istance p68 *********************************\n">Original_pb.txt;
+
+reset data;
+data p68.dat;
+
+printf "-------------------------------Original ------------------------------\n">Original_pb.txt;
+
+
+solve Original;
+
+let OPT:= totalcost; 
+display totalcost;
+
+let T := _solve_system_time;;
+
+
+printf"Optimal value: 		%d ", OPT >Original_pb.txt;
+printf"				time:%f  \n", T>Original_pb.txt;
+
+printf "********************************* Istance p69 *********************************\n">Original_pb.txt;
+
+reset data;
+data p69.dat;
+
+
+printf "-------------------------------Original ------------------------------\n">Original_pb.txt;
+
+
+solve Original;
+
+let OPT:= totalcost; 
+display totalcost;
+
+let T := _solve_system_time;;
+
+
+printf"Optimal value: 		%d ", OPT >Original_pb.txt;
+printf"				time:%f  \n", T>Original_pb.txt;
+
+printf "********************************* Istance p70 *********************************\n">Original_pb.txt;
+
+reset data;
+data p70.dat;
+
+printf "-------------------------------Original ------------------------------\n">Original_pb.txt;
+
+
+solve Original;
+
+let OPT:= totalcost; 
+display totalcost;
+
+let T := _solve_system_time;;
+
+
+printf"Optimal value: 		%d ", OPT >Original_pb.txt;
+printf"				time:%f  \n", T>Original_pb.txt;
+
+printf "********************************* Istance p71 *********************************\n">Original_pb.txt;
+
+reset data;
+data p71.dat;
+
+printf "-------------------------------Original ------------------------------\n">Original_pb.txt;
+
+
+solve Original;
+
+let OPT:= totalcost; 
+display totalcost;
+
+let T := _solve_system_time;;
+
+
+printf"Optimal value: 		%d ", OPT >Original_pb.txt;
+printf"				time:%f  \n", T>Original_pb.txt;
