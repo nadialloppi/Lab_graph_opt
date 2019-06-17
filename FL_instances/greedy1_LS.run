@@ -82,6 +82,44 @@ if (infeas_flag = 1) then {printf"***********************Il greedy non riesce a 
 
 let OJ := setof{(i, j) in IJ}j;
 
+param mid_Cost_pre default 0;
+let mid_Cost_pre := sum{j in OJ}c[j] + sum{(i, j) in IJ} d[i,j];
+display mid_Cost_pre;
+display sum{j in OJ}c[j];
+display sum{(i, j) in IJ} d[i,j];
+
+display OJ;
+
+param actual_cost{1..I} default 0;
+param actual_midlevel{1..I};
+
+for {(i, j) in IJ} {
+	let actual_cost[i] := d[i, j];
+	let actual_midlevel[i] := j;
+}
+
+for {i in 1..I}{
+	for {j in OJ}{
+		if (d[i, j] < actual_cost[i] and cap_res[j] >= t[i]) then {
+			let IJ := IJ diff {(i, actual_midlevel[i])};
+			let IJ := IJ union {(i, j)};
+			let cap_res[j] := cap_res[j] - t[i];
+			let cap_res[actual_midlevel[i]] := cap_res[actual_midlevel[i]] + t[i];
+			if (cap_res[actual_midlevel[i]] = Gamma) then let OJ:= OJ diff {actual_midlevel[i]};
+			let actual_cost[i] := d[i, j];
+			let actual_midlevel[i] := j;
+		}
+	}
+}
+
+param mid_Cost_post default 0;
+let mid_Cost_post := sum{j in OJ}c[j] + sum{(i, j) in IJ} d[i,j];
+display mid_Cost_post;
+display sum{j in OJ}c[j];
+display sum{(i, j) in IJ} d[i,j];
+
+display OJ;
+
 
 printf "Inizio secondo livello\n";
 param min_cost_k default 0;
