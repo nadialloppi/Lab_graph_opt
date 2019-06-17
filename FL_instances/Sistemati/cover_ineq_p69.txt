@@ -1,0 +1,4 @@
+********************************* Istance p69 *********************************
+LB value: 		82138.562500 				time:2.125000  
+n. of inequalities added mid level: 		7
+n. of inequalities added high level: 		0

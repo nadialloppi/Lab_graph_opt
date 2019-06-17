@@ -1,0 +1,4 @@
+********************************* Istance p1 *********************************
+LB value: 		14301.966969 				time:1.031250  
+n. of inequalities added mid level: 		12
+n. of inequalities added high level: 		0

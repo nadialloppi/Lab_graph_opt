@@ -1,0 +1,4 @@
+********************************* Istance p67 *********************************
+LB value: 		42830.066309 				time:8.265625  
+n. of inequalities added mid level: 		23
+n. of inequalities added high level: 		0
