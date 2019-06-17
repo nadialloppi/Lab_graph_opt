@@ -1,0 +1,97 @@
+
+printf "********************************* Istance 1 *********************************\n">Hop_analysis.txt;
+
+model Original_pb.mod;
+data demand1.dat;
+data topology1.dat;
+ 
+param T_solve_nohop;
+
+
+param NOHOP default 0;
+
+option solver cplex;
+option cplex_options 'mipgap 0';
+
+problem No_Hop: x, l, capacity, flowBalance, varConsistency;
+
+
+printf "-------------------------------NoHop ------------------------------\n">Hop_analysis.txt;
+
+solve No_Hop;
+
+let NOHOP := l; display l;
+
+let T_solve_nohop := _solve_system_time;
+
+printf"Optimal value: 		%d ", l >Hop_analysis.txt;
+printf"				time:%f \n",T_solve_nohop >Hop_analysis.txt;
+printf "\n" > Hop_analysis.txt;
+
+printf "********************************* Istance 2 *********************************\n">Hop_analysis.txt;
+reset data;
+
+data demand2.dat;
+data topology2.dat;
+
+printf "-------------------------------NoHop ------------------------------\n">Hop_analysis.txt;
+
+solve No_Hop;
+
+
+let T_solve_nohop := _solve_system_time;
+
+printf"Optimal value: 		%d ", l >Hop_analysis.txt;
+printf"				time:%f \n",T_solve_nohop >Hop_analysis.txt;
+printf "\n" > Hop_analysis.txt;
+
+printf "********************************* Istance 3 *********************************\n">Hop_analysis.txt;
+reset data;
+data demand3.dat;
+data topology3.dat;
+
+printf "-------------------------------NoHop ------------------------------\n">Hop_analysis.txt;
+
+solve No_Hop;
+
+let NOHOP := l; display l;
+
+let T_solve_nohop := _solve_system_time;
+
+printf"Optimal value: 		%d ", l >Hop_analysis.txt;
+printf"				time:%f \n",T_solve_nohop >Hop_analysis.txt;
+printf "\n" > Hop_analysis.txt;
+
+printf "********************************* Istance 4 *********************************\n">Hop_analysis.txt;
+reset data;
+data demand4.dat;
+data topology4.dat;
+
+printf "-------------------------------NoHop ------------------------------\n">Hop_analysis.txt;
+
+solve No_Hop;
+
+let NOHOP := l; display l;
+let T_solve_nohop := _solve_system_time;
+
+printf"Optimal value: 		%d ", l >Hop_analysis.txt;
+printf"				time:%f \n",T_solve_nohop >Hop_analysis.txt;
+printf "\n" > Hop_analysis.txt;
+
+printf "********************************* Istance 5 *********************************\n">Hop_analysis.txt;
+reset data;
+
+data demand5.dat;
+data topology5.dat;
+
+printf "-------------------------------NoHop ------------------------------\n">Hop_analysis.txt;
+
+solve No_Hop;
+
+let NOHOP := l; display l;
+
+let T_solve_nohop := _solve_system_time;
+
+printf"Optimal value: 		%d ", l >Hop_analysis.txt;
+printf"				time:%f \n",T_solve_nohop >Hop_analysis.txt;
+printf "\n" > Hop_analysis.txt;
