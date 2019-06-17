@@ -42,7 +42,7 @@ s.t. varConsistency_c {(i, j) in A}:
 	sum {k in K} x_c[i, j, k] * d[k] <= l_c;
 	
 s.t. valid_ineq_c{s in 1..S}:
-	l_c>= ceil( sum{k in K} d[k]*b[k,s]/ sum{(i,j) in A} c[i,j,s]);
+	l_c>= sum{k in K} d[k]*b[k,s]/ sum{(i,j) in A} c[i,j,s];
 	
 
 # Separation problem -------------------------------
