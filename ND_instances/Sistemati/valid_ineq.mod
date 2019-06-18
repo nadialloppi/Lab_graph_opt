@@ -48,6 +48,7 @@ s.t. valid_ineq_c{s in 1..S}:
 # Separation problem -------------------------------
 
 param l_bar;
+param eps =0.000001;
 
 var mu{A} binary;	# 1 if the arc has one extreme in S and the other in N\S
 var u{K} binary;	# 1 if commodities k have source in S and destination in N\S
@@ -82,4 +83,4 @@ s.t. S_notEmpty:
 s.t. S_notN:
 	sum{i in N} s[i]<=nb_n-1;
 s.t. consistency_7:
-	z <=(sum{k in K} d[k]*u[k] )/ l_bar + 1;
+	z <=(sum{k in K} d[k]*u[k] )/ l_bar + 1 - eps;
