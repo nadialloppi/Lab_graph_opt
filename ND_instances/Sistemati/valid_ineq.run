@@ -1,0 +1,75 @@
+
+reset;
+
+model valid_ineq.mod;
+data demand5.dat;
+data topology5.dat;
+
+
+option solver cplex;
+
+problem master: l_c, x_c, capacity_c, flowBalance_c, maxArcs_c, varConsistency_c,valid_ineq_c;
+
+problem separation: mu,u,s,z,obj,consistency_1,consistency_2,consistency_3,consistency_4,consistency_5,consistency_6,consistency_7,S_notEmpty,S_notN;
+
+#auxiliary parameters
+param flag default 0;
+printf "------------------------------- VALID INEQUALITIES INSTANCE 1 ------------------------------\n">Valid_ineq_analysis.txt;
+repeat{    
+	#reset flag
+	let flag := 0;
+	      
+    #solve the current master problem  
+	solve master;
+	
+	#print the optimal objective value of the current master problem
+	printf"\n Solution of the master problem: %f \n",capacity_c >Valid_ineq_analysis.txt;;
+
+	let l_bar:= capacity_c;
+		
+	#solve the current separation problem
+	solve separation;
+	
+	#print the subset selected by the current separation problem	
+	printf"\n Set S: \n ">Valid_ineq_analysis.txt;
+	display s>Valid_ineq_analysis.txt;
+	
+	#print the objective function of the separation pb
+	printf"\n Objective function of the separation problem (available capacity - needed capacity): %f \n",obj >Valid_ineq_analysis.txt;
+	
+	#check if the candidate new cluster makes the current continuous solution infeasible
+	if  (obj >= 0) then 
+	{
+		let flag:=0;
+		break;
+	}
+	else
+	{		
+		#add the associated valid inequality to the master problem				
+		let S:=S+1;	    			
+		for{i in N}
+			let a[i,S]:=s[i];
+		for{k in K}
+			let b[k,S]:=u[k];
+		for{(i,j) in A}
+			let c[i,j,S]:=mu[i,j];
+		 	
+	 	#print the current number of clusters in the master problem
+		printf"\n Current number of added valid inequalities %d \n",S >Valid_ineq_analysis.txt;
+	
+		#current master problem solution not optimal -> set flag to 1	
+		let flag:=1;
+	}
+}until(flag=0);
+
+#solve the master problem with the final set of clusters (columns/variables)
+solve master;
+
+#print the optimal objective function value of the final master problem
+printf"\n Solution of the final master problem: %f \n",capacity_c >Valid_ineq_analysis.txt;
+			
+#print the number of valid inequalities of the final master problem	
+printf"\n Number of rows in the final master problem: %d \n",S >Valid_ineq_analysis.txt;
+
+
+display flag;

@@ -1,7 +1,7 @@
 reset;
 
-model relaxation.mod;
-data p1.dat;
+model Cover_Inequalities.mod;
+
 
 option solver cplex;
 option cplex_options 'mipgap 0';
@@ -10,12 +10,18 @@ problem LP: x,y,z,w,totalcost,client_assignment,capacity_mid_level,capacity_high
 problem separation_mid: u,objfnc_mid,covercond_mid;
 problem separation_high: v,objfnc_high,covercond_high;
 
-
-printf"--------------------------- Continuous Relaxation ---------------------------\n";
 param initialSol default 0;
 param finalSol default 0;
 
 param r default 0;
+
+param Tic;
+param Toc;
+param T;
+
+printf "********************************* Istance p1 *********************************\n">cover_ineq.txt;
+
+data p1.dat;
 
 solve LP;
 
@@ -23,6 +29,8 @@ let initialSol := totalcost;
 
 param iter default 0;
 param flag default 0;
+
+let Tic := _ampl_system_time+_total_solve_system_time;
 # Repeat until there are no violated cover inequalities
 repeat{
 
@@ -36,38 +44,6 @@ repeat{
    # Print the optimal value of the LP relaxation with current set of cover inequalities
    printf 'Optimal value of the LP relaxation: \n';
    display totalcost;
-   
-#   for {j in 1..J}{
-#   		let r := Uniform(0,1);
-#		if (r <= z[j]) then {
-#    		fix z[j] := 1;	}
-#   		else
-#   			fix z[j] := 0;
-#   }
-	
-#   for {k in 1..K}{
-#   		let r := Uniform(0,1);
-#		if (r <= w[k]) then {
-#    		fix w[k] := 1;	}
-#   		else
-#   			fix w[k] := 0;
-#   }											cosi' infeasible
-
-#   for {j in 1..J}{
-#		if (sum{i in 1..I}x[i, j] > 0) then {
-#    		fix z[j] := 1;	}
-#   		else
-#   			fix z[j] := 0;
-#   }
-	
-#   for {k in 1..K}{
-#		if (sum{j in 1..J}y[j, k] > 0) then {
-#    		fix w[k] := 1;	}
-#   		else
-#   			fix w[k] := 0;
-#   }											cosi' LB > UB
-
-
 
    # Prepare the objective function of the separation problem
    	let {i in {1..I}, j in {1..J}} x_star[i,j] := x[i,j];
@@ -107,9 +83,419 @@ repeat{
 # Solve LP relaxation with all cover inequalities
 solve LP;
 
+let Toc := _ampl_system_time+_total_solve_system_time;
+let T := Toc-Tic;
 # Set the value of finalSol
 let finalSol := totalcost;
 
 display initialSol, finalSol;
+
+
+
+printf"LB value: 		%f ", finalSol >cover_ineq.txt;
+printf"				time:%f  \n", T>cover_ineq.txt;
+printf"n. of inequalities added: 		%d\n", cm+ch >cover_ineq.txt;
+;
+
+printf "********************************* Istance p67 *********************************\n">cover_ineq.txt;
+
+reset data; 
+data p67.dat;
+let iter := 0;
+let flag := 0;
+solve LP;
+
+let initialSol := totalcost;
+
+let Tic := _ampl_system_time+_total_solve_system_time;
+# Repeat until there are no violated cover inequalities
+repeat{
+
+   # Update iterator 	
+   let iter := iter+1;
+   let flag := 0;
+  
+   # Solve the LP relaxation with current set of cover inequalities 
+   solve LP;
+	
+   # Print the optimal value of the LP relaxation with current set of cover inequalities
+   printf 'Optimal value of the LP relaxation: \n';
+   display totalcost;
+
+   # Prepare the objective function of the separation problem
+   	let {i in {1..I}, j in {1..J}} x_star[i,j] := x[i,j];
+   	let {j in {1..J}, k in {1..K}} y_star[j,k] := y[j,k];
+   	
+   # Solve the separation problem
+   for {j in {1..J}}{
+   	let j_bar := j;
+   	if( z[j_bar]=1) then{
+   		solve separation_mid;
+		# Check if a violated cover exists if so, update the number of cover inequalities and create the new cover set
+   		if(objfnc_mid < 1) then{
+    		let cm := cm+1;
+    		let CI_mid[cm]:= setof{ i in {1..I} : u[i,j_bar]==1} (i,j_bar);
+    		let flag := 1;
+    		display CI_mid[cm];
+   		}
+   	}
+   }
+   for {k in {1..K}}{
+   	let k_bar := k;
+   	if( w[k_bar]=1) then{
+   		solve separation_high;
+		# Check if a violated cover exists if so, update the number of cover inequalities and create the new cover set
+   		if(objfnc_high < 1) then{
+    		let ch := ch+1;
+    		let CI_high[ch]:= setof{ j in {1..J} : u[j,k_bar]==1} (j,k_bar);
+    		let flag := 1;
+   		}
+   	}
+   }
+   
+} until(flag=0);
+
+  
+
+# Solve LP relaxation with all cover inequalities
+solve LP;
+
+let Toc := _ampl_system_time+_total_solve_system_time;
+let T := Toc-Tic;
+# Set the value of finalSol
+let finalSol := totalcost;
+
+display initialSol, finalSol;
+
+
+
+printf"LB value: 		%f ", finalSol >cover_ineq.txt;
+printf"				time:%f  \n", T>cover_ineq.txt;
+printf"n. of inequalities added: 		%d\n", cm+ch >cover_ineq.txt;
+;
+
+printf "********************************* Istance p68 *********************************\n">cover_ineq.txt;
+
+reset data; 
+data p68.dat;
+
+let iter := 0;
+let flag := 0;
+
+solve LP;
+
+let initialSol := totalcost;
+
+let Tic := _ampl_system_time+_total_solve_system_time;
+# Repeat until there are no violated cover inequalities
+repeat{
+
+   # Update iterator 	
+   let iter := iter+1;
+   let flag := 0;
+  
+   # Solve the LP relaxation with current set of cover inequalities 
+   solve LP;
+	
+   # Print the optimal value of the LP relaxation with current set of cover inequalities
+   printf 'Optimal value of the LP relaxation: \n';
+   display totalcost;
+
+   # Prepare the objective function of the separation problem
+   	let {i in {1..I}, j in {1..J}} x_star[i,j] := x[i,j];
+   	let {j in {1..J}, k in {1..K}} y_star[j,k] := y[j,k];
+   	
+   # Solve the separation problem
+   for {j in {1..J}}{
+   	let j_bar := j;
+   	if( z[j_bar]=1) then{
+   		solve separation_mid;
+		# Check if a violated cover exists if so, update the number of cover inequalities and create the new cover set
+   		if(objfnc_mid < 1) then{
+    		let cm := cm+1;
+    		let CI_mid[cm]:= setof{ i in {1..I} : u[i,j_bar]==1} (i,j_bar);
+    		let flag := 1;
+    		display CI_mid[cm];
+   		}
+   	}
+   }
+   for {k in {1..K}}{
+   	let k_bar := k;
+   	if( w[k_bar]=1) then{
+   		solve separation_high;
+		# Check if a violated cover exists if so, update the number of cover inequalities and create the new cover set
+   		if(objfnc_high < 1) then{
+    		let ch := ch+1;
+    		let CI_high[ch]:= setof{ j in {1..J} : u[j,k_bar]==1} (j,k_bar);
+    		let flag := 1;
+   		}
+   	}
+   }
+   
+} until(flag=0);
+
+  
+
+# Solve LP relaxation with all cover inequalities
+solve LP;
+
+let Toc := _ampl_system_time+_total_solve_system_time;
+let T := Toc-Tic;
+# Set the value of finalSol
+let finalSol := totalcost;
+
+display initialSol, finalSol;
+
+
+
+printf"LB value: 		%f ", finalSol >cover_ineq.txt;
+printf"				time:%f  \n", T>cover_ineq.txt;
+printf"n. of inequalities added: 		%d\n", cm+ch >cover_ineq.txt;
+;
+
+
+printf "********************************* Istance p69 *********************************\n">cover_ineq.txt;
+
+reset data; 
+data p69.dat;
+
+let iter := 0;
+let flag := 0;
+
+solve LP;
+
+let initialSol := totalcost;
+
+let Tic := _ampl_system_time+_total_solve_system_time;
+# Repeat until there are no violated cover inequalities
+repeat{
+
+   # Update iterator 	
+   let iter := iter+1;
+   let flag := 0;
+  
+   # Solve the LP relaxation with current set of cover inequalities 
+   solve LP;
+	
+   # Print the optimal value of the LP relaxation with current set of cover inequalities
+   printf 'Optimal value of the LP relaxation: \n';
+   display totalcost;
+
+   # Prepare the objective function of the separation problem
+   	let {i in {1..I}, j in {1..J}} x_star[i,j] := x[i,j];
+   	let {j in {1..J}, k in {1..K}} y_star[j,k] := y[j,k];
+   	
+   # Solve the separation problem
+   for {j in {1..J}}{
+   	let j_bar := j;
+   	if( z[j_bar]=1) then{
+   		solve separation_mid;
+		# Check if a violated cover exists if so, update the number of cover inequalities and create the new cover set
+   		if(objfnc_mid < 1) then{
+    		let cm := cm+1;
+    		let CI_mid[cm]:= setof{ i in {1..I} : u[i,j_bar]==1} (i,j_bar);
+    		let flag := 1;
+    		display CI_mid[cm];
+   		}
+   	}
+   }
+   for {k in {1..K}}{
+   	let k_bar := k;
+   	if( w[k_bar]=1) then{
+   		solve separation_high;
+		# Check if a violated cover exists if so, update the number of cover inequalities and create the new cover set
+   		if(objfnc_high < 1) then{
+    		let ch := ch+1;
+    		let CI_high[ch]:= setof{ j in {1..J} : u[j,k_bar]==1} (j,k_bar);
+    		let flag := 1;
+   		}
+   	}
+   }
+   
+} until(flag=0);
+
+  
+
+# Solve LP relaxation with all cover inequalities
+solve LP;
+
+let Toc := _ampl_system_time+_total_solve_system_time;
+let T := Toc-Tic;
+# Set the value of finalSol
+let finalSol := totalcost;
+
+display initialSol, finalSol;
+
+
+
+printf"LB value: 		%f ", finalSol >cover_ineq.txt;
+printf"				time:%f  \n", T>cover_ineq.txt;
+printf"n. of inequalities added: 		%d\n", cm+ch >cover_ineq.txt;
+;
+
+
+printf "********************************* Istance p70 *********************************\n">cover_ineq.txt;
+
+reset data; 
+data p70.dat;
+
+let iter := 0;
+let flag := 0;
+
+solve LP;
+
+let initialSol := totalcost;
+
+let Tic := _ampl_system_time+_total_solve_system_time;
+# Repeat until there are no violated cover inequalities
+repeat{
+
+   # Update iterator 	
+   let iter := iter+1;
+   let flag := 0;
+  
+   # Solve the LP relaxation with current set of cover inequalities 
+   solve LP;
+	
+   # Print the optimal value of the LP relaxation with current set of cover inequalities
+   printf 'Optimal value of the LP relaxation: \n';
+   display totalcost;
+
+   # Prepare the objective function of the separation problem
+   	let {i in {1..I}, j in {1..J}} x_star[i,j] := x[i,j];
+   	let {j in {1..J}, k in {1..K}} y_star[j,k] := y[j,k];
+   	
+   # Solve the separation problem
+   for {j in {1..J}}{
+   	let j_bar := j;
+   	if( z[j_bar]=1) then{
+   		solve separation_mid;
+		# Check if a violated cover exists if so, update the number of cover inequalities and create the new cover set
+   		if(objfnc_mid < 1) then{
+    		let cm := cm+1;
+    		let CI_mid[cm]:= setof{ i in {1..I} : u[i,j_bar]==1} (i,j_bar);
+    		let flag := 1;
+    		display CI_mid[cm];
+   		}
+   	}
+   }
+   for {k in {1..K}}{
+   	let k_bar := k;
+   	if( w[k_bar]=1) then{
+   		solve separation_high;
+		# Check if a violated cover exists if so, update the number of cover inequalities and create the new cover set
+   		if(objfnc_high < 1) then{
+    		let ch := ch+1;
+    		let CI_high[ch]:= setof{ j in {1..J} : u[j,k_bar]==1} (j,k_bar);
+    		let flag := 1;
+   		}
+   	}
+   }
+   
+} until(flag=0);
+
+  
+
+# Solve LP relaxation with all cover inequalities
+solve LP;
+
+let Toc := _ampl_system_time+_total_solve_system_time;
+let T := Toc-Tic;
+# Set the value of finalSol
+let finalSol := totalcost;
+
+display initialSol, finalSol;
+
+
+
+printf"LB value: 		%f ", finalSol >cover_ineq.txt;
+printf"				time:%f  \n", T>cover_ineq.txt;
+printf"n. of inequalities added: 		%d\n", cm+ch >cover_ineq.txt;
+;
+
+
+printf "********************************* Istance p71 *********************************\n">cover_ineq.txt;
+
+reset data; 
+data p71.dat;
+
+let iter := 0;
+let flag := 0;
+
+solve LP;
+
+let initialSol := totalcost;
+
+let Tic := _ampl_system_time+_total_solve_system_time;
+# Repeat until there are no violated cover inequalities
+repeat{
+
+   # Update iterator 	
+   let iter := iter+1;
+   let flag := 0;
+  
+   # Solve the LP relaxation with current set of cover inequalities 
+   solve LP;
+	
+   # Print the optimal value of the LP relaxation with current set of cover inequalities
+   printf 'Optimal value of the LP relaxation: \n';
+   display totalcost;
+
+   # Prepare the objective function of the separation problem
+   	let {i in {1..I}, j in {1..J}} x_star[i,j] := x[i,j];
+   	let {j in {1..J}, k in {1..K}} y_star[j,k] := y[j,k];
+   	
+   # Solve the separation problem
+   for {j in {1..J}}{
+   	let j_bar := j;
+   	if( z[j_bar]=1) then{
+   		solve separation_mid;
+		# Check if a violated cover exists if so, update the number of cover inequalities and create the new cover set
+   		if(objfnc_mid < 1) then{
+    		let cm := cm+1;
+    		let CI_mid[cm]:= setof{ i in {1..I} : u[i,j_bar]==1} (i,j_bar);
+    		let flag := 1;
+    		display CI_mid[cm];
+   		}
+   	}
+   }
+   for {k in {1..K}}{
+   	let k_bar := k;
+   	if( w[k_bar]=1) then{
+   		solve separation_high;
+		# Check if a violated cover exists if so, update the number of cover inequalities and create the new cover set
+   		if(objfnc_high < 1) then{
+    		let ch := ch+1;
+    		let CI_high[ch]:= setof{ j in {1..J} : u[j,k_bar]==1} (j,k_bar);
+    		let flag := 1;
+   		}
+   	}
+   }
+   
+} until(flag=0);
+
+  
+
+# Solve LP relaxation with all cover inequalities
+solve LP;
+
+let Toc := _ampl_system_time+_total_solve_system_time;
+let T := Toc-Tic;
+# Set the value of finalSol
+let finalSol := totalcost;
+
+display initialSol, finalSol;
+
+
+
+printf"LB value: 		%f ", finalSol >cover_ineq.txt;
+printf"				time:%f  \n", T>cover_ineq.txt;
+printf"n. of inequalities added: 		%d\n", cm+ch >cover_ineq.txt;
+;
+
+
+
+
+
 
 
