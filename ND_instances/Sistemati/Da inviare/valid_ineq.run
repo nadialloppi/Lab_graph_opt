@@ -10,7 +10,7 @@ option solver cplex;
 
 problem master: l_c, x_c, capacity_c, flowBalance_c, maxArcs_c, varConsistency_c,valid_ineq_c;
 
-problem separation: mu,u,s,z, eps,obj,consistency_1,consistency_2,consistency_3,consistency_4,consistency_5,consistency_6,consistency_7,S_notEmpty,S_notN;
+problem separation: mu,u,s,z,obj,consistency_1,consistency_2,consistency_3,consistency_4,consistency_5,consistency_6,consistency_7,S_notEmpty,S_notN;
 
 #auxiliary parameters
 param flag default 0;
@@ -69,7 +69,7 @@ solve master;
 printf"\n Solution of the final master problem: %f \n",capacity_c >Valid_ineq_analysis.txt;
 			
 #print the number of valid inequalities of the final master problem	
-printf"\n Number of rows in the final master problem: %d \n",S >Valid_ineq_analysis.txt;
+printf"\n Number of valid inequalities in the final master problem: %d \n",S >Valid_ineq_analysis.txt;
 
 
 display flag;

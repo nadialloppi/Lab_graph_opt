@@ -52,7 +52,7 @@ param l_bar;
 var mu{A} binary;	# 1 if the arc has one extreme in S and the other in N\S
 var u{K} binary;	# 1 if commodities k have source in S and destination in N\S
 var s{N} binary;	# 1 if node in S
-var eps >=0;
+
 var z integer;
 
 
@@ -82,4 +82,4 @@ s.t. S_notEmpty:
 s.t. S_notN:
 	sum{i in N} s[i]<=nb_n-1;
 s.t. consistency_7:
-	z <=(sum{k in K} d[k]*u[k] )/ l_bar + 1 -eps;
+	z <=(sum{k in K} d[k]*u[k] )/ l_bar + 1;
