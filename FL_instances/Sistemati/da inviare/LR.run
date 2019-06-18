@@ -1,13 +1,13 @@
 reset;
 
-model LR_prova.mod;
+model LR.mod;
 
 option solver cplex;
 option cplex_options 'mipgap 0';
 
 
-param LB_LR_prova default 0;
-param UB_LR_prova;
+param LB_LR default 0;
+param UB_LR;
 param norma_mu default 1;
 param norma_nu default 1;
 param infeasibility_1 default 0;
@@ -15,7 +15,7 @@ param infeasibility_2 default 0;
 param actual_min default max{i in 1..I, j in 1..J} (d[i,j] + mu[j]*t[i]);
 param actual_min2 default max{j in 1..J, k in 1..K} (l[j,k] + nu[k]*a[j]);
 param setted default 0; # mi dice se ho gia' trovato un assegnamento
-param Obj_LR_prova;
+param Obj_LR;
 param n_iter;
 
 param Tic;
@@ -24,14 +24,14 @@ param T;
 
 problem LR: x,y,z,w,lagrangian_relaxation,mid_level_assignment,client_assignment,consistency1,consistency2;
 
-printf"*************************** Instance p1 *******************************\n">LR_prova.txt;
+printf"*************************** Instance p1 *******************************\n">LR.txt;
 data p1.dat;
 
 
-printf"--------------------------- Lagrangian Relaxation ---------------------------\n">LR_prova.txt;
+printf"--------------------------- Lagrangian Relaxation ---------------------------\n">LR.txt;
 
 let step := 0.2;
-printf"Passo iniziale: %f \n", step > LR_prova.txt;
+printf"Passo iniziale: %f \n", step > LR.txt;
 
 let Tic := _ampl_system_time+_total_solve_system_time;
 
@@ -39,11 +39,11 @@ for {iter in 1..10} {
 	
   solve LR;
   # Calcolo ottimo Lagrangiano
-  let Obj_LR_prova := lagrangian_relaxation;
- 	if (iter=1) then printf"Soluzione iniziale: %f \n", Obj_LR_prova > LR_prova.txt;	
+  let Obj_LR := lagrangian_relaxation;
+ 	if (iter=1) then printf"Soluzione iniziale: %f \n", Obj_LR > LR.txt;	
   
   # Check for feasibility: 
-  # update UB_LR_prova if feasible
+  # update UB_LR if feasible
   
   let infeasibility_1:= 0;
   for {j in 1..J} {
@@ -62,18 +62,18 @@ for {iter in 1..10} {
   }	
   
  if (infeasibility_1 = 0 and infeasibility_2 = 0) then { 
-  	let UB_LR_prova:= Obj_LR_prova;
-  	display UB_LR_prova;
-  	printf"Ho trovato UB \n">LR_prova.txt;
+  	let UB_LR:= Obj_LR;
+  	display UB_LR;
+  	printf"Ho trovato UB \n">LR.txt;
 }
 
 
   # Update step size
   let step:= 0.995*step;
  
-  # Update LB_LR_prova 
-  if (Obj_LR_prova > LB_LR_prova) then{ 
-  	let LB_LR_prova := Obj_LR_prova;
+  # Update LB_LR 
+  if (Obj_LR > LB_LR) then{ 
+  	let LB_LR := Obj_LR;
   	let n_iter := iter
 }
   # Update norma
@@ -97,21 +97,21 @@ for {iter in 1..10} {
 let Toc :=  _ampl_system_time+_total_solve_system_time;
 let T := Toc-Tic;
 
-printf"Valore ottimo trovato per il rilassamennto lagrangiano: %f \n", LB_LR_prova > LR_prova.txt;
-printf"Trovato all'iterazione %d di 10\n", n_iter > LR_prova.txt;
+printf"Valore ottimo trovato per il rilassamennto lagrangiano: %f \n", LB_LR > LR.txt;
+printf"Trovato all'iterazione %d di 10\n", n_iter > LR.txt;
 
-printf "   Time: \t %f \n",T >LR_prova.txt;
+printf "   Time: \t %f \n",T >LR.txt;
 
 
-printf"*************************** Instance p67 *******************************\n">LR_prova.txt;
+printf"*************************** Instance p67 *******************************\n">LR.txt;
 reset data;
 data p67.dat;
 
 
-printf"--------------------------- Lagrangian Relaxation ---------------------------\n">LR_prova.txt;
+printf"--------------------------- Lagrangian Relaxation ---------------------------\n">LR.txt;
 
 let step := 0.2;
-printf"Passo iniziale: %f \n", step > LR_prova.txt;
+printf"Passo iniziale: %f \n", step > LR.txt;
 
 let Tic := _ampl_system_time+_total_solve_system_time;
 
@@ -119,11 +119,11 @@ for {iter in 1..10} {
 	
   solve LR;
   # Calcolo ottimo Lagrangiano
-  let Obj_LR_prova := lagrangian_relaxation;
- 	if (iter=1) then printf"Soluzione iniziale: %f \n", Obj_LR_prova > LR_prova.txt;	
+  let Obj_LR := lagrangian_relaxation;
+ 	if (iter=1) then printf"Soluzione iniziale: %f \n", Obj_LR > LR.txt;	
   
   # Check for feasibility: 
-  # update UB_LR_prova if feasible
+  # update UB_LR if feasible
   
   let infeasibility_1:= 0;
   for {j in 1..J} {
@@ -142,18 +142,18 @@ for {iter in 1..10} {
   }	
   
  if (infeasibility_1 = 0 and infeasibility_2 = 0) then { 
-  	let UB_LR_prova:= Obj_LR_prova;
-  	display UB_LR_prova;
-  	printf"Ho trovato UB \n">LR_prova.txt;
+  	let UB_LR:= Obj_LR;
+  	display UB_LR;
+  	printf"Ho trovato UB \n">LR.txt;
 }
 
 
   # Update step size
   let step:= 0.995*step;
  
-  # Update LB_LR_prova 
-  if (Obj_LR_prova > LB_LR_prova) then{ 
-  	let LB_LR_prova := Obj_LR_prova;
+  # Update LB_LR 
+  if (Obj_LR > LB_LR) then{ 
+  	let LB_LR := Obj_LR;
   	let n_iter := iter
 }
   # Update norma
@@ -177,22 +177,22 @@ for {iter in 1..10} {
 let Toc :=  _ampl_system_time+_total_solve_system_time;
 let T := Toc-Tic;
 
-printf"Valore ottimo trovato per il rilassamennto lagrangiano: %f \n", LB_LR_prova > LR_prova.txt;
-printf"Trovato all'iterazione %d di 10\n", n_iter > LR_prova.txt;
+printf"Valore ottimo trovato per il rilassamennto lagrangiano: %f \n", LB_LR > LR.txt;
+printf"Trovato all'iterazione %d di 10\n", n_iter > LR.txt;
 
-printf "   Time: \t %f \n",T >LR_prova.txt;
+printf "   Time: \t %f \n",T >LR.txt;
 
 
 
-printf"*************************** Instance p68 *******************************\n">LR_prova.txt;
+printf"*************************** Instance p68 *******************************\n">LR.txt;
 reset data;
 data p68.dat;
 
 
-printf"--------------------------- Lagrangian Relaxation ---------------------------\n">LR_prova.txt;
+printf"--------------------------- Lagrangian Relaxation ---------------------------\n">LR.txt;
 
 let step := 0.2;
-printf"Passo iniziale: %f \n", step > LR_prova.txt;
+printf"Passo iniziale: %f \n", step > LR.txt;
 
 let Tic := _ampl_system_time+_total_solve_system_time;
 
@@ -200,11 +200,11 @@ for {iter in 1..10} {
 	
   solve LR;
   # Calcolo ottimo Lagrangiano
-  let Obj_LR_prova := lagrangian_relaxation;
- 	if (iter=1) then printf"Soluzione iniziale: %f \n", Obj_LR_prova > LR_prova.txt;	
+  let Obj_LR := lagrangian_relaxation;
+ 	if (iter=1) then printf"Soluzione iniziale: %f \n", Obj_LR > LR.txt;	
   
   # Check for feasibility: 
-  # update UB_LR_prova if feasible
+  # update UB_LR if feasible
   
   let infeasibility_1:= 0;
   for {j in 1..J} {
@@ -223,18 +223,18 @@ for {iter in 1..10} {
   }	
   
  if (infeasibility_1 = 0 and infeasibility_2 = 0) then { 
-  	let UB_LR_prova:= Obj_LR_prova;
-  	display UB_LR_prova;
-  	printf"Ho trovato UB \n">LR_prova.txt;
+  	let UB_LR:= Obj_LR;
+  	display UB_LR;
+  	printf"Ho trovato UB \n">LR.txt;
 }
 
 
   # Update step size
   let step:= 0.995*step;
  
-  # Update LB_LR_prova 
-  if (Obj_LR_prova > LB_LR_prova) then{ 
-  	let LB_LR_prova := Obj_LR_prova;
+  # Update LB_LR 
+  if (Obj_LR > LB_LR) then{ 
+  	let LB_LR := Obj_LR;
   	let n_iter := iter
 }
   # Update norma
@@ -258,21 +258,21 @@ for {iter in 1..10} {
 let Toc :=  _ampl_system_time+_total_solve_system_time;
 let T := Toc-Tic;
 
-printf"Valore ottimo trovato per il rilassamennto lagrangiano: %f \n", LB_LR_prova > LR_prova.txt;
-printf"Trovato all'iterazione %d di 10\n", n_iter > LR_prova.txt;
+printf"Valore ottimo trovato per il rilassamennto lagrangiano: %f \n", LB_LR > LR.txt;
+printf"Trovato all'iterazione %d di 10\n", n_iter > LR.txt;
 
-printf "   Time: \t %f \n",T >LR_prova.txt;
+printf "   Time: \t %f \n",T >LR.txt;
 
 
-printf"*************************** Instance p69 *******************************\n">LR_prova.txt;
+printf"*************************** Instance p69 *******************************\n">LR.txt;
 reset data;
 data p69.dat;
 
 
-printf"--------------------------- Lagrangian Relaxation ---------------------------\n">LR_prova.txt;
+printf"--------------------------- Lagrangian Relaxation ---------------------------\n">LR.txt;
 
 let step := 0.2;
-printf"Passo iniziale: %f \n", step > LR_prova.txt;
+printf"Passo iniziale: %f \n", step > LR.txt;
 
 let Tic := _ampl_system_time+_total_solve_system_time;
 
@@ -280,11 +280,11 @@ for {iter in 1..10} {
 	
   solve LR;
   # Calcolo ottimo Lagrangiano
-  let Obj_LR_prova := lagrangian_relaxation;
- 	if (iter=1) then printf"Soluzione iniziale: %f \n", Obj_LR_prova > LR_prova.txt;	
+  let Obj_LR := lagrangian_relaxation;
+ 	if (iter=1) then printf"Soluzione iniziale: %f \n", Obj_LR > LR.txt;	
   
   # Check for feasibility: 
-  # update UB_LR_prova if feasible
+  # update UB_LR if feasible
   
   let infeasibility_1:= 0;
   for {j in 1..J} {
@@ -303,18 +303,18 @@ for {iter in 1..10} {
   }	
   
  if (infeasibility_1 = 0 and infeasibility_2 = 0) then { 
-  	let UB_LR_prova:= Obj_LR_prova;
-  	display UB_LR_prova;
-  	printf"Ho trovato UB \n">LR_prova.txt;
+  	let UB_LR:= Obj_LR;
+  	display UB_LR;
+  	printf"Ho trovato UB \n">LR.txt;
 }
 
 
   # Update step size
   let step:= 0.995*step;
  
-  # Update LB_LR_prova 
-  if (Obj_LR_prova > LB_LR_prova) then{ 
-  	let LB_LR_prova := Obj_LR_prova;
+  # Update LB_LR 
+  if (Obj_LR > LB_LR) then{ 
+  	let LB_LR := Obj_LR;
   	let n_iter := iter
 }
   # Update norma
@@ -338,22 +338,22 @@ for {iter in 1..10} {
 let Toc :=  _ampl_system_time+_total_solve_system_time;
 let T := Toc-Tic;
 
-printf"Valore ottimo trovato per il rilassamennto lagrangiano: %f \n", LB_LR_prova > LR_prova.txt;
-printf"Trovato all'iterazione %d di 10\n", n_iter > LR_prova.txt;
+printf"Valore ottimo trovato per il rilassamennto lagrangiano: %f \n", LB_LR > LR.txt;
+printf"Trovato all'iterazione %d di 10\n", n_iter > LR.txt;
 
-printf "   Time: \t %f \n",T >LR_prova.txt;
+printf "   Time: \t %f \n",T >LR.txt;
 
 
 
-printf"*************************** Instance p70 *******************************\n">LR_prova.txt;
+printf"*************************** Instance p70 *******************************\n">LR.txt;
 reset data;
 data p70.dat;
 
 
-printf"--------------------------- Lagrangian Relaxation ---------------------------\n">LR_prova.txt;
+printf"--------------------------- Lagrangian Relaxation ---------------------------\n">LR.txt;
 
 let step := 0.2;
-printf"Passo iniziale: %f \n", step > LR_prova.txt;
+printf"Passo iniziale: %f \n", step > LR.txt;
 
 let Tic := _ampl_system_time+_total_solve_system_time;
 
@@ -361,11 +361,11 @@ for {iter in 1..10} {
 	
   solve LR;
   # Calcolo ottimo Lagrangiano
-  let Obj_LR_prova := lagrangian_relaxation;
- 	if (iter=1) then printf"Soluzione iniziale: %f \n", Obj_LR_prova > LR_prova.txt;	
+  let Obj_LR := lagrangian_relaxation;
+ 	if (iter=1) then printf"Soluzione iniziale: %f \n", Obj_LR > LR.txt;	
   
   # Check for feasibility: 
-  # update UB_LR_prova if feasible
+  # update UB_LR if feasible
   
   let infeasibility_1:= 0;
   for {j in 1..J} {
@@ -384,18 +384,18 @@ for {iter in 1..10} {
   }	
   
  if (infeasibility_1 = 0 and infeasibility_2 = 0) then { 
-  	let UB_LR_prova:= Obj_LR_prova;
-  	display UB_LR_prova;
-  	printf"Ho trovato UB \n">LR_prova.txt;
+  	let UB_LR:= Obj_LR;
+  	display UB_LR;
+  	printf"Ho trovato UB \n">LR.txt;
 }
 
 
   # Update step size
   let step:= 0.995*step;
  
-  # Update LB_LR_prova 
-  if (Obj_LR_prova > LB_LR_prova) then{ 
-  	let LB_LR_prova := Obj_LR_prova;
+  # Update LB_LR 
+  if (Obj_LR > LB_LR) then{ 
+  	let LB_LR := Obj_LR;
   	let n_iter := iter
 }
   # Update norma
@@ -419,21 +419,21 @@ for {iter in 1..10} {
 let Toc :=  _ampl_system_time+_total_solve_system_time;
 let T := Toc-Tic;
 
-printf"Valore ottimo trovato per il rilassamennto lagrangiano: %f \n", LB_LR_prova > LR_prova.txt;
-printf"Trovato all'iterazione %d di 10\n", n_iter > LR_prova.txt;
+printf"Valore ottimo trovato per il rilassamennto lagrangiano: %f \n", LB_LR > LR.txt;
+printf"Trovato all'iterazione %d di 10\n", n_iter > LR.txt;
 
-printf "   Time: \t %f \n",T >LR_prova.txt;
+printf "   Time: \t %f \n",T >LR.txt;
 
 
-printf"*************************** Instance p71 *******************************\n">LR_prova.txt;
+printf"*************************** Instance p71 *******************************\n">LR.txt;
 reset data;
 data p71.dat;
 
 
-printf"--------------------------- Lagrangian Relaxation ---------------------------\n">LR_prova.txt;
+printf"--------------------------- Lagrangian Relaxation ---------------------------\n">LR.txt;
 
 let step := 0.2;
-printf"Passo iniziale: %f \n", step > LR_prova.txt;
+printf"Passo iniziale: %f \n", step > LR.txt;
 
 let Tic := _ampl_system_time + _total_solve_system_time;
 
@@ -441,11 +441,11 @@ for {iter in 1..10} {
 	
   solve LR;
   # Calcolo ottimo Lagrangiano
-  let Obj_LR_prova := lagrangian_relaxation;
- 	if (iter=1) then printf"Soluzione iniziale: %f \n", Obj_LR_prova > LR_prova.txt;	
+  let Obj_LR := lagrangian_relaxation;
+ 	if (iter=1) then printf"Soluzione iniziale: %f \n", Obj_LR > LR.txt;	
   
   # Check for feasibility: 
-  # update UB_LR_prova if feasible
+  # update UB_LR if feasible
   
   let infeasibility_1:= 0;
   for {j in 1..J} {
@@ -464,18 +464,18 @@ for {iter in 1..10} {
   }	
   
  if (infeasibility_1 = 0 and infeasibility_2 = 0) then { 
-  	let UB_LR_prova:= Obj_LR_prova;
-  	display UB_LR_prova;
-  	printf"Ho trovato UB \n">LR_prova.txt;
+  	let UB_LR:= Obj_LR;
+  	display UB_LR;
+  	printf"Ho trovato UB \n">LR.txt;
 }
 
 
   # Update step size
   let step:= 0.995*step;
  
-  # Update LB_LR_prova 
-  if (Obj_LR_prova > LB_LR_prova) then{ 
-  	let LB_LR_prova := Obj_LR_prova;
+  # Update LB_LR 
+  if (Obj_LR > LB_LR) then{ 
+  	let LB_LR := Obj_LR;
   	let n_iter := iter
 }
   # Update norma
@@ -499,7 +499,7 @@ for {iter in 1..10} {
 let Toc :=  _ampl_system_time+_total_solve_system_time;
 let T := Toc-Tic;
 
-printf"Valore ottimo trovato per il rilassamennto lagrangiano: %f \n", LB_LR_prova > LR_prova.txt;
-printf"Trovato all'iterazione %d di 10\n", n_iter > LR_prova.txt;
+printf"Valore ottimo trovato per il rilassamennto lagrangiano: %f \n", LB_LR > LR.txt;
+printf"Trovato all'iterazione %d di 10\n", n_iter > LR.txt;
 
-printf "   Time: \t %f \n",T >LR_prova.txt;
+printf "   Time: \t %f \n",T >LR.txt;

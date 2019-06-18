@@ -47,10 +47,19 @@ var z{1..J} binary; 		#1 if mid level facility j is open, 0 otherwise
 var w{1..K} binary; 		#1 if high level facility k is open, 0 otherwise
 
 minimize lagrangian_relaxation:
-	sum{j in 1..J, k in 1..K} (l[j,k]+nu[k]*a[j])*y[j,k] + sum{j in 1..J} (c[j]-mu[j]*Gamma)*z[j];
+	sum{j in 1..J} c[j]*z[j]+ sum{k in 1..K} g[k]*w[k] + sum{j in 1..J,k in 1..K}(l[j,k]+nu[k]*a[j])*y[j,k] + sum{i in 1..I,j in 1..J}(d[i,j]+mu[j]*t[i])*x[i,j] - sum{j in 1..J} mu[j]*Gamma - sum{k in 1..K} nu[k]*Lambda;
 
 s.t. mid_level_assignment{j in 1..J}:
 	sum{k in 1..K} y[j,k] >= z[j];
+	
+s.t. client_assignment{i in 1..I}:
+	sum{j in 1..J: d[i,j] <= R} x[i,j]	>=	1; 
+	
+s.t. consistency1{i in 1..I,j in 1..J}:
+	x[i,j]<=z[j];
+
+s.t. consistency2{j in 1..J,k in 1..K}:
+	y[j,k]<=w[k];
 
 
 

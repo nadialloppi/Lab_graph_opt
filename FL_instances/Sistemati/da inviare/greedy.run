@@ -1,0 +1,130 @@
+# Problemi di feasibility, perche non guardo cardinalita' (ne' cap res min)
+# Minimizzo costo = 1
+# Minimizzo capacita' residua = 0
+# Update cardinalita' = 0
+# Update costo di apertura = 0
+# Local search = 0
+
+param I; # number of clients
+
+param J; # number of facilities of mid level
+
+param K; # number of facilities of high level
+
+
+param c{j in 1..J}; # mid level facility installation cost
+
+param g{k in 1..K}; # high level facility installation cost
+
+
+param d{i in 1..I, j in 1..J}; # assignment cost clients -> mid level
+
+param l{j in 1..J, k in 1..K}; # assignment cost mid level -> high level
+
+
+param t{i in 1..I} default 1; # client weight
+
+param a{j in 1..J} default 1; # mid level facility weight
+
+
+param Gamma;		# mid level facility capacity
+
+param Lambda;		# high level facility capacity
+
+param R default 0;
+
+data p71.dat;
+
+set KK default 1..K;				  # High level facility non ancora considerate
+set II default 1..I;				  # Clienti non ancora assegnati 
+set JJ default 1..J;				  # Mid level facility non ancora considerate
+
+set IJ within {1..I,1..J} default {}; # Assegnamenti (i, j) gia' effettuati
+
+
+param min_cost_i default 0;
+param min_cost_j default 0;
+
+param cap_res{1..J} default Gamma;
+param infeas_flag default 0;
+
+# Assegnamento cliente - struttura medio livello
+
+printf "Inizio primo livello\n";
+repeat{
+let min_cost_j := min {jj in JJ} c[jj]/(1+sum{i in II : d[i, jj] <= R} (1));	# fisso mid-level con costo/num_collegamenti minore
+
+for {j in JJ}{																	# Implementazione dell'argmin
+	if (min_cost_j = c[j]/(1+sum{i in II: d[i, j] <= R} (1))) then {
+		let JJ := JJ diff {j};													# Apro la mid level facility j-esima
+		
+		repeat {
+			if (min{ii in II} card(setof{jj in 1..J: cap_res[jj] >= t[ii] and d[ii, jj] <= R} jj)=0 ) then let infeas_flag := 1;  # Check se ci sono clienti che non possono esssere piu' assegnati
+																																  # dopo le scelte effettuate. Nel caso metto il flag a 1
+			else {
+				let min_cost_i := 	min {i in II: cap_res[j] >= t[i]} d[i, j]; # perche' non: let min_cost_i := 	min {i in II: cap_res[j] >= t[i] and d[i,j] <= R} d[i, j];? Risp: magari e' vuoto e impazzosce
+				if (min_cost_i > R) then { break;}  						   # entrera' mai in questo if quando infeasible flag=1? Risp: No
+				for {i in II} {										# Implementazione dell'argmin
+					if (min_cost_i = d[i, j] ) then {
+						let cap_res[j] := cap_res[j] - t[i];		# Aggiorno la capacita' residua di j
+						#display cap_res[j];
+						let IJ := IJ union {(i, j)};				# Aggiungo l'assegnemnto
+						let II := II diff {i};						# Rimuovo i dall'insieme dei clienti da aggiungere 
+		
+						break;										# Forzo l'uscita dal for per evitare che altri clienti con lo stesso min_cost_i vengano assegnati anche se magari non c'e' capres a sufficienza
+					} 
+				}
+			}
+		} until ( min{ii in II} t[ii] > cap_res[j] or infeas_flag=1);  
+	}
+}
+} until (sum{iii in II} (1) = 0 or infeas_flag =1);
+
+if (infeas_flag = 1) then {printf"***********************Il greedy non riesce a trovare una soluzione feasible\nNon ho assegnato:"; display II; }
+
+# Assegnamento struttura medio livello - struttura alto livello
+
+printf "Inizio secondo livello\n";
+param min_cost_k default 0;
+param cap_res_h;
+set OJ := setof{(i, j) in IJ}j;						# mid level aperte
+set OJJ default OJ; 								# mid level aperte, ma non ancora assegnate
+
+set JK within {1..J, 1..K} default {};
+
+repeat{
+let min_cost_k := min {k in KK} g[k]; # considero solo costo apertura
+let cap_res_h:= Lambda;
+for {k in KK}{									# Algoritmo del tutto analogo a prima
+	if (min_cost_k = g[k]) then {
+		
+		let KK := KK diff {k};
+		
+		repeat {
+			let min_cost_j := 	min {j in OJJ} l[ j, k];
+			
+			for {j in OJJ} {
+				if (min_cost_j = l[j,k] ) then {
+					if (cap_res_h >= a[j]) then {
+						let cap_res_h := cap_res_h - a[j];
+						let JK := JK union {( j, k)};
+						let OJJ := OJJ diff {j};
+					}
+				} 
+			}
+		} until ( min{jj in OJJ} a[jj] >= cap_res_h);  
+	}
+}
+} until (sum{jjj in OJJ} (1) = 0);
+
+param UB default 0;
+
+set OK := setof{(j, k) in JK}k;						# high level aperte
+
+let UB := sum{j in OJ}c[j] + sum{k in OK} g[k] + sum{j in OJ} ( sum{ k in {1..K diff KK}} l[j,k]) + sum{i in 1..I} ( sum{j in OJ} d[i,j]);
+
+display UB;
+
+
+
+
